@@ -8,7 +8,7 @@ interface TimerProps {
 
 const Timer: React.FC<TimerProps> = ({ initialTime }) => {
   const [countdownTime, setCountdownTime] = useState(initialTime);
-  const [countupTime, setCountupTime] = useState(0);
+  const [countupTime, setCountupTime] = useState(1);
 
   // Countdown timer effect
   useEffect(() => {
@@ -16,9 +16,10 @@ const Timer: React.FC<TimerProps> = ({ initialTime }) => {
     
     if (countdownTime > 0) {
       timerId = setTimeout(() => setCountdownTime(countdownTime - 1), 1000);
-    } else if (countdownTime <= 0) {
-      timerId = setTimeout(() => setCountdownTime(initialTime), 1000);
-    }
+    } 
+    // else if (countdownTime <= 0) {
+    //   timerId = setTimeout(() => setCountdownTime(initialTime), 1000);
+    // }
 
     return () => clearTimeout(timerId);
   }, [countdownTime, initialTime]);
@@ -38,10 +39,8 @@ const Timer: React.FC<TimerProps> = ({ initialTime }) => {
 
   return (
     <div className='text-white'>
-      <h1>Time until flashed</h1>
-      <p>{formatTime(countdownTime)}</p>
-      <h1>Time taken</h1>
-      <p>{formatTime(countupTime)}</p>
+      <h1 className='text-9xl'>{countdownTime}</h1>
+
     </div>
   );
 };
