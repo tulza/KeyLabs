@@ -35,18 +35,18 @@ export default function Component() {
           <div className="px-4 md:px-6 space-y-10 xl:space-y-16 mx-auto">
             <div className="grid max-w-[1300px] mx-auto gap-4 px-4 sm:px-6 md:px-10 md:grid-cols-2 md:gap-16">
               <div>
-                <h1 className="lg:leading-tighter text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl xl:text-[3.4rem] 2xl:text-[3.75rem] mb-2">
+                <motion.h1 initial={{y: 100, opacity: 0}} animate={{y: 0, opacity: 1}} transition={{duration: 1, ease: [0.5, 1, 0.89, 1]}}className="lg:leading-tighter text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl xl:text-[3.4rem] 2xl:text-[3.75rem] mb-2">
                 Type Faster with KeyLabs
-                </h1>
-                <p className="mx-auto max-w-[700px] text-muted-foreground md:text-xl">
+                </motion.h1>
+                <motion.p initial={{y: 50, opacity: 0}} animate={{y: 0, opacity: 1}} transition={{delay: 1, duration: 1, ease: [0.5, 1, 0.89, 1]}} className="mx-auto max-w-[700px] text-muted-foreground md:text-xl">
                 KeyLabs is a web-based game designed to help you improve your typing skills through engaging and interactive gameplay. Inspired by Aim Labs, KeyLabs combines typing speed and accuracy challenges with interactive elements to make learning fun and effective.
-                </p>
-                <div className="mt-6 space-x-4">
+                </motion.p>
+                <motion.div initial={{opacity: 0}} animate={{y: 0, opacity: 1}} transition={{delay: 2, duration: 1, ease: [0.5, 1, 0.89, 1]}} className="mt-6 space-x-4">
                   <Button>Get Started</Button>
                   <Button variant="outline">Learn More</Button>
-                </div>
+                </motion.div>
               </div>
-              <div className="flex flex-col items-start space-y-4">
+              <motion.div initial={{opacity: 0}} animate={{y: 0, opacity: 1}} transition={{delay: 2, duration: 1, ease: [0.5, 1, 0.89, 1]}} className="flex flex-col items-start space-y-4">
                 {showSignIn ? (
                   <Card className="w-full max-w-[400px] sm:max-w-[450px]">
                     <CardHeader className="space-y-1">
@@ -54,13 +54,13 @@ export default function Component() {
                       <CardDescription>Enter your credentials to access your account.</CardDescription>
                     </CardHeader>
                     <CardContent className="grid gap-4">
-                      <div className="grid gap-2">
-                        <Label htmlFor="email">Email</Label>
-                        <Input id="email" type="email" placeholder="m@example.com" />
-                      </div>
+                    <div className="grid gap-2">
+                        <Label htmlFor="name">Name</Label>
+                        <Input className="text-black" id="name" type="text" placeholder="John Doe" />
+                    </div>
                       <div className="grid gap-2">
                         <Label htmlFor="password">Password</Label>
-                        <Input id="password" type="password" />
+                        <Input className="text-black" id="password" type="password" />
                       </div>
                     </CardContent>
                     <CardFooter className="flex items-center justify-between">
@@ -77,15 +77,12 @@ export default function Component() {
                     <CardContent className="grid gap-4">
                       <div className="grid gap-2">
                         <Label htmlFor="name">Name</Label>
-                        <Input id="name" type="text" placeholder="John Doe" />
+                        <Input className="text-black" id="name" type="text" placeholder="John Doe" />
                       </div>
-                      <div className="grid gap-2">
-                        <Label htmlFor="email">Email</Label>
-                        <Input id="email" type="email" placeholder="m@example.com" />
-                      </div>
+                      
                       <div className="grid gap-2">
                         <Label htmlFor="password">Password</Label>
-                        <Input id="password" type="password" />
+                        <Input className="text-black" id="password" type="password" />
                       </div>
                     </CardContent>
                     <CardFooter className="flex items-center justify-between">
@@ -95,7 +92,7 @@ export default function Component() {
                   </Card>
                 )}
                
-              </div>
+              </motion.div>
             </div>
           </div>
         </section>
@@ -106,8 +103,7 @@ export default function Component() {
                 <div className="inline-block rounded-lg bg-muted px-3 py-1 text-sm">New Features</div>
                 <h2 className="text-3xl font-bold tracking-tighter sm:text-5xl">Faster iteration. More innovation.</h2>
                 <p className="max-w-[900px] text-muted-foreground md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed">
-                  The platform for rapid progress. Let your team focus on shipping features instead of managing
-                  infrastructure with automated CI/CD, built-in testing, and integrated collaboration.
+                The platform for mastering typing skills. Focus on improving your speed and accuracy with real-time feedback, automated progress tracking, and engaging interactive exercises.
                 </p>
               </div>
             </div>
