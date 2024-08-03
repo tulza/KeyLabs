@@ -1,6 +1,6 @@
 import { Route, Routes, useLocation } from "react-router-dom";
 import VirtualKeyboard from "./components/Test";
-import Title from "./components/Title";
+import Timer from "./components/Timer";
 
 function App() {
   const location = useLocation();
@@ -10,6 +10,7 @@ function App() {
       <Title></Title>
       <Routes key={location.pathname} location={location}>
         <Route path="/" element={<VirtualKeyboard />} />
+        <Route path="/" element={<Timer initialTime={5}/>} />
       </Routes>
     </>
   );

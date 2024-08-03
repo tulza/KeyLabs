@@ -18,19 +18,23 @@ html,
     inset 0 0 0 0 transparent;
 }
 
+.Timer-text {
+ color: white;
+}
+
 body {
-    background-color: rgb(26, 26, 26);
+  background-color: rgb(26, 26, 26);
 }
 
 *{
-    color: white;
-    /* border: 1px solid white; */
+  color: white;
+  /* border: 1px solid white; */
 }
 
 .title{
-    font-size: 5vh; 
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    font-family: 'Patrick Hand', cursive;
+  font-size: 5vh; 
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-family: 'Patrick Hand', cursive;
 }
