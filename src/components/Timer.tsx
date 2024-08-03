@@ -2,8 +2,6 @@
 import { AnimatePresence } from "framer-motion";
 import Flash from "./Flash";
 import { useState, useEffect } from "react";
-`
-`;
 
 interface TimerProps {
   initialTime: number;
@@ -43,12 +41,13 @@ const Timer: React.FC<TimerProps> = ({ initialTime }) => {
   };
 
   return (
-    <div className="text-white">
-      
-      <h1>Time until flashed</h1>
-      <p>{formatTime(countdownTime)}</p>
-      <h1>Time taken</h1>
-      <p>{formatTime(countupTime)}</p>
+    <div className="flex flex-col items-center gap-4 text-white *:rounded-xl">
+      <h1 className="bg-black p-2 px-8">
+        Time until flashed <span>{formatTime(countdownTime)}</span>
+      </h1>
+      <h1 className="w-min bg-black p-2 px-8">
+        Time taken <span>{formatTime(countupTime)}</span>
+      </h1>
     </div>
   );
 };
