@@ -42,12 +42,9 @@ const Timer: React.FC<TimerProps> = ({ initialTime }) => {
     return `${minutes.toString().padStart(2, "0")}:${remainingSeconds.toString().padStart(2, "0")}`;
   };
 
-  console.log(isflashing);
-
   return (
     <div className="text-white">
-      <AnimatePresence mode="wait">{isflashing && <Flash />}</AnimatePresence>
-
+      
       <h1>Time until flashed</h1>
       <p>{formatTime(countdownTime)}</p>
       <h1>Time taken</h1>
