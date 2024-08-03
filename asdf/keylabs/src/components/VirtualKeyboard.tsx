@@ -1,5 +1,5 @@
+import { cn } from "@/utils/utils";
 import { MoveLeft, PartyPopper } from "lucide-react";
-import { cn } from "../lib/utils";
 
 const VirtualKeyboard = () => {
   const top: string = "qwertyuiop";
