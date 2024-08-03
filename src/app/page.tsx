@@ -6,8 +6,7 @@ import Flash from "@/components/Flash";
 
 export default function Home() {
   return (
-    <div>
-      <Flash></Flash>
+    <div className="w-dvw h-dvh overflow-hidden">
       <Title></Title>
       <div className="flex h-dvh w-dvw items-center justify-center">
         <Timer initialTime={5}/>
