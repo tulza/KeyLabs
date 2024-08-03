@@ -1,20 +1,31 @@
-// This is the root layout component for your Next.js app.
-// Learn more: https://nextjs.org/docs/app/building-your-application/routing/pages-and-layouts#root-layout-required
-import { Inter } from 'next/font/google'
-import { cn } from '@/lib/utils'
-import './globals.css'
+import type { Metadata } from "next";
+import { Inter } from "next/font/google";
+import "./globals.css";
 
-const fontHeading = Inter({
-  subsets: ['latin'],
-  display: 'swap',
-  variable: '--font-heading',
-})
+const inter = Inter({ subsets: ["latin"] });
 
-const fontBody = Inter({
-  subsets: ['latin'],
-  display: 'swap',
-  variable: '--font-body',
-})
+export const metadata: Metadata = {
+  title: "KeyLabs",
+  description:
+    "Keylabs is a competitive platform for virtual keyboard individuals looking to enhance their skills.",
+  icons: {
+    icon: [
+      {
+        media: "(prefers-color-scheme: light)",
+        url: "/images/icon.svg",
+        href: "/svgs/icon.svg",
+      },
+      {
+        media: "(prefers-color-scheme: dark)",
+        url: "/svgs/icon-darkmode.svg",
+        href: "/svgs/icon-darkmode.svg",
+      },
+    ],
+  },
+  verification: {
+    // google: "", ADD SOON
+  },
+};
 
 export default function Layout({ children }) {
   return (

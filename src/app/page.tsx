@@ -1,4 +1,3 @@
-
 import Timer from "@/components/Timer";
 import VirtualKeyboard from "@/components/VirtualKeyboard";
 import HomePage from "@/components/HomePage/HomePage";
