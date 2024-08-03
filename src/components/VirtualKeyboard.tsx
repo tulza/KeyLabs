@@ -47,31 +47,31 @@ const VirtualKeyboard = () => {
       >
         <div className="flex gap-2 *:grid *:place-items-center">
           {/* top layer*/}
-          <AKey className="min-w-16" />
+          <KeyboardKey className="min-w-16" />
           {top.split("").map((key) => (
-            <AKey label={key} key={key} onMouseDown={() => handleClick(key)} />
+            <KeyboardKey label={key} key={key} onMouseDown={() => handleClick(key)} />
           ))}
-          <AKey
+          <KeyboardKey
             className="place-content- min-w-16 justify-end"
             label={<MoveLeft className={imageClass} />}
           />
         </div>
         <div className="flex gap-2 *:grid *:place-items-center">
           {/* middle layer*/}
-          <AKey className="min-w-[5.5rem]" onMouseDown={handleCapsLock} label="caps" />
+          <KeyboardKey className="min-w-[5.5rem]" onMouseDown={handleCapsLock} label="caps" />
           {mid.split("").map((key) => (
-            <AKey label={key} key={key} onMouseDown={() => handleClick(key)} />
+            <KeyboardKey label={key} key={key} onMouseDown={() => handleClick(key)} />
           ))}
-          <AKey className="w-full" />
+          <KeyboardKey className="w-full" />
         </div>
         <div className="flex gap-2 *:grid *:place-items-center">
           {/* bottom layer*/}
-          <AKey className="min-w-[7rem]" label="shift" onMouseDown={handleShift} />
+          <KeyboardKey className="min-w-[7rem]" label="shift" onMouseDown={handleShift} />
           {bot.split("").map((key) => (
-            <AKey label={key} key={key} onMouseDown={() => handleClick(key)} />
+            <KeyboardKey label={key} key={key} onMouseDown={() => handleClick(key)} />
           ))}
-          <AKey label={<PartyPopper className={imageClass} />} />
-          <AKey className="w-full" label="shift" onMouseDown={handleShift} />
+          <KeyboardKey label={<PartyPopper className={imageClass} />} />
+          <KeyboardKey className="w-full" label="shift" onMouseDown={handleShift} />
         </div>
       </div>
     </div>
@@ -83,7 +83,7 @@ interface KeyProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   className?: string;
   out?: string;
 }
-const AKey = ({ label, out, ...props }: KeyProps) => {
+export const KeyboardKey = ({ label, out, ...props }: KeyProps) => {
   return (
     <button
       {...props}
