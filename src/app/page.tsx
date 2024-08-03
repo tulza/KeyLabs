@@ -1,12 +1,12 @@
 
 import Timer from "@/components/Timer";
 import VirtualKeyboard from "@/components/VirtualKeyboard";
-
+import HomePage from "@/components/HomePage/HomePage";
 export default function Home() {
+  const sampleText = "The quick brown fox jumps over the lazy dog";
   return (
-    <div className="flex h-dvh w-dvw items-center justify-center">
-      <Timer initialTime={5}/>
-      <VirtualKeyboard/>
-    </div>
+   
+      <HomePage />
+   
   );
 }
