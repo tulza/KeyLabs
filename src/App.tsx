@@ -7,6 +7,7 @@ function App() {
 
   return (
     <>
+      <Title></Title>
       <Routes key={location.pathname} location={location}>
         <Route path="/" element={<VirtualKeyboard />} />
         <Route path="/" element={<Timer initialTime={5}/>} />
