@@ -45,6 +45,7 @@ const Timer: React.FC<TimerProps> = ({ initialTime }) => {
 
   return (
     <div className='text-white'>
+
       <AnimatePresence mode="wait">
       {
        isflashing && <Flash />
