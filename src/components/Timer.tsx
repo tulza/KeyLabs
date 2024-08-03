@@ -1,6 +1,8 @@
 "use client";
-
-import { useState, useEffect } from 'react';
+import { AnimatePresence } from 'framer-motion';
+import Flash from './Flash';
+import { useState, useEffect } from 'react';`
+`
 
 interface TimerProps {
   initialTime: number;
@@ -8,7 +10,8 @@ interface TimerProps {
 
 const Timer: React.FC<TimerProps> = ({ initialTime }) => {
   const [countdownTime, setCountdownTime] = useState(initialTime);
-  const [countupTime, setCountupTime] = useState(1);
+  const [countupTime, setCountupTime] = useState(0);
+  const [isflashing, setFlash] = useState(false)
 
   // Countdown timer effect
   useEffect(() => {
@@ -16,10 +19,11 @@ const Timer: React.FC<TimerProps> = ({ initialTime }) => {
     
     if (countdownTime > 0) {
       timerId = setTimeout(() => setCountdownTime(countdownTime - 1), 1000);
-    } 
-    // else if (countdownTime <= 0) {
-    //   timerId = setTimeout(() => setCountdownTime(initialTime), 1000);
-    // }
+      setFlash(false);
+    } else if (countdownTime <= 0) {
+      setFlash(true);
+      timerId = setTimeout(() => setCountdownTime(initialTime), 1000);
+    }
 
     return () => clearTimeout(timerId);
   }, [countdownTime, initialTime]);
@@ -37,10 +41,21 @@ const Timer: React.FC<TimerProps> = ({ initialTime }) => {
     return `${minutes.toString().padStart(2, '0')}:${remainingSeconds.toString().padStart(2, '0')}`;
   };
 
+ console.log(isflashing)
+
   return (
     <div className='text-white'>
-      <h1 className='text-9xl'>{countdownTime}</h1>
 
+      <AnimatePresence mode="wait">
+      {
+       isflashing && <Flash />
+      }
+      </AnimatePresence>
+
+      <h1>Time until flashed</h1>
+      <p>{formatTime(countdownTime)}</p>
+      <h1>Time taken</h1>
+      <p>{formatTime(countupTime)}</p>
     </div>
   );
 };
