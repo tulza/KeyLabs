@@ -38,3 +38,14 @@ body {
   align-items: center;
   font-family: 'Patrick Hand', cursive;
 }
+
+.countdownTime {
+  position: absolute;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 100;
+  font-size: 64px;
+  left: 50%;
+  transform: translate(-50%);
+}
