@@ -7,7 +7,6 @@ interface TimerProps {
 const Timer: React.FC<TimerProps> = ({ initialTime }) => {
   const [countdownTime, setCountdownTime] = useState(initialTime);
   const [countupTime, setCountupTime] = useState(0);
-  const [startTimer, setStartTimer] = useState(false);
 
   useEffect(() => {
     if (countdownTime > 0) {
