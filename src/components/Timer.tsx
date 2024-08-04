@@ -9,7 +9,7 @@ interface TimerProps {
 
 const Timer: React.FC<TimerProps> = ({ initialTime }) => {
   const [countdownTime, setCountdownTime] = useState(initialTime);
-  // const [countupTime, setCountupTime] = useState(0);
+  const [countupTime, setCountupTime] = useState(0);
   const [isflashing, setFlash] = useState(false);
   const [hasGameStart, setGameStart] = useState(false);
 
@@ -28,12 +28,6 @@ const Timer: React.FC<TimerProps> = ({ initialTime }) => {
     return () => clearTimeout(timerId);
   }, [countdownTime, initialTime]);
 
-  // Countup timer effect
-  // useEffect(() => {
-  //   const intervalId = setInterval(() => setCountupTime((prev) => prev + 1), 1000);
-
-  //   return () => clearInterval(intervalId);
-  // }, []);
 
   const formatTime = (seconds: number): string => {
     const minutes = Math.floor(seconds / 60);
@@ -43,10 +37,7 @@ const Timer: React.FC<TimerProps> = ({ initialTime }) => {
 
   return (
     <div className="flex flex-col items-center gap-4 text-white *:rounded-xl">
-      <h1 className="bg-black p-2 px-8">
-        Time until flashed <span>{formatTime(countdownTime)}</span>
-      </h1>
-      <h1 className="w-min bg-black p-2 px-8">
+      <h1 className="w-min whitespace-nowrap bg-black p-2 px-8">
         Time taken <span>{formatTime(countupTime)}</span>
       </h1>
     </div>

@@ -143,10 +143,8 @@ export default function kgrid() {
   }
 
   return (
-    <div className="h-100dvh w-100dvw relative overflow-hidden">
-      <GameContext.Provider value={{ randomWord, handleNewWord, isloading }}>
-        <KeyGrid />
-      </GameContext.Provider>
-    </div>
+    <GameContext.Provider value={{ randomWord, handleNewWord, isloading }}>
+      <KeyGrid />
+    </GameContext.Provider>
   );
 }

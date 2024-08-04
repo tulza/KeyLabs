@@ -4,7 +4,7 @@ import React, { useContext, useEffect, useState } from "react";
 import { KeyboardKey } from "./VirtualKeyboard";
 import { GameContext } from "@/app/kgrid/page";
 import { motion } from "framer-motion";
-import Link from "next/link";
+import Timer from "./Timer";
 export const KeyGrid = () => {
   const padding = 64;
   const hort = 12;
@@ -20,7 +20,8 @@ export const KeyGrid = () => {
   const [dict, setWordDict] = useState<alphdict>({});
   const [hasStarted, setStarted] = useState(false);
   const [index, setindex] = useState(0);
-
+  const [lettersCorrect, setlettersCorrect] = useState(0);
+  const [initialTime, setinitialTime] = useState(0);
   type alphdict = {
     [key: string]: number;
   };
@@ -32,6 +33,7 @@ export const KeyGrid = () => {
 
   const resetBoard = () => {
     setindex(0);
+    setlettersCorrect(0);
     setWordDict({} as alphdict);
     setKeyArr([]);
   };
@@ -85,6 +87,7 @@ export const KeyGrid = () => {
     console.log(label, randomWord.trim().split("")[0]);
     if (label == randomWord.trim().split("")[index]) {
       let worddictemp = dict;
+      setlettersCorrect((pres) => pres + 1);
       worddictemp[label] -= 1;
       setindex((pre) => pre + 1);
       setWordDict(worddictemp);
@@ -121,9 +124,17 @@ export const KeyGrid = () => {
   };
 
   return (
-    <div className="relative flex h-dvh w-dvw flex-col items-center justify-center gap-8">
-      <div className="absolute left-[50%] top-8 h-20 -translate-x-[50%] rounded-xl bg-black/70 p-4">
-        <button className="h-full px-8 text-white outline outline-1">abort</button>
+    <div className="relative flex h-dvh w-dvw flex-col items-center justify-center gap-8 overflow-hidden">
+      <div className="absolute left-[50%] top-8 flex -translate-x-[50%] flex-col items-center justify-center gap-4">
+        <div className="gap-4 rounded-xl bg-black/70 p-4">
+          <button className="h-full p-4 px-8 text-white outline outline-1">abort</button>
+        </div>
+        <div className="flex flex-col gap-1">
+          <Timer initialTime={30} />
+          <h1 className="w-min whitespace-nowrap rounded-xl bg-black p-2 px-8">
+            Letters elapsed: {lettersCorrect}
+          </h1>
+        </div>
       </div>
       <motion.div key={randomWord} className="select-none text-5xl font-bold" layout="position">
         {hasStarted && (
