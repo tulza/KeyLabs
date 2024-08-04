@@ -11,5 +11,5 @@ export function middleware(request: NextRequest) {
 }
 
 export const config = {
-  matcher: ['/', '/api/add-game'],
+  matcher: ['/', '/api/add-game', '/kgrid'],
 }
