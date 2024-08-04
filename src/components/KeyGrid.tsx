@@ -4,12 +4,13 @@ import React, { useContext, useEffect, useState } from "react";
 import { KeyboardKey } from "./VirtualKeyboard";
 import { GameContext } from "@/app/kgrid/page";
 import { motion } from "framer-motion";
+import Link from "next/link";
 export const KeyGrid = () => {
   const padding = 64;
   const hort = 12;
   const vert = 7;
   const gridsize = 64;
-  const chaos = 32;
+  const chaos = 24;
   const scaleChaos = 1;
 
   const gridwidth = hort * gridsize + padding * 2;
@@ -117,12 +118,14 @@ export const KeyGrid = () => {
   const handleCreate = (word: string) => {
     resetBoard();
     handleNewWordInstance(word);
-    setStarted(true);
   };
 
   return (
-    <div className="flex h-dvh w-dvw flex-col items-center justify-center gap-8">
-      <motion.div key={randomWord} className="select-none text-xl font-bold" layout="position">
+    <div className="relative flex h-dvh w-dvw flex-col items-center justify-center gap-8">
+      <div className="absolute left-[50%] top-8 h-20 -translate-x-[50%] rounded-xl bg-black/70 p-4">
+        <button className="h-full px-8 text-white outline outline-1">abort</button>
+      </div>
+      <motion.div key={randomWord} className="select-none text-5xl font-bold" layout="position">
         {hasStarted && (
           <>
             <p className="absolute text-white/20">{randomWord}&nbsp;</p>
@@ -130,43 +133,48 @@ export const KeyGrid = () => {
           </>
         )}
       </motion.div>
-      <div
-        className="relative rounded-lg outline"
-        style={{
-          width: gridwidth,
-          height: gridheight,
-        }}
-      >
-        {currKeyArr.map((keyi, i) => {
-          console.log(keyi, i);
-          if (index > i) return;
-          const topchaos = gridsize + (Math.random() - 0.5) * chaos;
-          const leftchaos = gridsize + (Math.random() - 0.5) * chaos;
-          return (
-            <KeyboardKey
-              label={keyi.label}
-              key={keyi.location}
-              className="absolute"
-              style={{
-                top: padding + Math.floor(keyi.location / hort) * gridsize + topchaos,
-                left: padding + (keyi.location % hort) * gridsize + leftchaos,
-              }}
-              animate={{ scale: 1 + scaleChaos * (Math.random() - 0.2) }}
-              onMouseDown={(e) => {
-                handleIsCorrectKey(keyi.label);
-              }}
-            />
-          );
-        })}
+      <div className="flex w-dvw justify-center bg-white/10">
+        <div
+          className="relative"
+          style={{
+            width: gridwidth,
+            height: gridheight,
+          }}
+        >
+          {currKeyArr.map((keyi, i) => {
+            console.log(keyi, i);
+            if (index > i) return;
+            const topchaos = gridsize + (Math.random() - 0.5) * chaos;
+            const leftchaos = gridsize + (Math.random() - 0.5) * chaos;
+            return (
+              <KeyboardKey
+                label={keyi.label}
+                key={keyi.location}
+                className="absolute"
+                style={{
+                  top: padding + Math.floor(keyi.location / hort) * gridsize + topchaos,
+                  left: padding + (keyi.location % hort) * gridsize + leftchaos,
+                }}
+                animate={{ scale: 1 + scaleChaos * (Math.random() - 0.2) }}
+                onMouseDown={() => {
+                  handleIsCorrectKey(keyi.label);
+                }}
+              />
+            );
+          })}
 
-        {!hasStarted && (
-          <div
-            className="absolute grid h-full w-full place-items-center bg-teal-950"
-            onClick={() => handleNewWord()}
-          >
-            Start test
-          </div>
-        )}
+          {!hasStarted && (
+            <div
+              className="absolute grid h-full w-full place-items-center bg-teal-950"
+              onClick={() => {
+                handleNewWord();
+                setStarted(true);
+              }}
+            >
+              Start test
+            </div>
+          )}
+        </div>
       </div>
     </div>
   );
