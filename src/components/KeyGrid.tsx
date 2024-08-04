@@ -5,6 +5,7 @@ import { KeyboardKey } from "./VirtualKeyboard";
 import { GameContext } from "@/app/kgrid/page";
 import { motion } from "framer-motion";
 import Timer from "./Timer";
+import Flash from "./Flash";
 export const KeyGrid = () => {
   const padding = 64;
   const hort = 12;
@@ -21,7 +22,7 @@ export const KeyGrid = () => {
   const [hasStarted, setStarted] = useState(false);
   const [index, setindex] = useState(0);
   const [initialTime, setinitialTime] = useState(30);
-
+  const [flashing, setflash] = useState(false);
   const [prevsGameDisplay, setDisplay] = useState("");
 
   const [totalClick, setTotalClick] = useState(0);
@@ -101,6 +102,10 @@ export const KeyGrid = () => {
       setTotalClick((pre) => pre + 1);
       return true;
     }
+    setflash(true);
+    setTimeout(() => {
+      setflash(false);
+    }, 400);
     setTotalClick((pre) => pre + 1);
     return false;
   };
@@ -179,7 +184,7 @@ export const KeyGrid = () => {
           <Timer
             key={hasStarted ? "HELP" : "ME"}
             initialTime={initialTime}
-            callback={() => callbackFINISHGAME()}
+            fnCallback={() => callbackFINISHGAME()}
             hasGameStart={hasStarted}
           />
           <h1 className="w-min whitespace-nowrap rounded-xl bg-black p-2 px-8">
@@ -226,7 +231,7 @@ export const KeyGrid = () => {
               />
             );
           })}
-
+          {flashing && <Flash />}
           {!hasStarted && (
             <div
               className="absolute grid h-full w-full place-items-center bg-teal-950"
