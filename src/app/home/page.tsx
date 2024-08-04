@@ -39,7 +39,7 @@ export default function HomePage() {
       if (response.ok) {
         console.log('Sign In Response:', data)
         localStorage.setItem('playerName', name)
-        router.push('/')
+        router.push('/kgrid')
       } else {
         setError(data.error || 'Login failed')
         console.error(data.error || 'Login failed')
