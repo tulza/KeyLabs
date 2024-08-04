@@ -1,5 +1,5 @@
 'use client'
-
+const runtime = 'edge'
 import { useEffect, useState } from 'react'
 import {
   Card,

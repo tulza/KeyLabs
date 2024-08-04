@@ -1,5 +1,5 @@
 'use client'
-
+const runtime = 'edge'
 import { KeyGrid } from '@/components/KeyGrid'
 import { useMediaQuery } from '@/hooks/useMediaQuery'
 import {

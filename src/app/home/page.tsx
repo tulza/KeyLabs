@@ -1,5 +1,5 @@
 'use client'
-
+const runtime = 'edge'
 import { useState } from 'react'
 import { Button } from '@/ui/button'
 import { useRouter } from 'next/navigation'
