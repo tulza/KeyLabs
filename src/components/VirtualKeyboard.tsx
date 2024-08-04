@@ -49,9 +49,12 @@ const VirtualKeyboard = () => {
         <div className="flex gap-2 *:grid *:place-items-center">
           {/* top layer*/}
           <KeyboardKey className="min-w-16" />
+          <KeyboardKey className="min-w-16" />
           {top.split("").map((key) => (
             <KeyboardKey label={key} key={key} onMouseDown={() => handleClick(key)} />
+            <KeyboardKey label={key} key={key} onMouseDown={() => handleClick(key)} />
           ))}
+          <KeyboardKey
           <KeyboardKey
             className="place-content- min-w-16 justify-end"
             label={<MoveLeft className={imageClass} />}
@@ -60,17 +63,24 @@ const VirtualKeyboard = () => {
         <div className="flex gap-2 *:grid *:place-items-center">
           {/* middle layer*/}
           <KeyboardKey className="min-w-[5.5rem]" onMouseDown={handleCapsLock} label="caps" />
+          <KeyboardKey className="min-w-[5.5rem]" onMouseDown={handleCapsLock} label="caps" />
           {mid.split("").map((key) => (
             <KeyboardKey label={key} key={key} onMouseDown={() => handleClick(key)} />
+            <KeyboardKey label={key} key={key} onMouseDown={() => handleClick(key)} />
           ))}
+          <KeyboardKey className="w-full" />
           <KeyboardKey className="w-full" />
         </div>
         <div className="flex gap-2 *:grid *:place-items-center">
           {/* bottom layer*/}
           <KeyboardKey className="min-w-[7rem]" label="shift" onMouseDown={handleShift} />
+          <KeyboardKey className="min-w-[7rem]" label="shift" onMouseDown={handleShift} />
           {bot.split("").map((key) => (
             <KeyboardKey label={key} key={key} onMouseDown={() => handleClick(key)} />
+            <KeyboardKey label={key} key={key} onMouseDown={() => handleClick(key)} />
           ))}
+          <KeyboardKey label={<PartyPopper className={imageClass} />} />
+          <KeyboardKey className="w-full" label="shift" onMouseDown={handleShift} />
           <KeyboardKey label={<PartyPopper className={imageClass} />} />
           <KeyboardKey className="w-full" label="shift" onMouseDown={handleShift} />
         </div>
