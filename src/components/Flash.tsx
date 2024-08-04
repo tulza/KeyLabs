@@ -2,6 +2,7 @@
 
 import { motion, Variants } from "framer-motion";
 import React, { useState } from "react";
+import "@/app/globals.css"
 
 const flashVariants: Variants = {
   initial: { opacity: 1, scale: 0, width: "0dvw", height: "0dvw", backdropFilter: "blur(4px)" },
@@ -25,7 +26,7 @@ const Flash = () => {
       animate="flashing"
       exit={{ ...flashContainerExit }}
     >
-      <motion.div className="flasher rouneded-full" variants={flashVariants} />
+      <motion.div className="flasher" variants={flashVariants} />
     </motion.div>
   );
 };

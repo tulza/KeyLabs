@@ -2,6 +2,8 @@
 import { AnimatePresence } from "framer-motion";
 import Flash from "./Flash";
 import { useState, useEffect } from "react";
+import mySound from "../assets/Audio/Flash2.mp3";
+import useSound from "use-sound";
 
 interface TimerProps {
   initialTime: number;
@@ -10,7 +12,8 @@ interface TimerProps {
 const Timer: React.FC<TimerProps> = ({ initialTime }) => {
   const [countdownTime, setCountdownTime] = useState(initialTime);
   const [countupTime, setCountupTime] = useState(0);
-  const [isflashing, setFlash] = useState(false);
+  const [isFlashing, setFlash] = useState(false);
+  const [play] = useSound(mySound);
 
   // Countdown timer effect
   useEffect(() => {
@@ -21,11 +24,12 @@ const Timer: React.FC<TimerProps> = ({ initialTime }) => {
       setFlash(false);
     } else if (countdownTime <= 0) {
       setFlash(true);
+      play();
       timerId = setTimeout(() => setCountdownTime(initialTime), 1000);
     }
 
     return () => clearTimeout(timerId);
-  }, [countdownTime, initialTime]);
+  }, [countdownTime, initialTime, play]);
 
   // Countup timer effect
   useEffect(() => {
@@ -43,6 +47,7 @@ const Timer: React.FC<TimerProps> = ({ initialTime }) => {
   return (
     <div className="flex flex-col items-center gap-4 text-white *:rounded-xl">
       <h1 className="bg-black p-2 px-8">
+        {isFlashing && <Flash />}
         Time until flashed <span>{formatTime(countdownTime)}</span>
       </h1>
       <h1 className="w-min bg-black p-2 px-8">

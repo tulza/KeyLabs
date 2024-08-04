@@ -10,7 +10,7 @@ export default function Home() {
     <>
       <div className="flex h-dvh w-dvw flex-col items-left justify-left overflow-hidden p-8">
         <div className="absolute top-2 whitespace-nowrap">
-          <Timer initialTime={5} />
+          <Timer initialTime={1} />
         </div>
         <div>
           <Title></Title>
