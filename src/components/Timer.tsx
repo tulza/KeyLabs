@@ -5,11 +5,11 @@ import { useState, useEffect } from "react";
 
 interface TimerProps {
   initialTime: number;
-  callback: () => void;
+  fnCallback: () => void;
   hasGameStart: boolean;
 }
 
-const Timer: React.FC<TimerProps> = ({ initialTime, callback, hasGameStart }) => {
+const Timer: React.FC<TimerProps> = ({ initialTime, fnCallback, hasGameStart }) => {
   const [countdownTime, setCountdownTime] = useState(initialTime);
   const [countupTime, setCountupTime] = useState(0);
   const [isflashing, setFlash] = useState(false);
@@ -21,7 +21,7 @@ const Timer: React.FC<TimerProps> = ({ initialTime, callback, hasGameStart }) =>
       if (!hasGameStart) return;
       timerId = setTimeout(() => setCountdownTime(countdownTime - 1), 1000);
     } else if (countdownTime <= 0) {
-      callback();
+      fnCallback();
     }
 
     return () => clearTimeout(timerId);
