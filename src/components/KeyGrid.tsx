@@ -20,8 +20,13 @@ export const KeyGrid = () => {
   const [dict, setWordDict] = useState<alphdict>({});
   const [hasStarted, setStarted] = useState(false);
   const [index, setindex] = useState(0);
-  const [lettersCorrect, setlettersCorrect] = useState(0);
   const [initialTime, setinitialTime] = useState(5);
+
+  const [prevsGameDisplay, setDisplay] = useState("");
+
+  const [totalClick, setTotalClick] = useState(0);
+  const [numwords, setnumWord] = useState(0);
+  const [lettersCorrect, setlettersCorrect] = useState(0);
   const [prevsGameScore, setpresgamescore] = useState(0);
   type alphdict = {
     [key: string]: number;
@@ -89,16 +94,26 @@ export const KeyGrid = () => {
       worddictemp[label] -= 1;
       setindex((pre) => pre + 1);
       setWordDict(worddictemp);
+
       if (isWordFinsihed()) {
         handleNewWord();
       }
+      setTotalClick((pre) => pre + 1);
       return true;
     }
+    setTotalClick((pre) => pre + 1);
     return false;
   };
 
   const callbackFINISHGAME = () => {
-    console.log((lettersCorrect / initialTime) * 60);
+    const wpm = ((numwords / initialTime) * 60).toFixed(2); //TODO
+    const lpm = ((lettersCorrect / initialTime) * 60).toFixed(2);
+    const time = initialTime;
+    const acc = ((lettersCorrect / totalClick) * 100).toFixed(2);
+
+    addGame(parseFloat(lpm), parseFloat(wpm), parseFloat(acc));
+    setDisplay("WPM: " + wpm + " LPM: " + lpm + " Time: " + time + " Accuracy: " + acc + "%");
+
     setlettersCorrect(0);
     setStarted(false);
     resetBoard();
@@ -111,6 +126,7 @@ export const KeyGrid = () => {
         return false;
       }
     }
+    setnumWord((pres) => pres + 1);
     return true;
   };
 
@@ -128,12 +144,37 @@ export const KeyGrid = () => {
     handleNewWordInstance(word);
   };
 
+  // Function to add game information
+  async function addGame(lpm: number, wpm: number, accuracy: number) {
+    const time = new Date().toISOString();
+    const lettersPerMinute = lpm;
+    const wordsPerMinute = wpm;
+
+    const response = await fetch("/api/add-game", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        time,
+        lettersPerMinute,
+        wordsPerMinute,
+        accuracy,
+      }),
+    });
+
+    if (response.ok) {
+      const data = await response.json();
+      console.log("Game info added:", data);
+    } else {
+      const errorData = await response.json();
+      console.error("Error:", errorData.error);
+    }
+  }
+
   return (
     <div className="relative flex h-dvh w-dvw flex-col items-center justify-center gap-8 overflow-hidden">
       <div className="absolute left-[50%] top-8 flex -translate-x-[50%] flex-col items-center justify-center gap-4">
-        <div className="gap-4 rounded-xl bg-black/70 p-4">
-          <button className="h-full p-4 px-8 text-white outline outline-1">abort</button>
-        </div>
         <div className="flex flex-col gap-1">
           <Timer
             key={hasStarted ? "HELP" : "ME"}
@@ -145,6 +186,9 @@ export const KeyGrid = () => {
             Letters elapsed: {lettersCorrect}
           </h1>
         </div>
+      </div>
+      <div className="absolute bottom-2 left-[50%] flex -translate-x-[50%] flex-col gap-4 rounded-xl bg-black/70 p-4">
+        <button className="h-full p-4 px-8 text-white outline outline-1">{prevsGameDisplay}</button>
       </div>
       <motion.div key={randomWord} className="select-none text-5xl font-bold" layout="position">
         {hasStarted && (
