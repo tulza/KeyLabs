@@ -14,16 +14,18 @@ datasource db {
 }
 
 model Player {
-  id       Int     @id @default(autoincrement())
-  name     String? @unique
+  id       Int       @id @default(autoincrement())
+  name     String    @unique
   password String
+  gameInfo GameInfo[]
 }
 
 model GameInfo {
   id              Int      @id @default(autoincrement())
-  playerName      String
+  playerId        Int
   time            String
-  difficulty      String
   lettersPerSecond Float
   wordsPerMinute  Float
+  accuracy        Float
+  player          Player   @relation(fields: [playerId], references: [id])
 }

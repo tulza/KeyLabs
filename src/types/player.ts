@@ -1,5 +1,4 @@
-export type player = {
-    name: string,
-    password: string
-  }
-  
+export type Player = {
+  name: string
+  password: string
+}
