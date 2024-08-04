@@ -63,7 +63,7 @@ export default function HomePage() {
                   transition={{ duration: 1, ease: [0.5, 1, 0.89, 1] }}
                   className="lg:leading-tighter mb-2 text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl xl:text-[3.4rem] 2xl:text-[3.75rem]"
                 >
-                  Type Faster with KeyLabs
+                  Aim Faster with KeyLabs
                 </motion.h1>
                 <motion.p
                   initial={{ y: 50, opacity: 0 }}
@@ -76,10 +76,10 @@ export default function HomePage() {
                   className="text-muted-foreground mx-auto max-w-[700px] md:text-xl"
                 >
                   KeyLabs is a web-based game designed to help you improve your
-                  typing skills through engaging and interactive gameplay.
-                  Inspired by Aim Labs, KeyLabs combines typing speed and
-                  accuracy challenges with interactive elements to make learning
-                  fun and effective.
+                  typing / aiming skills through engaging and interactive
+                  gameplay. Inspired by Aim Labs, KeyLabs combines typing speed
+                  and accuracy challenges with interactive elements to make
+                  learning fun and effective.
                 </motion.p>
                 <motion.div
                   initial={{ opacity: 0 }}
@@ -119,7 +119,7 @@ export default function HomePage() {
                       <CardHeader className="space-y-1">
                         <CardTitle className="text-2xl">Sign In</CardTitle>
                         <CardDescription>
-                          Enter your credentials to access your account.
+                          Enter a username to play!
                         </CardDescription>
                       </CardHeader>
                       <CardContent className="grid gap-4">
@@ -140,10 +140,11 @@ export default function HomePage() {
                         <motion.button
                           initial={{ scale: 1 }}
                           whileHover={{ scale: 1.1 }}
+                          whileTap={{ scale: 0.9 }}
                           className="w-[150px]"
                           onClick={handleSignInSubmit}
                         >
-                          Sign In
+                          Play
                         </motion.button>
                       </CardFooter>
                     </Card>
