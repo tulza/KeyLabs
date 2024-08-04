@@ -1,23 +1,47 @@
-import Timer from "@/components/Timer";
-import VirtualKeyboard, { KeyboardKey } from "@/components/VirtualKeyboard";
-import HomePage from "@/components/HomePage/HomePage";
-import Link from "next/link";
-import KeyGrid from "@/components/KeyGrid";
-import Title from "@/components/Title";
+'use client'
+
+import { useEffect, useState } from 'react'
 
 export default function Home() {
-  return (
-    <>
-      <div className="flex h-dvh w-dvw flex-col items-left justify-left overflow-hidden p-8">
-        <div className="absolute top-2 whitespace-nowrap">
-          <Timer initialTime={5} />
-        </div>
-        <div>
-          <Title></Title>
-        </div>
+  const [words, setWords] = useState<string[]>([])
+  const [randomWord, setRandomWord] = useState<string>('')
 
-        {/* <KeyGrid /> */}
+  useEffect(() => {
+    fetch('/1000-most-common-words.txt')
+      .then((response) => response.text())
+      .then((data) => {
+        const wordsArray = data.split('\n')
+        setWords(wordsArray)
+      })
+  }, [])
+
+  useEffect(() => {
+    if (words.length > 0) {
+      setRandomWord(getRandomWord(words))
+    }
+  }, [words])
+
+  function getRandomWord(wordsArray: string[]): string {
+    const randomIndex = Math.floor(Math.random() * wordsArray.length)
+    return wordsArray[randomIndex]
+  }
+
+  function handleNewWord() {
+    setRandomWord(getRandomWord(words))
+  }
+
+  return (
+    <div className="flex h-dvh w-dvw flex-col items-center justify-center overflow-hidden p-8">
+      <div>
+        <h1>Random Word</h1>
+        <div>{randomWord}</div>
+        <button
+          onClick={handleNewWord}
+          className="mt-4 rounded bg-blue-500 p-2 text-white"
+        >
+          Get New Word
+        </button>
       </div>
-    </>
-  );
+    </div>
+  )
 }

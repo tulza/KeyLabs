@@ -1,8 +1,9 @@
 "use client";
 
 import { cn } from "@/utils/utils";
+import { HTMLMotionProps, motion } from "framer-motion";
 import { MoveLeft, PartyPopper } from "lucide-react";
-import React, { forwardRef, MouseEventHandler, useState } from "react";
+import React, { memo, MouseEventHandler, useState } from "react";
 
 type capsContext = true | false;
 const CapsContext = React.createContext<capsContext>({} as capsContext);
@@ -48,9 +49,12 @@ const VirtualKeyboard = () => {
         <div className="flex gap-2 *:grid *:place-items-center">
           {/* top layer*/}
           <KeyboardKey className="min-w-16" />
+          <KeyboardKey className="min-w-16" />
           {top.split("").map((key) => (
             <KeyboardKey label={key} key={key} onMouseDown={() => handleClick(key)} />
+            <KeyboardKey label={key} key={key} onMouseDown={() => handleClick(key)} />
           ))}
+          <KeyboardKey
           <KeyboardKey
             className="place-content- min-w-16 justify-end"
             label={<MoveLeft className={imageClass} />}
@@ -59,17 +63,24 @@ const VirtualKeyboard = () => {
         <div className="flex gap-2 *:grid *:place-items-center">
           {/* middle layer*/}
           <KeyboardKey className="min-w-[5.5rem]" onMouseDown={handleCapsLock} label="caps" />
+          <KeyboardKey className="min-w-[5.5rem]" onMouseDown={handleCapsLock} label="caps" />
           {mid.split("").map((key) => (
             <KeyboardKey label={key} key={key} onMouseDown={() => handleClick(key)} />
+            <KeyboardKey label={key} key={key} onMouseDown={() => handleClick(key)} />
           ))}
+          <KeyboardKey className="w-full" />
           <KeyboardKey className="w-full" />
         </div>
         <div className="flex gap-2 *:grid *:place-items-center">
           {/* bottom layer*/}
           <KeyboardKey className="min-w-[7rem]" label="shift" onMouseDown={handleShift} />
+          <KeyboardKey className="min-w-[7rem]" label="shift" onMouseDown={handleShift} />
           {bot.split("").map((key) => (
             <KeyboardKey label={key} key={key} onMouseDown={() => handleClick(key)} />
+            <KeyboardKey label={key} key={key} onMouseDown={() => handleClick(key)} />
           ))}
+          <KeyboardKey label={<PartyPopper className={imageClass} />} />
+          <KeyboardKey className="w-full" label="shift" onMouseDown={handleShift} />
           <KeyboardKey label={<PartyPopper className={imageClass} />} />
           <KeyboardKey className="w-full" label="shift" onMouseDown={handleShift} />
         </div>
@@ -78,27 +89,26 @@ const VirtualKeyboard = () => {
   );
 };
 
-interface KeyProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
+interface KeyProps extends HTMLMotionProps<"button"> {
   label?: string | React.ReactNode;
   className?: string;
   out?: string;
 }
 
-export const KeyboardKey = forwardRef<HTMLButtonElement, KeyProps>(
-  ({ label, out, ...props }, fref) => {
-    return (
-      <button
-        {...props}
-        ref={fref}
-        className={cn(
-          "Keyboard-key-bg min-h-12 min-w-12 select-none rounded-xl p-2",
-          props.className
-        )}
-        onMouseDown={props.onMouseDown}
-      >
-        {label}
-      </button>
-    );
-  }
-);
+export const KeyboardKey = memo(({ label, out, ...props }: KeyProps) => {
+  return (
+    <motion.button
+      {...props}
+      className={cn(
+        "Keyboard-key-bg min-h-12 min-w-12 select-none rounded-xl p-2",
+        props.className
+      )}
+      onMouseDown={props.onMouseDown}
+      layout
+    >
+      {label}
+    </motion.button>
+  );
+});
+
 export default VirtualKeyboard;

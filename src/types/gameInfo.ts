@@ -1,7 +1,9 @@
+import { Player } from './player'
+
 export type gameInfo = {
-    playerName: string,
-    time: string
-    difficulty: string
-    lettersPerSecond: number
-    wordsPerMinute: number
+  player: Player
+  time: string
+  lettersPerSecond: number
+  wordsPerMinute: number
+  accuracy: number
 }

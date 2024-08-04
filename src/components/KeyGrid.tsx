@@ -1,30 +1,173 @@
 "use client";
 
-import React from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { KeyboardKey } from "./VirtualKeyboard";
+import { GameContext } from "@/app/kgrid/page";
+import { motion } from "framer-motion";
+export const KeyGrid = () => {
+  const padding = 64;
+  const hort = 12;
+  const vert = 7;
+  const gridsize = 64;
+  const chaos = 32;
+  const scaleChaos = 1;
 
+  const gridwidth = hort * gridsize + padding * 2;
+  const gridheight = vert * gridsize + padding * 2;
 
+  const [currKeyArr, setKeyArr] = useState<keyItem[]>([]);
+  const [dict, setWordDict] = useState<alphdict>({});
+  const [hasStarted, setStarted] = useState(false);
+  const [index, setindex] = useState(0);
 
-const KeyGrid = () => {
-  const padding = 4;
-  const hort = 24;
-  const vert = 14;
-  const gridsize = 40;
+  type alphdict = {
+    [key: string]: number;
+  };
 
-  const gridwidth = hort * gridsize;
-  const gridheight = vert * gridsize;
+  type keyItem = {
+    label: string;
+    location: number;
+  };
 
+  const resetBoard = () => {
+    setindex(0);
+    setWordDict({} as alphdict);
+    setKeyArr([]);
+  };
+
+  const { randomWord, handleNewWord } = useContext(GameContext);
+  console.log(randomWord);
+
+  const handleNewWordInstance = (word: string) => {
+    word = word.trim();
+    let wordDict: alphdict = {};
+    let locationarr: number[] = [];
+    for (let i = 0; i < word.length; i++) {
+      let location = Math.floor(Math.random() * (hort * vert));
+      while (checkSpotTaken(location, locationarr)) {
+        location = Math.floor(Math.random() * (hort * vert));
+        break;
+      }
+      locationarr.push(location);
+    }
+
+    if (word.length != locationarr.length) {
+      console.log("how id dhti happen break im going to kms");
+    }
+
+    const letters = word.split("");
+    for (let i = 0; i < letters.length; i++) {
+      if (letters[i] in wordDict) {
+        wordDict[letters[i]] += 1;
+      } else {
+        wordDict[letters[i]] = 1;
+      }
+    }
+    setWordDict(() => {
+      return wordDict;
+    });
+
+    setKeyArr(
+      letters.map((letter, i) => {
+        return { label: letter, location: locationarr[i] };
+      })
+    );
+  };
+
+  useEffect(() => {
+    if (randomWord) {
+      handleCreate(randomWord);
+    }
+  }, [randomWord]);
+
+  const handleIsCorrectKey = (label: string) => {
+    console.log(label, randomWord.trim().split("")[0]);
+    if (label == randomWord.trim().split("")[index]) {
+      let worddictemp = dict;
+      worddictemp[label] -= 1;
+      setindex((pre) => pre + 1);
+      setWordDict(worddictemp);
+      if (isWordFinsihed()) {
+        handleNewWord();
+      }
+      return true;
+    }
+    return false;
+  };
+
+  const isWordFinsihed = () => {
+    const keys = Object.keys(dict);
+    for (let i = 0; i < keys.length; i++) {
+      if (dict[keys[i]] != 0) {
+        return false;
+      }
+    }
+    return true;
+  };
+
+  const checkSpotTaken = (location: number, locationArr: number[]) => {
+    for (let i = 0; i < currKeyArr.length; i++) {
+      if (locationArr[i] == location) {
+        return true;
+      }
+    }
+    return false;
+  };
+
+  const handleCreate = (word: string) => {
+    resetBoard();
+    handleNewWordInstance(word);
+    setStarted(true);
+  };
 
   return (
-    <>
-      <div className="absolute left-0 top-0 z-20 h-dvh w-dvw bg-black">
-        <p>You need a screen size of at least 1200x720</p>
+    <div className="flex h-dvh w-dvw flex-col items-center justify-center gap-8">
+      <motion.div key={randomWord} className="select-none text-xl font-bold" layout="position">
+        {hasStarted && (
+          <>
+            <p className="absolute text-white/20">{randomWord}&nbsp;</p>
+            <p>{randomWord.split("").splice(0, index)}&nbsp;</p>
+          </>
+        )}
+      </motion.div>
+      <div
+        className="relative rounded-lg outline"
+        style={{
+          width: gridwidth,
+          height: gridheight,
+        }}
+      >
+        {currKeyArr.map((keyi, i) => {
+          console.log(keyi, i);
+          if (index > i) return;
+          const topchaos = gridsize + (Math.random() - 0.5) * chaos;
+          const leftchaos = gridsize + (Math.random() - 0.5) * chaos;
+          return (
+            <KeyboardKey
+              label={keyi.label}
+              key={keyi.location}
+              className="absolute"
+              style={{
+                top: padding + Math.floor(keyi.location / hort) * gridsize + topchaos,
+                left: padding + (keyi.location % hort) * gridsize + leftchaos,
+              }}
+              animate={{ scale: 1 + scaleChaos * (Math.random() - 0.2) }}
+              onMouseDown={(e) => {
+                handleIsCorrectKey(keyi.label);
+              }}
+            />
+          );
+        })}
+
+        {!hasStarted && (
+          <div
+            className="absolute grid h-full w-full place-items-center bg-teal-950"
+            onClick={() => handleNewWord()}
+          >
+            Start test
+          </div>
+        )}
       </div>
-      <div className="relative rounded-lg outline" style={{ width: gridwidth, height: gridheight }}>
-        <KeyboardKey className="absolute top-0" />
-      </div>
-    </>
+    </div>
   );
 };
-
-export default KeyGrid;
