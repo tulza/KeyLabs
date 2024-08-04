@@ -3,11 +3,14 @@
 import React, { useContext, useEffect, useState } from "react";
 import { KeyboardKey } from "./VirtualKeyboard";
 import { GameContext } from "@/app/kgrid/page";
+import { motion } from "framer-motion";
 export const KeyGrid = () => {
-  const padding = 32;
+  const padding = 64;
   const hort = 12;
   const vert = 7;
   const gridsize = 64;
+  const chaos = 32;
+  const scaleChaos = 1;
 
   const gridwidth = hort * gridsize + padding * 2;
   const gridheight = vert * gridsize + padding * 2;
@@ -71,6 +74,12 @@ export const KeyGrid = () => {
     );
   };
 
+  useEffect(() => {
+    if (randomWord) {
+      handleCreate(randomWord);
+    }
+  }, [randomWord]);
+
   const handleIsCorrectKey = (label: string) => {
     console.log(label, randomWord.trim().split("")[0]);
     if (label == randomWord.trim().split("")[index]) {
@@ -78,9 +87,22 @@ export const KeyGrid = () => {
       worddictemp[label] -= 1;
       setindex((pre) => pre + 1);
       setWordDict(worddictemp);
+      if (isWordFinsihed()) {
+        handleNewWord();
+      }
       return true;
     }
     return false;
+  };
+
+  const isWordFinsihed = () => {
+    const keys = Object.keys(dict);
+    for (let i = 0; i < keys.length; i++) {
+      if (dict[keys[i]] != 0) {
+        return false;
+      }
+    }
+    return true;
   };
 
   const checkSpotTaken = (location: number, locationArr: number[]) => {
@@ -100,39 +122,52 @@ export const KeyGrid = () => {
 
   return (
     <div className="flex h-dvh w-dvw flex-col items-center justify-center gap-8">
-      <div key={randomWord} className="text-xl font-bold">
-        &nbsp;
-        {hasStarted && randomWord}
-      </div>
-      <div className="relative rounded-lg outline" style={{ width: gridwidth, height: gridheight }}>
+      <motion.div key={randomWord} className="select-none text-xl font-bold" layout="position">
+        {hasStarted && (
+          <>
+            <p className="absolute text-white/20">{randomWord}&nbsp;</p>
+            <p>{randomWord.split("").splice(0, index)}&nbsp;</p>
+          </>
+        )}
+      </motion.div>
+      <div
+        className="relative rounded-lg outline"
+        style={{
+          width: gridwidth,
+          height: gridheight,
+        }}
+      >
         {currKeyArr.map((keyi, i) => {
           console.log(keyi, i);
           if (index > i) return;
+          const topchaos = gridsize + (Math.random() - 0.5) * chaos;
+          const leftchaos = gridsize + (Math.random() - 0.5) * chaos;
           return (
             <KeyboardKey
               label={keyi.label}
               key={keyi.location}
               className="absolute"
               style={{
-                top: padding + Math.floor(keyi.location / hort) * gridsize,
-                left: padding + (keyi.location % hort) * gridsize,
+                top: padding + Math.floor(keyi.location / hort) * gridsize + topchaos,
+                left: padding + (keyi.location % hort) * gridsize + leftchaos,
               }}
+              animate={{ scale: 1 + scaleChaos * (Math.random() - 0.2) }}
               onMouseDown={(e) => {
                 handleIsCorrectKey(keyi.label);
               }}
             />
           );
         })}
+
         {!hasStarted && (
           <div
             className="absolute grid h-full w-full place-items-center bg-teal-950"
-            onClick={() => handleCreate(randomWord)}
+            onClick={() => handleNewWord()}
           >
             Start test
           </div>
         )}
       </div>
-      {JSON.stringify(currKeyArr)}
     </div>
   );
 };

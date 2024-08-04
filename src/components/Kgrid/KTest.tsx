@@ -1,20 +1,29 @@
 "use client";
 
+import { useText } from "@/app/fetch/useText";
 import { KeyGrid } from "@/components/KeyGrid";
 import { useMediaQuery } from "@/hooks/useMediaQuery";
 import { QueryClient, QueryClientProvider, useQuery } from "@tanstack/react-query";
-import {
-  Context,
-  createContext,
-  PropsWithChildren,
-  ServerContext,
-  useContext,
-  useEffect,
-  useState,
-} from "react";
+import { createContext, useEffect, useState } from "react";
 
 type timeContext = {
   timeRemaining: number;
+};
+
+type gameContext = {
+  game: {
+    playerName: string;
+    time: string;
+    accuracy: string;
+    lettersPerSecond: number;
+    wordsPerMinute: number;
+  };
+  hasStarted: boolean;
+};
+
+type idfk = {
+  handleNewWord: () => void;
+  randomWord: string;
 };
 
 // // const leaderBoardContext = useContext<>(null);
@@ -67,32 +76,14 @@ type timeContext = {
 //   );
 // };
 
-type gameContext = {
-  game: {
-    playerName: string;
-    time: string;
-    accuracy: string;
-    lettersPerSecond: number;
-    wordsPerMinute: number;
-  };
-  hasStarted: boolean;
-};
-
-type idfk = {
-  handleNewWord: () => void;
-  randomWord: string;
-  isloading: boolean;
-};
-
 export const GameContext = createContext<idfk>({} as idfk);
 
-export default function kgrid() {
+export default function Kgrid() {
   const isMinWidth = useMediaQuery("(min-width:900px)");
   const isMinHeight = useMediaQuery("(min-height:720px)");
 
   const [words, setWords] = useState<string[]>([]);
   const [randomWord, setRandomWord] = useState<string>("");
-  const [isloading, setloading] = useState<boolean>(true);
   const [wordList, setWordList] = useState<string[]>([]);
 
   useEffect(() => {
@@ -101,7 +92,6 @@ export default function kgrid() {
       .then((data) => {
         const wordsArray = data.split("\n");
         setWords(wordsArray);
-        setloading(false);
       });
   }, []);
 
@@ -111,7 +101,8 @@ export default function kgrid() {
     }
   }, [words]);
 
-  console.log(isloading);
+  const text = useText();
+  console.log(text);
 
   function handleNewWord() {
     setRandomWord(getRandomWord(words));
@@ -132,7 +123,7 @@ export default function kgrid() {
 
   if (!isMinWidth || !isMinHeight) {
     return (
-      <div className="absolute left-0 top-0 z-50 grid h-dvh w-dvw select-none place-items-center bg-teal-950">
+      <div className="absolute left-0 top-0 z-50 grid h-dvh w-dvw place-items-center bg-teal-950">
         <p>You need a screen size of at least 1200x720</p>
         <div>
           {!isMinWidth && <p>screen width is too small</p>}
@@ -144,7 +135,7 @@ export default function kgrid() {
 
   return (
     <div className="h-100dvh w-100dvw relative overflow-hidden">
-      <GameContext.Provider value={{ randomWord, handleNewWord, isloading }}>
+      <GameContext.Provider value={{ randomWord, handleNewWord }}>
         <KeyGrid />
       </GameContext.Provider>
     </div>
