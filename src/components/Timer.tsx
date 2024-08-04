@@ -11,14 +11,15 @@ interface TimerProps {
 
 const Timer: React.FC<TimerProps> = ({ initialTime }) => {
   const [countdownTime, setCountdownTime] = useState(initialTime);
-  const [countupTime, setCountupTime] = useState(0);
+  // const [countupTime, setCountupTime] = useState(0);
   const [isflashing, setFlash] = useState(false);
+  const [hasGameStart, setGameStart] = useState(false);
 
   // Countdown timer effect
   useEffect(() => {
     let timerId: NodeJS.Timeout;
-
     if (countdownTime > 0) {
+      if (!hasGameStart) return;
       timerId = setTimeout(() => setCountdownTime(countdownTime - 1), 1000);
       setFlash(false);
     } else if (countdownTime <= 0) {
@@ -30,11 +31,11 @@ const Timer: React.FC<TimerProps> = ({ initialTime }) => {
   }, [countdownTime, initialTime]);
 
   // Countup timer effect
-  useEffect(() => {
-    const intervalId = setInterval(() => setCountupTime((prev) => prev + 1), 1000);
+  // useEffect(() => {
+  //   const intervalId = setInterval(() => setCountupTime((prev) => prev + 1), 1000);
 
-    return () => clearInterval(intervalId);
-  }, []);
+  //   return () => clearInterval(intervalId);
+  // }, []);
 
   const formatTime = (seconds: number): string => {
     const minutes = Math.floor(seconds / 60);
@@ -44,11 +45,10 @@ const Timer: React.FC<TimerProps> = ({ initialTime }) => {
 
   return (
     <div className="text-white">
-      
       <h1>Time until flashed</h1>
       <p>{formatTime(countdownTime)}</p>
-      <h1>Time taken</h1>
-      <p>{formatTime(countupTime)}</p>
+      {/* <h1>Time taken</h1>
+      <p>{formatTime(countupTime)}</p> */}
     </div>
   );
 };

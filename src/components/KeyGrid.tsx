@@ -1,7 +1,8 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { KeyboardKey } from "./VirtualKeyboard";
+import { GameContext } from "@/app/kgrid/page";
 export const KeyGrid = () => {
   const padding = 32;
   const hort = 12;
@@ -13,6 +14,8 @@ export const KeyGrid = () => {
 
   const [currKeyArr, setKeyArr] = useState<keyItem[]>([]);
   const [dict, setWordDict] = useState<alphdict>({});
+  const [hasStarted, setStarted] = useState(false);
+  const [index, setindex] = useState(0);
 
   type alphdict = {
     [key: string]: number;
@@ -24,11 +27,16 @@ export const KeyGrid = () => {
   };
 
   const resetBoard = () => {
+    setindex(0);
     setWordDict({} as alphdict);
     setKeyArr([]);
   };
 
+  const { randomWord, handleNewWord } = useContext(GameContext);
+  console.log(randomWord);
+
   const handleNewWordInstance = (word: string) => {
+    word = word.trim();
     let wordDict: alphdict = {};
     let locationarr: number[] = [];
     for (let i = 0; i < word.length; i++) {
@@ -63,7 +71,17 @@ export const KeyGrid = () => {
     );
   };
 
-  const handleIsCorrectKey = () => {};
+  const handleIsCorrectKey = (label: string) => {
+    console.log(label, randomWord.trim().split("")[0]);
+    if (label == randomWord.trim().split("")[index]) {
+      let worddictemp = dict;
+      worddictemp[label] -= 1;
+      setindex((pre) => pre + 1);
+      setWordDict(worddictemp);
+      return true;
+    }
+    return false;
+  };
 
   const checkSpotTaken = (location: number, locationArr: number[]) => {
     for (let i = 0; i < currKeyArr.length; i++) {
@@ -74,15 +92,22 @@ export const KeyGrid = () => {
     return false;
   };
 
-  const handleCreate = () => {
+  const handleCreate = (word: string) => {
     resetBoard();
-    handleNewWordInstance("kyskys");
+    handleNewWordInstance(word);
+    setStarted(true);
   };
 
   return (
-    <div className="flex h-dvh w-dvw flex-col items-center justify-center">
+    <div className="flex h-dvh w-dvw flex-col items-center justify-center gap-8">
+      <div key={randomWord} className="text-xl font-bold">
+        &nbsp;
+        {hasStarted && randomWord}
+      </div>
       <div className="relative rounded-lg outline" style={{ width: gridwidth, height: gridheight }}>
-        {currKeyArr.map((keyi) => {
+        {currKeyArr.map((keyi, i) => {
+          console.log(keyi, i);
+          if (index > i) return;
           return (
             <KeyboardKey
               label={keyi.label}
@@ -92,15 +117,22 @@ export const KeyGrid = () => {
                 top: padding + Math.floor(keyi.location / hort) * gridsize,
                 left: padding + (keyi.location % hort) * gridsize,
               }}
+              onMouseDown={(e) => {
+                handleIsCorrectKey(keyi.label);
+              }}
             />
           );
         })}
+        {!hasStarted && (
+          <div
+            className="absolute grid h-full w-full place-items-center bg-teal-950"
+            onClick={() => handleCreate(randomWord)}
+          >
+            Start test
+          </div>
+        )}
       </div>
-      <div onClick={handleCreate} className="size-8 bg-black"></div>
-      <div onClick={handleCreate} className="">
-        {JSON.stringify(currKeyArr)}
-        {JSON.stringify(dict)}
-      </div>
+      {JSON.stringify(currKeyArr)}
     </div>
   );
 };
