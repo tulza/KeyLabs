@@ -15,6 +15,18 @@ export async function POST(request: Request) {
       )
     }
 
+    // Check if the player already exists
+    const existingPlayer = await prisma.player.findUnique({
+      where: { name },
+    })
+
+    if (existingPlayer) {
+      return NextResponse.json(
+        { error: 'Player with this name already exists.' },
+        { status: 400 }
+      )
+    }
+
     // Hash the password
     const hashedPassword = await bcrypt.hash(password, 10)
 
