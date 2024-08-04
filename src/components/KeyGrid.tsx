@@ -21,7 +21,8 @@ export const KeyGrid = () => {
   const [hasStarted, setStarted] = useState(false);
   const [index, setindex] = useState(0);
   const [lettersCorrect, setlettersCorrect] = useState(0);
-  const [initialTime, setinitialTime] = useState(0);
+  const [initialTime, setinitialTime] = useState(5);
+  const [prevsGameScore, setpresgamescore] = useState(0);
   type alphdict = {
     [key: string]: number;
   };
@@ -33,13 +34,11 @@ export const KeyGrid = () => {
 
   const resetBoard = () => {
     setindex(0);
-    setlettersCorrect(0);
     setWordDict({} as alphdict);
     setKeyArr([]);
   };
 
   const { randomWord, handleNewWord } = useContext(GameContext);
-  console.log(randomWord);
 
   const handleNewWordInstance = (word: string) => {
     word = word.trim();
@@ -84,7 +83,6 @@ export const KeyGrid = () => {
   }, [randomWord]);
 
   const handleIsCorrectKey = (label: string) => {
-    console.log(label, randomWord.trim().split("")[0]);
     if (label == randomWord.trim().split("")[index]) {
       let worddictemp = dict;
       setlettersCorrect((pres) => pres + 1);
@@ -97,6 +95,13 @@ export const KeyGrid = () => {
       return true;
     }
     return false;
+  };
+
+  const callbackFINISHGAME = () => {
+    console.log((lettersCorrect / initialTime) * 60);
+    setlettersCorrect(0);
+    setStarted(false);
+    resetBoard();
   };
 
   const isWordFinsihed = () => {
@@ -130,7 +135,12 @@ export const KeyGrid = () => {
           <button className="h-full p-4 px-8 text-white outline outline-1">abort</button>
         </div>
         <div className="flex flex-col gap-1">
-          <Timer initialTime={30} />
+          <Timer
+            key={hasStarted ? "HELP" : "ME"}
+            initialTime={initialTime}
+            callback={() => callbackFINISHGAME()}
+            hasGameStart={hasStarted}
+          />
           <h1 className="w-min whitespace-nowrap rounded-xl bg-black p-2 px-8">
             Letters elapsed: {lettersCorrect}
           </h1>
@@ -153,7 +163,6 @@ export const KeyGrid = () => {
           }}
         >
           {currKeyArr.map((keyi, i) => {
-            console.log(keyi, i);
             if (index > i) return;
             const topchaos = gridsize + (Math.random() - 0.5) * chaos;
             const leftchaos = gridsize + (Math.random() - 0.5) * chaos;
@@ -178,8 +187,8 @@ export const KeyGrid = () => {
             <div
               className="absolute grid h-full w-full place-items-center bg-teal-950"
               onClick={() => {
-                handleNewWord();
                 setStarted(true);
+                handleNewWord();
               }}
             >
               Start test
