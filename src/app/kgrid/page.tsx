@@ -1,5 +1,5 @@
 'use client'
-export const runtime = 'edge'
+const runtime = 'edge'
 import { KeyGrid } from '@/components/KeyGrid'
 import { useMediaQuery } from '@/hooks/useMediaQuery'
 import {
@@ -91,8 +91,9 @@ type idfk = {
 export const GameContext = createContext<idfk>({} as idfk)
 
 export default function kgrid() {
-  const isMinWidth = useMediaQuery('(min-width:900px)')
-  const isMinHeight = useMediaQuery('(min-height:720px)')
+  // 1366x768
+  const isMinWidth = useMediaQuery('(min-width:1200px)')
+  const isMinHeight = useMediaQuery('(min-height:800px)')
 
   const [words, setWords] = useState<string[]>([])
   const [randomWord, setRandomWord] = useState<string>('')
@@ -137,7 +138,7 @@ export default function kgrid() {
   if (!isMinWidth || !isMinHeight) {
     return (
       <div className="absolute left-0 top-0 z-50 grid h-dvh w-dvw select-none place-items-center bg-teal-950">
-        <p>You need a screen size of at least 1200x720</p>
+        <p>You need a screen size of at least 1200x800</p>
         <div>
           {!isMinWidth && <p>screen width is too small</p>}
           {!isMinHeight && <p>screen height is too small</p>}
@@ -147,10 +148,8 @@ export default function kgrid() {
   }
 
   return (
-    <div className="h-100dvh w-100dvw relative overflow-hidden">
-      <GameContext.Provider value={{ randomWord, handleNewWord, isloading }}>
-        <KeyGrid />
-      </GameContext.Provider>
-    </div>
+    <GameContext.Provider value={{ randomWord, handleNewWord, isloading }}>
+      <KeyGrid />
+    </GameContext.Provider>
   )
 }

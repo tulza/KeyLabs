@@ -5,7 +5,6 @@ import { KeyboardKey } from "./VirtualKeyboard";
 import { GameContext } from "@/app/kgrid/page";
 import { motion } from "framer-motion";
 import Timer from "./Timer";
-import Leaderboard from "./component/leaderboard";
 export const KeyGrid = () => {
   const padding = 64;
   const hort = 12;
@@ -28,6 +27,7 @@ export const KeyGrid = () => {
   const [totalClick, setTotalClick] = useState(0);
   const [numwords, setnumWord] = useState(0);
   const [lettersCorrect, setlettersCorrect] = useState(0);
+  const [prevsGameScore, setpresgamescore] = useState(0);
   type alphdict = {
     [key: string]: number;
   };
@@ -107,9 +107,9 @@ export const KeyGrid = () => {
 
   const callbackFINISHGAME = () => {
     const wpm = ((numwords / initialTime) * 60).toFixed(2); //TODO
-    const acc = ((lettersCorrect / totalClick) * 100).toFixed(2);
     const lpm = ((lettersCorrect / initialTime) * 60).toFixed(2);
     const time = initialTime;
+    const acc = ((lettersCorrect / totalClick) * 100).toFixed(2);
 
     addGame(parseFloat(lpm), parseFloat(wpm), parseFloat(acc));
     setDisplay("WPM: " + wpm + " LPM: " + lpm + " Time: " + time + " Accuracy: " + acc + "%");
@@ -187,16 +187,9 @@ export const KeyGrid = () => {
           </h1>
         </div>
       </div>
-      {/* BOTTOM */}
-      {prevsGameDisplay && (
-        <div className="absolute bottom-2 left-[50%] flex -translate-x-[50%] flex-col gap-4 rounded-xl bg-black/70 p-4">
-          <button className="h-full p-4 px-8 text-white outline outline-1">
-            {prevsGameDisplay}
-          </button>
-        </div>
-      )}
-      {/* LEADERBOARD */}
-      <div className="absolute right-2 top-[50%] flex -translate-y-[50%] flex-col gap-4 rounded-xl p-4"></div>
+      <div className="absolute bottom-2 left-[50%] flex -translate-x-[50%] flex-col gap-4 rounded-xl bg-black/70 p-4">
+        <button className="h-full p-4 px-8 text-white outline outline-1">{prevsGameDisplay}</button>
+      </div>
       <motion.div key={randomWord} className="select-none text-5xl font-bold" layout="position">
         {hasStarted && (
           <>

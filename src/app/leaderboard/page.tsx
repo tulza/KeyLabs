@@ -1,6 +1,5 @@
 'use client'
-
-export const runtime = 'edge'
+const runtime = 'edge'
 import { useEffect, useState } from 'react'
 import {
   Card,
