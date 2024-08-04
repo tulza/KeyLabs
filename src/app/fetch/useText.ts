@@ -1,16 +1,18 @@
-import { useQuery } from "@tanstack/react-query";
+export const runtime = 'edge'
+
+import { useQuery } from '@tanstack/react-query'
 
 const fetchText = async (): Promise<string> => {
   const response = await fetch(`/1000-most-common-words.txt`, {
-    cache: "no-store",
-  });
-  return response.json();
-};
+    cache: 'no-store',
+  })
+  return response.json()
+}
 
 export const useText = () => {
   const query = useQuery({
-    queryKey: ["text"],
+    queryKey: ['text'],
     queryFn: fetchText,
-  });
-  return query;
-};
+  })
+  return query
+}
