@@ -1,12 +1,12 @@
-import { useEffect, useState } from "react";
+import { useEffect, useLayoutEffect, useState } from "react";
 
 export const useMediaQuery = (query?: string) => {
-  const [matches, setMatches] = useState(false);
+  const [matches, setMatches] = useState(true);
   const onResize = () => {
     const media = window.matchMedia(`${query}`);
     setMatches(media.matches);
   };
-  useEffect(() => {
+  useLayoutEffect(() => {
     onResize();
     addEventListener("resize", () => {
       onResize();
