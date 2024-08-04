@@ -20,7 +20,6 @@ import { Header } from '../../components/HomePage/Header'
 export default function HomePage() {
   const [showSignIn, setShowSignIn] = useState(true)
   const [name, setName] = useState('')
-  const [password, setPassword] = useState('')
   const [error, setError] = useState('')
   const router = useRouter()
 
@@ -32,7 +31,7 @@ export default function HomePage() {
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ name, password }),
+        body: JSON.stringify({ name }),
       })
       const data = await response.json()
 
@@ -47,34 +46,6 @@ export default function HomePage() {
     } catch (error) {
       setError('Error during sign in')
       console.error('Error during sign in:', error)
-    }
-  }
-
-  const handleCreateAccountSubmit = async (
-    e: React.FormEvent<HTMLButtonElement>
-  ) => {
-    e.preventDefault()
-    try {
-      const response = await fetch('/api/create-account', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ name, password }),
-      })
-      const data = await response.json()
-      console.log('Create Account Response:', data)
-
-      if (response.ok) {
-        localStorage.setItem('playerName', name)
-        router.push('/') // Redirect to home page
-      } else {
-        setError(data.error || 'Account creation failed')
-        console.error(data.error || 'Account creation failed')
-      }
-    } catch (error) {
-      setError('Error during account creation')
-      console.error('Error during account creation:', error)
     }
   }
 
@@ -135,121 +106,49 @@ export default function HomePage() {
                 className="flex flex-col items-start space-y-4"
               >
                 <AnimatePresence mode="wait">
-                  {showSignIn ? (
-                    <motion.div
-                      initial={{ opacity: 0, x: 100 }}
-                      animate={{ opacity: 1, x: 0 }}
-                      exit={{ opacity: 0, x: 100 }}
-                      transition={{ duration: 1, ease: [0.5, 1, 0.89, 1] }}
-                      className="w-full max-w-[400px] sm:max-w-[450px]"
+                  <motion.div
+                    initial={{ opacity: 0, x: 100 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    exit={{ opacity: 0, x: 100 }}
+                    transition={{ duration: 1, ease: [0.5, 1, 0.89, 1] }}
+                    className="w-full max-w-[400px] sm:max-w-[450px]"
+                  >
+                    <Card
+                      className={`border ${error ? 'border-red-500' : 'border-gray-300'}`}
                     >
-                      <Card
-                        className={`border ${error ? 'border-red-500' : 'border-gray-300'}`}
-                      >
-                        <CardHeader className="space-y-1">
-                          <CardTitle className="text-2xl">Sign In</CardTitle>
-                          <CardDescription>
-                            Enter your credentials to access your account.
-                          </CardDescription>
-                        </CardHeader>
-                        <CardContent className="grid gap-4">
-                          <div className="grid gap-2">
-                            <Label htmlFor="name">Name</Label>
-                            <Input
-                              className="text-black"
-                              id="name"
-                              type="text"
-                              placeholder="John Doe"
-                              value={name}
-                              onChange={(e) => setName(e.target.value)}
-                            />
-                          </div>
-                          <div className="grid gap-2">
-                            <Label htmlFor="password">Password</Label>
-                            <Input
-                              className="text-black"
-                              id="password"
-                              type="password"
-                              value={password}
-                              onChange={(e) => setPassword(e.target.value)}
-                            />
-                          </div>
-                        </CardContent>
-                        {error && (
-                          <div className="p-4 text-red-500">{error}</div>
-                        )}
-                        <CardFooter className="flex items-center justify-between">
-                          <Button onClick={() => setShowSignIn(!showSignIn)}>
-                            {showSignIn ? 'Create Account' : 'Sign In'}
-                          </Button>
-                          <Button
-                            className="w-[150px]"
-                            onClick={handleSignInSubmit}
-                          >
-                            Sign In
-                          </Button>
-                        </CardFooter>
-                      </Card>
-                    </motion.div>
-                  ) : (
-                    <motion.div
-                      className="w-full max-w-[400px] sm:max-w-[450px]"
-                      initial={{ opacity: 0, x: 100 }}
-                      animate={{ opacity: 1, x: 0 }}
-                      exit={{ opacity: 0, x: 100 }}
-                      transition={{ duration: 1, ease: [0.5, 1, 0.89, 1] }}
-                    >
-                      <Card
-                        className={`border ${error ? 'border-red-500' : 'border-gray-300'}`}
-                      >
-                        <CardHeader className="space-y-1">
-                          <CardTitle className="text-2xl">
-                            Create an Account
-                          </CardTitle>
-                          <CardDescription>
-                            Enter your details to get started.
-                          </CardDescription>
-                        </CardHeader>
-                        <CardContent className="grid gap-4">
-                          <div className="grid gap-2">
-                            <Label htmlFor="name">Name</Label>
-                            <Input
-                              className="text-black"
-                              id="name"
-                              type="text"
-                              placeholder="John Doe"
-                              value={name}
-                              onChange={(e) => setName(e.target.value)}
-                            />
-                          </div>
-                          <div className="grid gap-2">
-                            <Label htmlFor="password">Password</Label>
-                            <Input
-                              className="text-black"
-                              id="password"
-                              type="password"
-                              value={password}
-                              onChange={(e) => setPassword(e.target.value)}
-                            />
-                          </div>
-                        </CardContent>
-                        {error && (
-                          <div className="p-4 text-red-500">{error}</div>
-                        )}
-                        <CardFooter className="flex items-center justify-between">
-                          <Button onClick={() => setShowSignIn(!showSignIn)}>
-                            {showSignIn ? 'Create Account' : 'Sign In'}
-                          </Button>
-                          <Button
-                            className="w-[150px]"
-                            onClick={handleCreateAccountSubmit}
-                          >
-                            Create Account
-                          </Button>
-                        </CardFooter>
-                      </Card>
-                    </motion.div>
-                  )}
+                      <CardHeader className="space-y-1">
+                        <CardTitle className="text-2xl">Sign In</CardTitle>
+                        <CardDescription>
+                          Enter your credentials to access your account.
+                        </CardDescription>
+                      </CardHeader>
+                      <CardContent className="grid gap-4">
+                        <div className="grid gap-2">
+                          <Label htmlFor="name">Name</Label>
+                          <Input
+                            className="text-black"
+                            id="name"
+                            type="text"
+                            placeholder="John Doe"
+                            value={name}
+                            onChange={(e) => setName(e.target.value)}
+                          />
+                        </div>
+                      </CardContent>
+                      {error && <div className="p-4 text-red-500">{error}</div>}
+                      <CardFooter className="flex items-center justify-end">
+                        <motion.button
+                          initial={{ scale: 1 }}
+                          whileHover={{ scale: 1.1 }}
+                          className="w-[150px]"
+                          onClick={handleSignInSubmit}
+                        >
+                          Sign In
+                        </motion.button>
+                      </CardFooter>
+                    </Card>
+                  </motion.div>
+                  )
                 </AnimatePresence>
               </motion.div>
             </div>

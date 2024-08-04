@@ -5,13 +5,13 @@ const prisma = new PrismaClient()
 
 export async function POST(request: Request) {
   try {
-    const { playerId, time, lettersPerSecond, wordsPerMinute, accuracy } =
+    const { playerId, time, lettersPerMinute, wordsPerMinute, accuracy } =
       await request.json()
 
     if (
       !playerId ||
       !time ||
-      !lettersPerSecond ||
+      !lettersPerMinute ||
       !wordsPerMinute ||
       !accuracy
     ) {
@@ -33,7 +33,7 @@ export async function POST(request: Request) {
       data: {
         playerId: player.id,
         time,
-        lettersPerSecond,
+        lettersPerMinute,
         wordsPerMinute,
         accuracy,
       },

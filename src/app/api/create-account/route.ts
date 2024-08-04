@@ -6,13 +6,10 @@ const prisma = new PrismaClient()
 
 export async function POST(request: Request) {
   try {
-    const { name, password } = await request.json()
+    const { name } = await request.json()
 
-    if (!name || !password) {
-      return NextResponse.json(
-        { error: 'Name and password are required.' },
-        { status: 400 }
-      )
+    if (!name) {
+      return NextResponse.json({ error: 'Name is required.' }, { status: 400 })
     }
 
     // Check if the player already exists
@@ -27,13 +24,9 @@ export async function POST(request: Request) {
       )
     }
 
-    // Hash the password
-    const hashedPassword = await bcrypt.hash(password, 10)
-
     const newPlayer = await prisma.player.create({
       data: {
         name,
-        password: hashedPassword,
       },
     })
 
