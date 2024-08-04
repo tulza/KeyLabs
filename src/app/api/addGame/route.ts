@@ -1,20 +1,25 @@
 import { NextResponse } from 'next/server'
 import { PrismaClient } from '@prisma/client'
+import { cookies } from 'next/headers'
 
 const prisma = new PrismaClient()
 
 export async function POST(request: Request) {
   try {
-    const { playerId, time, lettersPerMinute, wordsPerMinute, accuracy } =
+    const playerIdCookie = cookies().get('playerId')
+    if (!playerIdCookie) {
+      return NextResponse.json(
+        { error: 'Player not logged in.' },
+        { status: 401 }
+      )
+    }
+
+    const playerId = parseInt(playerIdCookie.value, 10)
+
+    const { time, lettersPerMinute, wordsPerMinute, accuracy } =
       await request.json()
 
-    if (
-      !playerId ||
-      !time ||
-      !lettersPerMinute ||
-      !wordsPerMinute ||
-      !accuracy
-    ) {
+    if (!time || !lettersPerMinute || !wordsPerMinute || !accuracy) {
       return NextResponse.json(
         { error: 'All fields are required.' },
         { status: 400 }
@@ -22,7 +27,7 @@ export async function POST(request: Request) {
     }
 
     const player = await prisma.player.findUnique({
-      where: { id: parseInt(playerId, 10) },
+      where: { id: playerId },
     })
 
     if (!player) {
