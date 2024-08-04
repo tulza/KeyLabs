@@ -1,5 +1,3 @@
-export const runtime = 'edge'
-
 import { useQuery } from '@tanstack/react-query'
 
 const fetchText = async (): Promise<string> => {
