@@ -1,0 +1,17 @@
+import type { Meta, StoryObj } from "@storybook/nextjs-vite";
+import { _ } from "./";
+
+const meta = {
+	title: "",
+	component: _,
+	parameters: {
+		layout: "fullscreen",
+	},
+} satisfies Meta<typeof _>;
+
+export default meta;
+type Story = StoryObj<typeof meta>;
+
+export const Primary: Story = {
+	args: {},
+};
