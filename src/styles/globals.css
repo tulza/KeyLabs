@@ -1,7 +1,8 @@
+@import "./color.css";
+@import "./font";
 @import "tailwindcss";
 @import "tw-animate-css";
 @import "shadcn/tailwind.css";
-
 @custom-variant dark (&:is(.dark *));
 
 :root {
@@ -74,7 +75,7 @@
 }
 
 @theme inline {
-	--font-sans: var(--font-sans);
+	--font-sans: "ABC Diatype", sans-serif;
 	--font-heading: var(--font-heading);
 	--color-sidebar-ring: var(--sidebar-ring);
 	--color-sidebar-border: var(--sidebar-border);

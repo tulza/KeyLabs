@@ -1,0 +1,85 @@
+:root {
+	--hue: 0;
+	--sat: 100;
+	--light: 100;
+	--alpha: 1;
+}
+
+.hsl-square {
+	--hue: 350;
+
+	background:
+		linear-gradient(to top, black, transparent),
+		linear-gradient(to right, white, transparent),
+		hsl(var(--hue), 100%, 50%);
+}
+
+.saturation-gradient {
+	background: linear-gradient(
+		to right,
+		hsl(var(--hue) 0% calc(var(--light) * 1%) / var(--alpha)),
+		hsl(var(--hue) 50% calc(var(--light) * 1%) / var(--alpha)),
+		hsl(var(--hue) 100% calc(var(--light) * 1%) / var(--alpha))
+	);
+}
+
+.lightness-gradient {
+	background: linear-gradient(
+		to right,
+		hsl(var(--hue) calc(var(--sat) * 1%) 0% / var(--alpha)),
+		hsl(var(--hue) calc(var(--sat) * 1%) 50% / var(--alpha)),
+		hsl(var(--hue) calc(var(--sat) * 1%) 100% / var(--alpha))
+	);
+}
+
+.whiteness-gradient {
+	background: linear-gradient(
+		to right,
+		hwb(var(--hue) 0% calc(var(--blackness) * 1%) / var(--alpha)),
+		hwb(var(--hue) 50% calc(var(--blackness) * 1%) / var(--alpha)),
+		hwb(var(--hue) 100% calc(var(--blackness) * 1%) / var(--alpha))
+	);
+}
+
+.blackness-gradient {
+	background: linear-gradient(
+		to right,
+		hwb(var(--hue) calc(var(--whiteness) * 1%) 0% / var(--alpha)),
+		hwb(var(--hue) calc(var(--whiteness) * 1%) 50% / var(--alpha)),
+		hwb(var(--hue) calc(var(--whiteness) * 1%) 100% / var(--alpha))
+	);
+}
+
+.red-gradient {
+	background: linear-gradient(
+		to right,
+		rgb(0% var(--greenness) var(--blueness) / var(--alpha)),
+		rgb(50% var(--greenness) var(--blueness) / var(--alpha)),
+		rgb(100% var(--greenness) var(--blueness) / var(--alpha))
+	);
+}
+.green-gradient {
+	background: linear-gradient(
+		to right,
+		rgb(var(--redness) 0% var(--blueness) / var(--alpha)),
+		rgb(var(--redness) 50% var(--blueness) / var(--alpha)),
+		rgb(var(--redness) 100% var(--blueness) / var(--alpha))
+	);
+}
+.blue-gradient {
+	background: linear-gradient(
+		to right,
+		rgb(var(--redness) var(--greenness) 0% / var(--alpha)),
+		rgb(var(--redness) var(--greenness) 50% / var(--alpha)),
+		rgb(var(--redness) var(--greenness) 100% / var(--alpha))
+	);
+}
+
+.alpha-gradient {
+	background: linear-gradient(
+		to right,
+		hsl(var(--hue) calc(var(--sat) * 1%) calc(var(--light) * 1%) / 0),
+		hsl(var(--hue) calc(var(--sat) * 1%) calc(var(--light) * 1%) / 0.5),
+		hsl(var(--hue) calc(var(--sat) * 1%) calc(var(--light) * 1%) / 1)
+	);
+}
