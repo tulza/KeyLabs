@@ -1,6 +1,6 @@
-import HSLRanges from "./modes/HSLRanges";
-import HWBRanges from "./modes/HWBRanges";
-import RGBRanges from "./modes/RGBRanges";
+import HSLRanges from "./modes/HSL-ranges";
+import HWBRanges from "./modes/HWB-ranges";
+import RGBRanges from "./modes/RGB-ranges";
 
 export const ColorModes = ({ mode }: { mode: string }) => {
 	if (mode === "hsl") return <HSLRanges />;

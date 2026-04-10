@@ -1,0 +1,5 @@
+ .no-background {
+    background: url("./background/no-background.png");
+    background-size: 16px 16px;
+    background-repeat: repeat;
+  }

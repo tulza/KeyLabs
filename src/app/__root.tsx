@@ -4,6 +4,7 @@ import {
 	Outlet,
 	Scripts,
 } from "@tanstack/react-router";
+import { NuqsAdapter } from "nuqs/adapters/react";
 import appCss from "../styles/globals.css?url";
 
 export const Route = createRootRoute({
@@ -33,14 +34,16 @@ export const Route = createRootRoute({
 
 function RootLayout() {
 	return (
-		<html lang="en">
-			<head>
-				<HeadContent />
-			</head>
-			<body className="min-h-dvh antialiased">
-				<Outlet />
-				<Scripts />
-			</body>
-		</html>
+		<NuqsAdapter>
+			<html lang="en">
+				<head>
+					<HeadContent />
+				</head>
+				<body className="min-h-dvh antialiased">
+					<Outlet />
+					<Scripts />
+				</body>
+			</html>
+		</NuqsAdapter>
 	);
 }

@@ -5,6 +5,25 @@
 	--alpha: 1;
 }
 
+.hue-gradient {
+	background: linear-gradient(
+		90deg,
+		#ff0000 0%,
+		#ff8000 8.33%,
+		#ffff00 16.67%,
+		#80ff00 25%,
+		#00ff00 33.33%,
+		#00ff80 41.67%,
+		#00ffff 50%,
+		#0080ff 58.33%,
+		#0000ff 66.67%,
+		#8000ff 75%,
+		#ff00ff 83.33%,
+		#ff0080 91.67%,
+		#ff0000 100%
+	);
+}
+
 .hsl-square {
 	--hue: 350;
 
