@@ -1,24 +1,25 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { SocialLoginButtons } from "@/components/auth/social-login-buttons";
+import { Image } from "@unpic/react";
 import { PageContainer } from "@/components/container/PageContainer";
-import { Section } from "@/components/container/section";
-import { Text } from "@/components/typography/text";
-
+import { GameBoard } from "./_components/game-board";
+import { GameOptionsSelector } from "./_components/gamemode-select";
+import { NavigationBar } from "./_components/navigation-bar";
 export const Route = createFileRoute("/")({
 	component: Home,
 });
 
 function Home() {
 	return (
-		<PageContainer className="flex-row">
-			<Section className="max-h-dvh min-h-dvh w-160 bg-black/20" />
-			<Section className="max-h-dvh min-h-dvh">
-				<div className="flex flex-col items-center gap-3">
-					<h3 className="font-serif text-3xl">Log in to Keylabs</h3>
-					<Text>Connect to Keylabs with:</Text>
-				</div>
-				<SocialLoginButtons />
-			</Section>
+		<PageContainer className="overflow-hidden">
+			<Image
+				className="-z-10 pointer-events-none absolute top-0 left-0 size-[150%] object-cover object-bottom"
+				src="show.png"
+				layout="fullWidth"
+				height={800}
+			/>
+			<NavigationBar />
+			<GameBoard />
+			<GameOptionsSelector />
 		</PageContainer>
 	);
 }

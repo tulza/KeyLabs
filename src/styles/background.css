@@ -1,5 +1,11 @@
- .no-background {
-    background: url("./background/no-background.png");
-    background-size: 16px 16px;
-    background-repeat: repeat;
-  }
+.no-background {
+	background: url("./background/no-background.png");
+	background-size: 16px 16px;
+	background-repeat: repeat;
+}
+
+.grid-100 {
+	mask-image: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAGQAAABkCAYAAABw4pVUAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAOdEVYdFNvZnR3YXJlAEZpZ21hnrGWYwAAAGlJREFUeAHt18EJACAMBMFo/z3rxwoE5QIzYAGyBJIqAAAAAAAAAAAAAAAAAAAAACDYOq+9WUQRJIwgYQQJI0iYUb3cblJt/mlCeMIdwhuChBEkjCBhBAEAAAAAAAAAAAAAAAAAAAAAftiVsQUU5Y0GKgAAAABJRU5ErkJggg==");
+	mask-size: 60px;
+	mask-position: center;
+}
