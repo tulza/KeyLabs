@@ -1,5 +1,5 @@
 import type { NextFontWithVariable } from "next/dist/compiled/@next/font";
-import { cn } from "./utils";
+import { cn } from "../utils";
 
 export type FontsRecord = Record<
 	"variables" | "classNames",

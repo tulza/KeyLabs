@@ -1,8 +1,8 @@
 import { createFileRoute } from "@tanstack/react-router";
+import { SocialLoginButtons } from "@/components/auth/social-login-buttons";
 import { PageContainer } from "@/components/container/PageContainer";
 import { Section } from "@/components/container/section";
-import ColorModes from "./color/components/ui/picker";
-import { ColorProvider } from "./color/components/ui/provider/color-provider";
+import { Text } from "@/components/typography/text";
 
 export const Route = createFileRoute("/")({
 	component: Home,
@@ -10,17 +10,15 @@ export const Route = createFileRoute("/")({
 
 function Home() {
 	return (
-		<ColorProvider>
-			<PageContainer>
-				<Section>
-					<div className="flex w-200 gap-3">
-						<div className="hsl-square -p-px m-px aspect-square min-w-52 outline outline-zinc-300" />
-						<div className="flex w-full flex-col gap-4">
-							<ColorModes mode="hsl" />
-						</div>
-					</div>
-				</Section>
-			</PageContainer>
-		</ColorProvider>
+		<PageContainer className="flex-row">
+			<Section className="max-h-dvh min-h-dvh w-160 bg-black/20" />
+			<Section className="max-h-dvh min-h-dvh">
+				<div className="flex flex-col items-center gap-3">
+					<h3 className="font-serif text-3xl">Log in to Keylabs</h3>
+					<Text>Connect to Keylabs with:</Text>
+				</div>
+				<SocialLoginButtons />
+			</Section>
+		</PageContainer>
 	);
 }

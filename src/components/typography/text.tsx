@@ -5,18 +5,18 @@ import {
 	PropsWithChildren,
 } from "react";
 import { tv, VariantProps } from "tailwind-variants";
-import { cn } from "@/libs/utils/className";
+import { cn } from "@/lib/utils";
 
 const typography = tv({
-	base: "text-pretty text-muted",
+	base: "text-pretty",
 	variants: {
 		inline: {
 			true: "inline whitespace-pre-wrap",
 		},
 		size: {
-			large: "desktop:text-lg text-base",
-			base: "desktop:text-base text-xs",
-			small: "desktop:text-sm text-xs",
+			large: "text-lg",
+			base: "text-base",
+			small: "text-sm",
 		},
 		align: {
 			center: "inline-block items-center text-center",
@@ -37,7 +37,7 @@ interface TypographyProps
 	align?: TypographyVariants["align"];
 }
 
-export const Paragraph = (props: TypographyProps) => {
+export const Text = (props: TypographyProps) => {
 	const { children, as = "p", size, inline, align, ...rest } = props;
 
 	return createElement(
