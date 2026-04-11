@@ -3,7 +3,13 @@
 import { Link } from "@tanstack/react-router";
 import { ComponentProps } from "react";
 import { UserAvatar } from "@/components/avatar/avatar";
-import { CrownIcon, CursorIcon, GearIcon, InfoIcon } from "@/components/icon";
+import {
+	CrownIcon,
+	CursorIcon,
+	GearIcon,
+	InfoIcon,
+	ThemeIcon,
+} from "@/components/icon";
 import { Button } from "@/components/ui/button";
 import {
 	Tooltip,
@@ -20,8 +26,9 @@ type NavItem = {
 
 const navItems: NavItem[] = [
 	{ to: "/leaderboard", icon: CrownIcon, hint: "Leaderboard" },
-	{ to: "/settings", icon: GearIcon, hint: "Settings" },
 	{ to: "/info", icon: InfoIcon, hint: "Info" },
+	{ to: "/theme", icon: ThemeIcon, hint: "Theme" },
+	{ to: "/settings", icon: GearIcon, hint: "Settings" },
 ];
 
 const IconButton = ({
@@ -56,13 +63,13 @@ const IconButton = ({
 
 export const NavigationBar = () => (
 	<div className="flex w-full justify-center">
-		<div className="absolute top-8 flex w-200 justify-between">
-			<Link to="/" className="flex select-none items-center gap-3">
+		<div className="absolute top-8 flex w-225 justify-between">
+			<button className="flex w-min select-none items-center gap-3">
 				<IconButton icon={CursorIcon} className="pointer-events-none" />
 				<h1 className="font-serif text-3xl text-icon italic">
 					Keylabs
 				</h1>
-			</Link>
+			</button>
 			<TooltipProvider>
 				<div className="flex gap-3">
 					{navItems.map((item) => (

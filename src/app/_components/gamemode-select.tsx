@@ -40,7 +40,7 @@ export const GameOptionsSelector = () => {
 						<Button
 							key={`mode-${value}`}
 							variant={mode === value ? "secondary" : "outline"}
-							className={`rounded border-2 text-sm`}
+							className={`tabular rounded border-2`}
 							size="lg"
 							onClick={() => handleModeChange(value)}
 						>
@@ -57,7 +57,7 @@ export const GameOptionsSelector = () => {
 						<Button
 							key={`${mode}-${value}`}
 							variant={amount === value ? "secondary" : "outline"}
-							className={`rounded border-2 text-sm`}
+							className={`tabular rounded border-2 font-mono font-normal`}
 							size="lg"
 							onClick={() => setAmount(value)}
 						>

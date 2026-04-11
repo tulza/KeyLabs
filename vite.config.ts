@@ -8,7 +8,7 @@ import { defineConfig } from "vite";
 
 export default defineConfig({
 	server: {
-		port: 3000,
+		port: 4000,
 	},
 	resolve: {
 		tsconfigPaths: true,
@@ -20,7 +20,7 @@ export default defineConfig({
 			router: {
 				// Specifies the directory TanStack Router uses for your routes.
 				routesDirectory: "app", // Defaults to "routes", relative to srcDirectory
-				routeFileIgnorePattern: "_components",
+				routeFileIgnorePattern: "(_components|_services|_data)",
 			},
 		}),
 		viteReact(),

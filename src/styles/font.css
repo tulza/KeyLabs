@@ -5,19 +5,3 @@
     font-style: normal;
     font-display: swap;
 }
-
-@font-face {
-    font-family: "Helvetica";
-    src: url("./fonts/Helvetica.woff") format("woff");
-    font-weight: 400;
-    font-style: normal;
-    font-display: swap;
-}
-
-@font-face {
-    font-family: "Helvetica";
-    src: url("./fonts/Helvetica-Oblique.woff") format("woff");
-    font-weight: 400;
-    font-style: oblique;
-    font-display: swap;
-}

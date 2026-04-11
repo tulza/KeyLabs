@@ -8,7 +8,7 @@ export const GameContainer = ({
 	return (
 		<div className="flex w-full justify-center">
 			<div
-				className={cn("absolute flex w-200 justify-between", className)}
+				className={cn("absolute flex w-225 justify-between", className)}
 			>
 				{children}
 			</div>
