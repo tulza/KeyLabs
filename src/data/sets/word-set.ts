@@ -2,8 +2,11 @@ import { WordSet } from "@/lib/game/enum";
 
 export type WordSetData = {
 	name: string;
+	description?: string;
 	words: string[];
 };
+
+export type WordSetMeta = Pick<WordSetData, "name" | "description">;
 
 const modules = import.meta.glob<{ default: WordSetData }>("./*.json", {
 	eager: true,
@@ -15,6 +18,11 @@ const sets = Object.fromEntries(
 		return [name, module.default];
 	}),
 ) as Record<WordSet, WordSetData>;
+
+export const setMeta = Object.entries(sets).map(
+	([_, { name, description }]) =>
+		({ name, description }) satisfies WordSetMeta,
+) as WordSetMeta[];
 
 export const getWordSet = (setName: WordSet): WordSetData => {
 	return sets[setName] ?? sets[WordSet.english];

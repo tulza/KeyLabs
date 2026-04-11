@@ -1,6 +1,6 @@
 import { VariantProps } from "class-variance-authority";
 import { PropsWithChildren, useEffect, useRef, useState } from "react";
-import { CursorIcon, GlobeIcon, ResetIcon } from "@/components/icon";
+import { CursorIcon, ResetIcon } from "@/components/icon";
 import { PieTimer } from "@/components/icon/pie";
 import { Button, buttonVariants } from "@/components/ui/button";
 import {
@@ -9,25 +9,18 @@ import {
 	TooltipProvider,
 	TooltipTrigger,
 } from "@/components/ui/tooltip";
-import { WordSet } from "@/lib/game/enum";
-import { screen } from "@/lib/game/screen";
+import { screen } from "@/lib/game/config";
+import { useWordIndex } from "@/lib/game/store/game";
+import {
+	usePreGameConfig,
+	usePreGameWordList,
+} from "@/lib/game/store/pre-game";
 import { Point } from "@/lib/game/types";
-import { generateCircleLocation } from "@/lib/game/utils";
-import { useWordSet } from "@/lib/query/use-word-set";
 import { cn } from "@/lib/utils";
-
-const testWord = "matcha";
+import { DrawerWithSides } from "./wordSetDrawer";
 
 export const GameBoard = () => {
 	const [stack, setStack] = useState<Point[]>([]);
-
-	const { data } = useWordSet(WordSet.english);
-
-	console.log(data);
-
-	useEffect(() => {
-		setStack(generateCircleLocation(testWord, 64, screen));
-	}, []);
 
 	return (
 		<div className="flex size-full grow items-center justify-center">
@@ -39,10 +32,12 @@ export const GameBoard = () => {
 						<HitCircle key={point.id} point={point} />
 					))}
 				</Screen>
-				<div className="w-225">
-					<NotButton icon={GlobeIcon} variant="secondary" size="lg">
+				<div className="flex w-225 items-center justify-center">
+					<DrawerWithSides />
+					{/* <Button variant="secondary" size="lg">
+						<GlobeIcon />
 						English 5k
-					</NotButton>
+					</Button> */}
 				</div>
 			</div>
 		</div>
@@ -143,39 +138,34 @@ export const GameBar = () => {
 	);
 };
 
-const testWordList = ["matcha", "cafe", "matcha", "cafe", "matcha"];
-
 export const WordBar = () => {
 	const refs = useRef<HTMLDivElement[]>([]);
-	const [currentIndex, setCurrentIndex] = useState(0);
 	const [offset, setOffset] = useState(0);
 
+	const { wordSet } = usePreGameConfig();
+
+	const wordList = usePreGameWordList();
+	const { charIndex, wordIndex } = useWordIndex();
+
 	useEffect(() => {
-		const ref = refs.current[currentIndex];
+		const ref = refs.current[wordIndex];
 		if (!ref) return;
 		const totalOffset = refs.current
-			.slice(0, currentIndex + 1)
+			.slice(0, wordIndex + 1)
 			.reduce((acc, el) => acc + el.getBoundingClientRect().width, 0);
 		setOffset(totalOffset - ref.getBoundingClientRect().width / 2);
-	}, [currentIndex]);
-
-	useEffect(() => {
-		const interval = setInterval(() => {
-			setCurrentIndex((prev) => (prev + 1) % testWordList.length);
-		}, 10000);
-		return () => clearInterval(interval);
-	}, []);
+	}, [wordIndex, wordSet]);
 
 	return (
-		<div className="relative flex h-10 w-full select-none overflow-hidden rounded border-2 border-secondary bg-muted">
+		<div className="relative flex h-10 w-full select-none overflow-hidden rounded border-2 border-secondary bg-muted shadow-inner shadow-secondary">
 			<div className="-translate-x-1/2 absolute bottom-0 left-1/2 z-50 translate-y-1 text-[8px]">
 				▲
 			</div>
 			<div
-				className="absolute top-0 left-1/2 flex h-full w-min first:border-l"
+				className="absolute top-0 left-1/2 flex h-full w-min"
 				style={{ transform: `translateX(-${offset}px)` }}
 			>
-				{testWordList.map((word, i) => (
+				{wordList.words.map((word, i) => (
 					<div
 						key={`${i}/${word}`}
 						ref={(el) => {
@@ -183,8 +173,8 @@ export const WordBar = () => {
 							refs.current[i] = el;
 						}}
 						className={cn(
-							"flex h-full items-center gap-3 border-secondary border-r px-3 font-mono font-normal text-icon",
-							i > currentIndex && "text-secondary",
+							"last-border-r flex h-full items-center gap-3 border-secondary border-r bg-muted px-3 font-mono font-normal text-icon first:border-l",
+							i > wordIndex && "text-secondary",
 						)}
 					>
 						{word}

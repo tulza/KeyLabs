@@ -1,9 +1,9 @@
 import { shuffle } from "radash";
 import { getWordSet, WordSetData } from "@/data/sets/word-set";
-import { WordSet } from "./enum";
+import { GameConfig } from "./types";
 
-export const generateWords = (setName: WordSet): WordSetData => {
-	const wordSet = getWordSet(setName);
+export const generateWordList = (config: GameConfig): WordSetData => {
+	const wordSet = getWordSet(config.wordSet);
 	const words = shuffle(wordSet.words);
 
 	return { name: wordSet.name, words };

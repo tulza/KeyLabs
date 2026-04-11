@@ -1,3 +1,4 @@
+import { WordSetData } from "@/data/sets/word-set";
 import { Mode, Theme, WordSet } from "@/lib/game/enum";
 
 export type Screen = { width: number; height: number };
@@ -19,24 +20,36 @@ export type GameConfig = {
 
 export type PreGameConfig = {
 	config: GameConfig;
-	meta?: {
-		fun?: never[];
-		theme?: Theme;
-	};
+	meta?: MetaData;
 };
 
-export type EndGameConfig = {
+export type GameStateData = {
 	config: GameConfig;
-	result: {
-		clicks: number;
-		hits: number;
-		time: number;
-	};
-	analysis?: never[];
+	set: WordSetData;
+	stats: Statistic;
+	charIndex: number;
+	wordIndex: number;
+};
+
+export type EndGameResult = {
+	config: GameConfig;
+	result: Statistic;
+	analysis?: Analysis;
+	meta?: MetaData;
 };
 
 export type Analysis = {
 	lpm: number;
 	maxLpm: number;
 	accuracy: number;
+};
+
+export type Statistic = {
+	clicks: number;
+	hits: number;
+	time: number;
+};
+
+export type MetaData = {
+	theme?: Theme;
 };

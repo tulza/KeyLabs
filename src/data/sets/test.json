@@ -1,6 +1,7 @@
 {
-  "name": "test",
-  "noLazyMode": true,
-  "orderedByFrequency": true,
-  "words": ["supercalifragilisticexpialidocious"]
+	"name": "test",
+	"description": "supercalifragilisticexpialidocious",
+	"noLazyMode": true,
+	"orderedByFrequency": true,
+	"words": ["supercalifragilisticexpialidocious"]
 }

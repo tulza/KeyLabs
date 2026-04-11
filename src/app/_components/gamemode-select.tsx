@@ -1,33 +1,39 @@
-import { PropsWithChildren, useState } from "react";
+import { PropsWithChildren } from "react";
 import { CharacterIcon, TimeIcon } from "@/components/icon";
 import { Text } from "@/components/typography/text";
 import { Button } from "@/components/ui/button";
+import { Mode } from "@/lib/game/enum";
+import { modeOptions } from "@/lib/game/options";
+import { usePreGameActions, usePreGameConfig } from "@/lib/game/store/pre-game";
 import { GameContainer } from "./game-container";
 
-type Mode = "timed" | "character";
-
-const modeOptions = [
-	{ value: "timed" as Mode, label: "Timed", icon: TimeIcon },
-	{ value: "character" as Mode, label: "Characters", icon: CharacterIcon },
+const modes = [
+	{ value: Mode.time, label: "Timed", icon: TimeIcon },
+	{ value: Mode.characters, label: "Characters", icon: CharacterIcon },
 ];
 
-const amountOptions: Record<Mode, number[]> = {
-	timed: [15, 30, 60, 120],
-	character: [30, 50, 100],
-};
-
 const AmountIcon: Record<Mode, typeof TimeIcon> = {
-	timed: TimeIcon,
-	character: CharacterIcon,
+	time: TimeIcon,
+	characters: CharacterIcon,
 };
 
 export const GameOptionsSelector = () => {
-	const [mode, setMode] = useState<Mode>("timed");
-	const [amount, setAmount] = useState<number>(amountOptions["timed"][0]);
+	const config = usePreGameConfig();
+	const { setConfig } = usePreGameActions();
+
+	const mode = config?.mode ?? Mode.time;
+	const amount = config?.targetSize ?? modeOptions[Mode.time][0];
 
 	const handleModeChange = (newMode: Mode) => {
-		setMode(newMode);
-		setAmount(amountOptions[newMode][0]);
+		setConfig({
+			...config,
+			mode: newMode,
+			targetSize: modeOptions[newMode][0],
+		});
+	};
+
+	const handleAmountChange = (value: number) => {
+		setConfig({ ...config, mode, targetSize: value });
 	};
 
 	const Icon = AmountIcon[mode];
@@ -36,11 +42,11 @@ export const GameOptionsSelector = () => {
 		<GameContainer className="bottom-0 flex gap-6">
 			<div className="flex gap-6">
 				<Menu label="Gamemode">
-					{modeOptions.map(({ value, label, icon: ModeIcon }) => (
+					{modes.map(({ value, label, icon: ModeIcon }) => (
 						<Button
 							key={`mode-${value}`}
 							variant={mode === value ? "secondary" : "outline"}
-							className={`tabular rounded border-2`}
+							className="tabular rounded border-2"
 							size="lg"
 							onClick={() => handleModeChange(value)}
 						>
@@ -51,15 +57,17 @@ export const GameOptionsSelector = () => {
 				</Menu>
 
 				<Menu
-					label={mode === "timed" ? "No. seconds" : "No. characters"}
+					label={
+						mode === Mode.time ? "No. seconds" : "No. characters"
+					}
 				>
-					{amountOptions[mode].map((value) => (
+					{modeOptions[mode].map((value) => (
 						<Button
 							key={`${mode}-${value}`}
 							variant={amount === value ? "secondary" : "outline"}
-							className={`tabular rounded border-2 font-mono font-normal`}
+							className="tabular rounded border-2 font-mono font-normal"
 							size="lg"
-							onClick={() => setAmount(value)}
+							onClick={() => handleAmountChange(value)}
 						>
 							<Icon />
 							<span>{value}</span>

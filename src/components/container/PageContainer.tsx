@@ -15,5 +15,4 @@ export const PageContainer = ({
 			{children}
 		</main>
 	);
-	1;
 };
