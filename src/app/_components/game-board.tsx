@@ -1,5 +1,5 @@
 import { VariantProps } from "class-variance-authority";
-import { PropsWithChildren } from "react";
+import { PropsWithChildren, useEffect, useRef, useState } from "react";
 import { CursorIcon, GlobeIcon, ResetIcon } from "@/components/icon";
 import { PieTimer } from "@/components/icon/pie";
 import { Button, buttonVariants } from "@/components/ui/button";
@@ -9,16 +9,36 @@ import {
 	TooltipProvider,
 	TooltipTrigger,
 } from "@/components/ui/tooltip";
+import { WordSet } from "@/lib/game/enum";
+import { screen } from "@/lib/game/screen";
+import { Point } from "@/lib/game/types";
+import { generateCircleLocation } from "@/lib/game/utils";
+import { useWordSet } from "@/lib/query/use-word-set";
 import { cn } from "@/lib/utils";
 
-const screen = { width: 15 * 60, height: 9 * 60 };
+const testWord = "matcha";
 
-export const GameBoard = ({ children }: PropsWithChildren) => {
+export const GameBoard = () => {
+	const [stack, setStack] = useState<Point[]>([]);
+
+	const { data } = useWordSet(WordSet.english);
+
+	console.log(data);
+
+	useEffect(() => {
+		setStack(generateCircleLocation(testWord, 64, screen));
+	}, []);
+
 	return (
 		<div className="flex size-full grow items-center justify-center">
 			<div className="flex flex-col items-center gap-6">
 				<GameBar />
-				<Screen />
+				<Screen>
+					<StartCircle />
+					{stack.map((point) => (
+						<HitCircle key={point.id} point={point} />
+					))}
+				</Screen>
 				<div className="w-225">
 					<NotButton icon={GlobeIcon} variant="secondary" size="lg">
 						English 5k
@@ -64,7 +84,7 @@ const StartCircle = () => {
 				<TooltipTrigger asChild>
 					<button
 						data-slot="circle"
-						className="absolute inset-1/2 flex size-16 cursor-pointer items-center justify-center rounded-full bg-foreground [translate:-50%_-50%]"
+						className="absolute inset-1/2 z-50 flex size-16 cursor-pointer items-center justify-center rounded-full bg-foreground [translate:-50%_-50%]"
 					>
 						<div className="-z-10 absolute inset-1/2 size-3/4 animate-ping rounded-full bg-foreground [translate:-50%_-50%]" />
 						<CursorIcon className="size-5 *:fill-muted" />
@@ -76,7 +96,21 @@ const StartCircle = () => {
 	);
 };
 
-const Screen = () => {
+const HitCircle = ({ point }: { point: Point }) => {
+	return (
+		<div
+			style={{
+				left: point.x,
+				top: point.y,
+			}}
+			className="pointer-events-none absolute flex size-16 items-center justify-center rounded-full bg-icon font-mono text-muted text-xl [translate:-50%_-50%]"
+		>
+			{point.value}
+		</div>
+	);
+};
+
+const Screen = ({ children }: PropsWithChildren) => {
 	return (
 		<div
 			className="relative rounded-md border-2 border-border bg-muted"
@@ -88,8 +122,8 @@ const Screen = () => {
 			}}
 		>
 			<div className="grid-100 absolute top-0 left-0 size-full bg-center bg-secondary object-center" />
-
-			<StartCircle />
+			{/* <StartCircle /> */}
+			{children}
 		</div>
 	);
 };
@@ -101,10 +135,62 @@ export const GameBar = () => {
 				<PieTimer duration={30} className="size-5 min-w-5" />
 				24.05s
 			</div>
-			<div />
+			<WordBar />
 			<Button variant="secondary" size="icon" className="place-self-end">
 				<ResetIcon />
 			</Button>
+		</div>
+	);
+};
+
+const testWordList = ["matcha", "cafe", "matcha", "cafe", "matcha"];
+
+export const WordBar = () => {
+	const refs = useRef<HTMLDivElement[]>([]);
+	const [currentIndex, setCurrentIndex] = useState(0);
+	const [offset, setOffset] = useState(0);
+
+	useEffect(() => {
+		const ref = refs.current[currentIndex];
+		if (!ref) return;
+		const totalOffset = refs.current
+			.slice(0, currentIndex + 1)
+			.reduce((acc, el) => acc + el.getBoundingClientRect().width, 0);
+		setOffset(totalOffset - ref.getBoundingClientRect().width / 2);
+	}, [currentIndex]);
+
+	useEffect(() => {
+		const interval = setInterval(() => {
+			setCurrentIndex((prev) => (prev + 1) % testWordList.length);
+		}, 10000);
+		return () => clearInterval(interval);
+	}, []);
+
+	return (
+		<div className="relative flex h-10 w-full select-none overflow-hidden rounded border-2 border-secondary bg-muted">
+			<div className="-translate-x-1/2 absolute bottom-0 left-1/2 z-50 translate-y-1 text-[8px]">
+				▲
+			</div>
+			<div
+				className="absolute top-0 left-1/2 flex h-full w-min first:border-l"
+				style={{ transform: `translateX(-${offset}px)` }}
+			>
+				{testWordList.map((word, i) => (
+					<div
+						key={`${i}/${word}`}
+						ref={(el) => {
+							if (!el) return;
+							refs.current[i] = el;
+						}}
+						className={cn(
+							"flex h-full items-center gap-3 border-secondary border-r px-3 font-mono font-normal text-icon",
+							i > currentIndex && "text-secondary",
+						)}
+					>
+						{word}
+					</div>
+				))}
+			</div>
 		</div>
 	);
 };

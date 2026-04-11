@@ -7,6 +7,9 @@
 		"dev": "bun --bun vite dev --force",
 		"build": "bun --bun vite build",
 		"serve": "bunx --bun vite preview",
+		"test": "vitest",
+		"test:run": "vitest run",
+		"test:ui": "vitest --ui",
 		"start": "node .output/server/index.mjs",
 		"lint": "biome lint",
 		"typecheck": "tsc --noEmit",
@@ -28,6 +31,7 @@
 		"@react-three/fiber": "^9.5.0",
 		"@remixicon/react": "^4.9.0",
 		"@sinclair/typebox": "0.32.4",
+		"@tanstack/react-query": "^5.97.0",
 		"@tanstack/react-router": "^1.168.13",
 		"@tanstack/react-start": "^1.167.23",
 		"@unpic/react": "^1.0.2",
@@ -90,7 +94,8 @@
 		"typescript": "^5",
 		"vite": "^8.0.8",
 		"vite-plugin-glsl": "^1.5.5",
-		"vite-tsconfig-paths": "^6.1.1"
+		"vite-tsconfig-paths": "^6.1.1",
+		"vitest": "^4.1.4"
 	},
 	"overrides": {
 		"@sinclair/typebox": "0.32.4"

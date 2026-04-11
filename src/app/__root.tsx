@@ -1,5 +1,6 @@
 import abeezeeCss from "@fontsource/abeezee/400-italic.css?url";
 import inclusiveSansCss from "@fontsource-variable/inclusive-sans/wght.css?url";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import {
 	createRootRoute,
 	HeadContent,
@@ -11,6 +12,9 @@ import { NuqsAdapter } from "nuqs/adapters/react";
 import { LeftArrowIcon } from "@/components/icon";
 import { Button } from "@/components/ui/button";
 import appCss from "../styles/globals.css?url";
+
+const queryClient = new QueryClient();
+
 export const Route = createRootRoute({
 	head: () => ({
 		meta: [
@@ -71,15 +75,17 @@ function NotFound() {
 function RootLayout() {
 	return (
 		<NuqsAdapter>
-			<html lang="en">
-				<head>
-					<HeadContent />
-				</head>
-				<body className="min-h-dvh antialiased">
-					<Outlet />
-					<Scripts />
-				</body>
-			</html>
+			<QueryClientProvider client={queryClient}>
+				<html lang="en">
+					<head>
+						<HeadContent />
+					</head>
+					<body className="min-h-dvh antialiased">
+						<Outlet />
+						<Scripts />
+					</body>
+				</html>
+			</QueryClientProvider>
 		</NuqsAdapter>
 	);
 }

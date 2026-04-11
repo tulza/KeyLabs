@@ -18,7 +18,7 @@ function Home() {
 				height={800}
 			/>
 			<NavigationBar />
-			<GameBoard />
+			<GameBoard></GameBoard>
 			<GameOptionsSelector />
 		</PageContainer>
 	);
