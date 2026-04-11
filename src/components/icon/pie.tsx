@@ -40,14 +40,14 @@ export const PieTimer = ({
 	}, []);
 
 	return (
-		<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" {...props}>
-			<circle r="10" cx="10" cy="10" className="fill-secondary" />
+		<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" {...props}>
+			<circle r="10" cx="12" cy="12" className="fill-secondary" />
 			<circle
 				ref={pieRef}
 				className="-rotate-90 origin-center"
 				r="5"
-				cx="10"
-				cy="10"
+				cx="12"
+				cy="12"
 				fill="transparent"
 				stroke="#453D3D"
 				strokeWidth="10"

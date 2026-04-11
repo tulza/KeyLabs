@@ -3,7 +3,7 @@ import { useShallow } from "zustand/react/shallow";
 import { WordSetData } from "@/data/sets/word-set";
 import { defaultConfig } from "../config";
 import { Mode, WordSet } from "../enum";
-import { generateWordList } from "../generate";
+import { generateWordList, generateWordListAsync } from "../generate";
 import { modeOptions } from "../options";
 import { GameConfig, MetaData, PreGameConfig } from "../types";
 
@@ -51,10 +51,16 @@ export const usePreGameWordList = () =>
 	usePreGameStore(useShallow((s) => s.wordList));
 export const usePreGameActions = () => usePreGameStore((s) => s.actions);
 
-export const changeWordSet = (setName: WordSet) => {
+export const changeWordSetSynced = (setName: WordSet) => {
 	const config = usePreGameStore.getState().config;
 	const newConfig = { ...config, wordSet: setName };
 	usePreGameStore.getState().actions.setConfig(newConfig);
+};
+
+export const changeWordSet = async (setName: WordSet) => {
+	const config = { ...usePreGameStore.getState().config, wordSet: setName };
+	const wordList = await generateWordListAsync(config);
+	usePreGameStore.setState({ config, wordList });
 };
 
 export const changeMode = (mode: Mode) => {

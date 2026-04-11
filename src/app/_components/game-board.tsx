@@ -17,7 +17,7 @@ import {
 } from "@/lib/game/store/pre-game";
 import { Point } from "@/lib/game/types";
 import { cn } from "@/lib/utils";
-import { DrawerWithSides } from "./wordSetDrawer";
+import { DrawerWithSides } from "./word-select-drawer";
 
 export const GameBoard = () => {
 	const [stack, setStack] = useState<Point[]>([]);
@@ -127,7 +127,7 @@ export const GameBar = () => {
 	return (
 		<div className="grid w-225 grid-cols-[120px_1fr_120px] gap-24">
 			<div className="flex h-10 max-h-10 items-center gap-3 rounded border-2 border-secondary bg-muted px-3 font-mono font-normal text-icon">
-				<PieTimer duration={30} className="size-5 min-w-5" />
+				<PieTimer duration={30} className="size-6 min-w-6" />
 				24.05s
 			</div>
 			<WordBar />
