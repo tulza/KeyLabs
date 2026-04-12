@@ -25,12 +25,13 @@
 		"@base-ui/react": "^1.3.0",
 		"@better-auth/drizzle-adapter": "^1.6.2",
 		"@elysiajs/openapi": "^1.4.14",
+		"@flydotio/dockerfile": "^0.7.10",
 		"@fontsource-variable/inclusive-sans": "^5.2.8",
 		"@fontsource/abeezee": "^5.2.8",
 		"@heroicons/react": "^2.2.0",
 		"@react-three/fiber": "^9.5.0",
 		"@remixicon/react": "^4.9.0",
-		"@sinclair/typebox": "0.32.4",
+		"@sinclair/typebox": "^0.34.49",
 		"@tanstack/react-query": "^5.97.0",
 		"@tanstack/react-router": "^1.168.13",
 		"@tanstack/react-start": "^1.167.23",
@@ -98,8 +99,5 @@
 		"vite-plugin-glsl": "^1.5.5",
 		"vite-tsconfig-paths": "^6.1.1",
 		"vitest": "^4.1.4"
-	},
-	"overrides": {
-		"@sinclair/typebox": "0.32.4"
 	}
 }

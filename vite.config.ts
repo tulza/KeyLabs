@@ -25,7 +25,7 @@ export default defineConfig({
 		}),
 		viteReact(),
 		nitro({
-			preset: "vercel",
+			preset: "node",
 		}),
 	],
 });
