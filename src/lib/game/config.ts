@@ -3,7 +3,7 @@ import { modeOptions } from "./options";
 import { Screen } from "./types";
 
 const GRIDSIZE = 60;
-const defaultTargetSize = 64;
+const defaultTargetSize = 80;
 
 export const screenConfig: Screen = {
 	width: 15 * GRIDSIZE,

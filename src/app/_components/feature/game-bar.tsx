@@ -105,7 +105,7 @@ export const WordBar = () => {
 			</div>
 
 			<div
-				className="absolute top-0 left-1/2 flex h-full w-min transition-transform duration-500 ease-in-expo"
+				className="absolute top-0 left-1/2 flex h-full w-min transition duration-500 ease-in-expo"
 				ref={containerRef}
 			>
 				{state !== State.Resetting &&

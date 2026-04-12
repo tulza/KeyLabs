@@ -24,8 +24,7 @@ const app = new Elysia({
 		{
 			auth: true,
 		},
-	)
-	.listen(3000);
+	);
 
 const handle = ({ request }: { request: Request }) => app.fetch(request);
 
@@ -37,3 +36,5 @@ export const Route = createFileRoute("/api/$")({
 		},
 	},
 });
+
+export default app.fetch;

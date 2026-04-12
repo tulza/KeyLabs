@@ -6,12 +6,14 @@ import {
 	TooltipTrigger,
 } from "@/components/ui/tooltip";
 import { State } from "@/lib/game/enum";
+import { useGameConfig } from "@/lib/game/store/game";
 import { usePoints } from "@/lib/game/store/point";
 import { transition, useGameState } from "@/lib/game/store/state-manager";
 import { Point } from "@/lib/game/types";
 
 export const TargetLayer = () => {
 	const state = useGameState();
+	const { targetSize } = useGameConfig();
 	const points = usePoints();
 
 	if (state === State.Ready) {
@@ -20,7 +22,7 @@ export const TargetLayer = () => {
 
 	if (state === State.Playing) {
 		return points.map((point) => (
-			<HitCircle key={point.id} point={point} />
+			<HitCircle key={point.id} point={point} size={targetSize} />
 		));
 	}
 };
@@ -45,14 +47,16 @@ const StartCircle = () => {
 	);
 };
 
-const HitCircle = ({ point }: { point: Point }) => {
+const HitCircle = ({ point, size }: { point: Point; size: number }) => {
 	return (
 		<div
 			style={{
 				left: point.x,
 				top: point.y,
+				width: size,
+				height: size,
 			}}
-			className="pointer-events-none absolute flex size-16 items-center justify-center rounded-full bg-icon font-mono text-muted text-xl [translate:-50%_-50%]"
+			className="pointer-events-none absolute flex items-center justify-center rounded-full bg-icon font-mono text-muted text-xl [translate:-50%_-50%]"
 		>
 			{point.value}
 		</div>

@@ -1,11 +1,14 @@
+import { HtmlHTMLAttributes, PropsWithChildren, useRef } from "react";
 import { CrownIcon, ResetIcon } from "@/components/icon";
 import { Button } from "@/components/ui/button";
 import { State } from "@/lib/game/enum";
 import { transition } from "@/lib/game/store/state-manager";
 import { useLatestResult } from "@/lib/game/store/summary";
+import { cn } from "@/lib/utils";
 
 export function SummaryScreen() {
 	const result = useLatestResult();
+	const ref = useRef<HTMLDivElement>(null);
 
 	if (!result) return null;
 
@@ -21,11 +24,10 @@ export function SummaryScreen() {
 	const modeDisplay = `${mode} ${mode2} / ${wordSet} / ${targetSize}`;
 
 	return (
-		<div className="flex flex-col items-center gap-6">
+		<div className="flex flex-col items-center gap-6 px-10" ref={ref}>
+			<div className="h-9" />
 			<div className="bg w-125 space-y-1 overflow-hidden rounded-t-sm font-medium text-sm">
-				<div className="bg-secondary px-4 py-2.5 text-foreground">
-					Game analysis
-				</div>
+				<Block>Game analysis</Block>
 				<div className="grid grid-cols-2 space-x-1">
 					<div className="flex flex-col justify-between bg-secondary p-4">
 						<span className="text-[52px] text-foreground leading-none">
@@ -42,43 +44,61 @@ export function SummaryScreen() {
 							{ label: "Accuracy", value: accuracyDisplay },
 							{ label: "Time", value: timeDisplay },
 						].map(({ label, value }) => (
-							<div
-								key={label}
-								className="flex h-11 items-center justify-between bg-secondary px-4"
-							>
+							<Block key={label}>
 								<span>{label}</span>
 								<span>{value}</span>
-							</div>
+							</Block>
 						))}
 					</div>
 				</div>
 
-				<div className="flex justify-between rounded-b-sm bg-secondary p-3">
+				<Block className="rounded-b">
 					<span>Type</span>
 					<span>{modeDisplay}</span>
-				</div>
+				</Block>
 			</div>
-
-			<div className="flex items-center gap-8">
-				<Button
-					variant="ghost"
-					size="lg"
-					onClick={() => transition(State.Resetting)}
-				>
-					<ResetIcon />
-					Play again
-				</Button>
-				<Button
-					variant="ghost"
-					size="lg"
-					onClick={() => {
-						/* open scoreboard */
-					}}
-				>
-					<CrownIcon />
-					Scoreboard
-				</Button>
+			<div
+				className={cn(
+					"grid w-full grid-cols-[20px_auto_2px] items-center justify-between",
+				)}
+			>
+				<div />
+				<div className="flex gap-3">
+					<Button
+						variant="ghost"
+						size="icon-lg"
+						onClick={() => transition(State.Resetting)}
+					>
+						<ResetIcon />
+					</Button>
+					<Button
+						variant="ghost"
+						size="icon-lg"
+						onClick={() => {
+							/* open scoreboard */
+						}}
+					>
+						<CrownIcon />
+					</Button>
+				</div>
 			</div>
 		</div>
 	);
 }
+
+const Block = ({
+	children,
+	...props
+}: PropsWithChildren<HtmlHTMLAttributes<HTMLDivElement>>) => {
+	return (
+		<div
+			{...props}
+			className={cn(
+				"flex justify-between bg-secondary p-3",
+				props.className,
+			)}
+		>
+			{children}
+		</div>
+	);
+};

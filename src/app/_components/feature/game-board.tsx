@@ -54,8 +54,8 @@ export const Game = ({ children }: PropsWithChildren) => {
 		<GameBoardContainer>
 			<GameBar />
 			<Screen>{children}</Screen>
-			<div className="flex w-225 items-center justify-center">
-				<DrawerWithSides />
+			<div className="flex h-9 w-225 items-center justify-center">
+				{state === State.Ready && <DrawerWithSides />}
 			</div>
 		</GameBoardContainer>
 	);

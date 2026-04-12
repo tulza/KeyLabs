@@ -2,9 +2,11 @@ import { PropsWithChildren } from "react";
 import { CharacterIcon, TimeIcon } from "@/components/icon";
 import { Text } from "@/components/typography/text";
 import { Button } from "@/components/ui/button";
-import { Mode } from "@/lib/game/enum";
+import { Mode, State } from "@/lib/game/enum";
 import { modeOptions } from "@/lib/game/options";
 import { usePreGameActions, usePreGameConfig } from "@/lib/game/store/pre-game";
+import { useGameState } from "@/lib/game/store/state-manager";
+import { cn } from "@/lib/utils";
 import { GameContainer } from "./game-container";
 
 const modes = [
@@ -18,6 +20,7 @@ const AmountIcon: Record<Mode, typeof TimeIcon> = {
 };
 
 export const GameOptionsSelector = () => {
+	const state = useGameState();
 	const config = usePreGameConfig();
 	const { setConfig } = usePreGameActions();
 
@@ -40,7 +43,12 @@ export const GameOptionsSelector = () => {
 
 	return (
 		<GameContainer className="bottom-0 flex gap-6">
-			<div className="flex gap-6">
+			<div
+				className={cn(
+					"flex gap-6 opacity-100",
+					state !== State.Ready ? "opacity-0" : "",
+				)}
+			>
 				<Menu label="Gamemode">
 					{modes.map(({ value, label, icon: ModeIcon }) => (
 						<Button

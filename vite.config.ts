@@ -24,6 +24,8 @@ export default defineConfig({
 			},
 		}),
 		viteReact(),
-		nitro(),
+		nitro({
+			preset: "node",
+		}),
 	],
 });
