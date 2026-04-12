@@ -40,12 +40,13 @@ export type EndGameResult = {
 
 export type Analysis = {
 	lpm: number;
-	maxLpm: number;
+	rawLpm: number;
 	accuracy: number;
 };
 
 export type Statistic = {
 	clicks: number;
+	incorrect: number;
 	hits: number;
 	time: number;
 };

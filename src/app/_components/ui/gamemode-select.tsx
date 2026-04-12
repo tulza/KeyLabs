@@ -22,18 +22,18 @@ export const GameOptionsSelector = () => {
 	const { setConfig } = usePreGameActions();
 
 	const mode = config?.mode ?? Mode.time;
-	const amount = config?.targetSize ?? modeOptions[Mode.time][0];
+	const amount = config?.mode2 ?? modeOptions[Mode.time][0];
 
 	const handleModeChange = (newMode: Mode) => {
 		setConfig({
 			...config,
 			mode: newMode,
-			targetSize: modeOptions[newMode][0],
+			mode2: modeOptions[newMode][0],
 		});
 	};
 
 	const handleAmountChange = (value: number) => {
-		setConfig({ ...config, mode, targetSize: value });
+		setConfig({ ...config, mode, mode2: value });
 	};
 
 	const Icon = AmountIcon[mode];
@@ -65,7 +65,7 @@ export const GameOptionsSelector = () => {
 						<Button
 							key={`${mode}-${value}`}
 							variant={amount === value ? "secondary" : "outline"}
-							className="tabular rounded border-2 font-mono font-normal"
+							className="rounded border-2 font-mono font-normal tabular-nums"
 							size="lg"
 							onClick={() => handleAmountChange(value)}
 						>

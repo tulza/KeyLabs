@@ -1,59 +1,68 @@
 import { SVGProps, useEffect, useRef } from "react";
 
-export const PieTimer = ({
-	duration,
-	...props
-}: { duration: number } & SVGProps<SVGSVGElement>) => {
-	const startTime = useRef<number>(null);
+type PieTimerProps = {
+	duration: number;
+	startTime?: number;
+} & SVGProps<SVGSVGElement>;
+
+export const PieTimer = ({ duration, startTime, ...props }: PieTimerProps) => {
+	const rafRef = useRef<number>(0);
 	const pieRef = useRef<SVGCircleElement>(null);
-
-	const milis = duration * 1000;
-
-	const defaultDashArrayState = "0 1";
-
-	const setProgress = (p: number) => {
-		if (!pieRef.current) return;
-
-		const angle = `${p} 1`;
-		pieRef.current.setAttribute("stroke-dasharray", angle);
-	};
-
-	const update = () => {
-		if (pieRef.current && startTime.current) {
-			const currentTime = Date.now();
-			const normalisedRotation =
-				(currentTime - startTime.current) / milis;
-
-			setProgress(normalisedRotation);
-		} else {
-			setProgress(0);
-		}
-	};
-
-	const start = () => {
-		startTime.current = Date.now();
-		setInterval(update, 100);
-	};
+	const labelRef = useRef<HTMLSpanElement>(null);
+	const totalMs = duration * 1000;
 
 	useEffect(() => {
-		start();
-	}, []);
+		const update = () => {
+			const elapsed = startTime
+				? Math.min(Date.now() - startTime, totalMs)
+				: 0;
+
+			const progress = elapsed / totalMs;
+			const remaining = (totalMs - elapsed) / 1000;
+
+			if (pieRef.current)
+				pieRef.current.setAttribute(
+					"stroke-dasharray",
+					`${progress} 1`,
+				);
+
+			if (labelRef.current)
+				labelRef.current.innerText = `${remaining.toFixed(2)}s`;
+
+			rafRef.current = requestAnimationFrame(update);
+		};
+
+		rafRef.current = requestAnimationFrame(update);
+		return () => cancelAnimationFrame(rafRef.current);
+	}, [startTime, totalMs]);
 
 	return (
-		<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" {...props}>
-			<circle r="10" cx="12" cy="12" className="fill-secondary" />
-			<circle
-				ref={pieRef}
-				className="-rotate-90 origin-center"
-				r="5"
-				cx="12"
-				cy="12"
-				fill="transparent"
-				stroke="#453D3D"
-				strokeWidth="10"
-				pathLength={1}
-				strokeDasharray={defaultDashArrayState}
-			/>
-		</svg>
+		<>
+			<svg
+				xmlns="http://www.w3.org/2000/svg"
+				viewBox="0 0 24 24"
+				{...props}
+			>
+				<circle r="10" cx="12" cy="12" fill="#453D3D" />
+				<circle
+					ref={pieRef}
+					r="5"
+					cx="12"
+					cy="12"
+					fill="transparent"
+					strokeWidth="10"
+					pathLength={1}
+					strokeDasharray="0 1"
+					className="-rotate-90 origin-center stroke-secondary"
+				/>
+			</svg>
+			<span
+				ref={labelRef}
+				className="w-full min-w-0 text-left font-sans slashed-zero tabular-nums"
+				style={{ direction: "rtl" }}
+			>
+				15.00s
+			</span>
+		</>
 	);
 };

@@ -35,8 +35,6 @@
 	--ease-in-out-expo: cubic-bezier(1, 0, 0, 1);
 	--ease-in-out-circ: cubic-bezier(0.785, 0.135, 0.15, 0.86);
 
-	--primary: oklch(0.21 0.006 285.885);
-	--primary-foreground: oklch(0.985 0 0);
 	--secondary-foreground: oklch(0.21 0.006 285.885);
 	--muted: color-mix(
 		in srgb,
@@ -122,10 +120,6 @@
 	--radius-2xl: calc(var(--radius) * 1.8);
 	--radius-3xl: calc(var(--radius) * 2.2);
 	--radius-4xl: calc(var(--radius) * 2.6);
-}
-
-.tabular {
-	font-variant-numeric: tabular-nums;
 }
 
 @layer base {

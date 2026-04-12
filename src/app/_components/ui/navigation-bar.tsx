@@ -17,6 +17,8 @@ import {
 	TooltipProvider,
 	TooltipTrigger,
 } from "@/components/ui/tooltip";
+import { State } from "@/lib/game/enum";
+import { transition } from "@/lib/game/store/state-manager";
 
 type NavItem = {
 	to?: string;
@@ -64,7 +66,10 @@ const IconButton = ({
 export const NavigationBar = () => (
 	<div className="flex w-full justify-center">
 		<div className="absolute top-8 flex w-225 justify-between">
-			<button className="flex w-min select-none items-center gap-3">
+			<button
+				onClick={() => transition(State.Resetting)}
+				className="flex w-min cursor-pointer select-none items-center gap-3"
+			>
 				<IconButton icon={CursorIcon} className="pointer-events-none" />
 				<h1 className="font-serif text-3xl text-icon italic">
 					Keylabs

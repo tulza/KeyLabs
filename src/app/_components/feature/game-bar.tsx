@@ -1,23 +1,25 @@
 import { sum } from "radash";
-import { useEffect, useRef } from "react";
+import { useEffect, useLayoutEffect, useRef } from "react";
 import { ResetIcon } from "@/components/icon";
-import { PieTimer } from "@/components/icon/pie";
 import { Button } from "@/components/ui/button";
 import { State } from "@/lib/game/enum";
 import { useWordIndex } from "@/lib/game/store/game";
 import { usePreGameStore } from "@/lib/game/store/pre-game";
-import { useGameState } from "@/lib/game/store/state-manager";
+import { transition, useGameState } from "@/lib/game/store/state-manager";
 import { cn } from "@/lib/utils";
+import { ModeIndicator } from "../ui/mode-indicator";
 
 export const GameBar = () => {
 	return (
 		<div className="grid w-225 grid-cols-[120px_1fr_120px] gap-24">
-			<div className="flex h-10 max-h-10 items-center gap-3 rounded border-2 border-secondary bg-muted px-3 font-mono font-normal text-icon">
-				<PieTimer duration={30} className="size-6 min-w-6" />
-				NaNs
-			</div>
+			<ModeIndicator />
 			<WordBar />
-			<Button variant="secondary" size="icon" className="place-self-end">
+			<Button
+				onClick={() => transition(State.Resetting)}
+				variant="secondary"
+				size="icon"
+				className="place-self-end"
+			>
 				<ResetIcon />
 			</Button>
 		</div>
@@ -39,31 +41,29 @@ export const WordBar = () => {
 		widthRefs.current = [];
 	}, [words]);
 
-	useEffect(() => {
+	useLayoutEffect(() => {
 		const container = containerRef.current;
 		if (!container) return;
 
+		const currentWidth = mirrorRef.current?.offsetWidth ?? 0;
+
+		if (prevActiveRef.current) {
+			prevActiveRef.current.style.minWidth = "";
+		}
+
+		if (activeRef.current) {
+			activeRef.current.style.minWidth = `${currentWidth}px`;
+			prevActiveRef.current = activeRef.current;
+		}
+
 		requestAnimationFrame(() => {
-			const currentWidth = mirrorRef.current?.offsetWidth ?? 0;
-
-			// clear previous
-			if (prevActiveRef.current) {
-				prevActiveRef.current.style.minWidth = "";
-			}
-
-			// set new
-			if (activeRef.current) {
-				activeRef.current.style.minWidth = `${currentWidth}px`;
-				prevActiveRef.current = activeRef.current;
-			}
-
 			const totalOffset = sum(widthRefs.current.slice(0, wordIndex));
 			container.style.transform = `translateX(-${totalOffset + currentWidth / 2}px)`;
 		});
 	}, [wordIndex, words, state]);
 
 	const baseClass = cn(
-		"last-border-r flex h-full items-center whitespace-nowrap border-secondary border-r bg-muted px-3 font-mono font-normal text-icon first:border-l",
+		"last-border-r flex h-full w-min items-center whitespace-nowrap border-secondary border-r bg-muted px-3 font-mono font-normal text-icon first:border-l",
 		"duration-500 ease-in-expo ease-in-out *:inline-block *:transition-colors",
 	);
 

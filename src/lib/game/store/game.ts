@@ -5,6 +5,7 @@ import { defaultConfig } from "../config";
 import { GameConfig, GameStateData, Statistic } from "../types";
 import { setNewWord } from "./point";
 import { usePreGameStore } from "./pre-game";
+import { hasFinished } from "./state-manager";
 
 // this is the game state used during the playing of the game.
 // it used when actively playing the game
@@ -13,6 +14,7 @@ type GameStateStore = {
 	// config and set are initialized/reset when state switches from resetting to ready
 	readonly config: GameConfig;
 	readonly set: WordSetData;
+	readonly startTime?: number;
 	// active game state
 	stats: Statistic;
 	charIndex: number;
@@ -22,13 +24,22 @@ type GameStateStore = {
 		setStats: (stats: Statistic) => void;
 		handleClick: () => void;
 		handleHit: () => void;
+		handleIncorrect: () => void;
 		resetToDefault: () => void;
 		reset: () => void;
 	};
 };
 
-const initialGame = {
-	stats: { clicks: 0, hits: 0, time: 0 },
+export const initialStats = {
+	clicks: 0,
+	hits: 0,
+	time: 0,
+	incorrect: 0,
+};
+
+export const initialGame = {
+	stats: initialStats,
+	startTime: undefined,
 	charIndex: 0,
 	wordIndex: 0,
 };
@@ -46,6 +57,7 @@ export const useGameStateStore = create<GameStateStore>((set) => ({
 			set({
 				config: data.config,
 				set: data.set,
+				startTime: Date.now(),
 				stats: data.stats,
 				charIndex: data.charIndex,
 				wordIndex: data.wordIndex,
@@ -56,6 +68,18 @@ export const useGameStateStore = create<GameStateStore>((set) => ({
 				const newStats = {
 					...prevs.stats,
 					clicks: prevs.stats.clicks + 1,
+				};
+				return {
+					stats: newStats,
+				};
+			});
+		},
+		handleIncorrect: () => {
+			set((prevs) => {
+				const newStats = {
+					...prevs.stats,
+					clicks: prevs.stats.clicks + 1,
+					incorrect: prevs.stats.incorrect + 1,
 				};
 				return {
 					stats: newStats,
@@ -88,6 +112,8 @@ export const useGameStateStore = create<GameStateStore>((set) => ({
 					hits: stats.hits + 1,
 				},
 			});
+
+			hasFinished();
 		},
 
 		// default state

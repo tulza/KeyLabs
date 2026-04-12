@@ -1,27 +1,54 @@
-import { PropsWithChildren, useEffect } from "react";
-import { State } from "@/lib/game/enum";
+import { PropsWithChildren, useEffect, useRef } from "react";
+import { Mode, State } from "@/lib/game/enum";
+import { usePreGameStore } from "@/lib/game/store/pre-game";
 import {
+	hasFinished,
 	initializeFirstLoad,
 	transition,
 	useGameState,
 } from "@/lib/game/store/state-manager";
 import { DrawerWithSides } from "../ui/word-select-drawer";
 import { GameBar } from "./game-bar";
+import { SummaryScreen } from "./game-summary";
 import { Screen } from "./screen";
 
 export const Game = ({ children }: PropsWithChildren) => {
 	// todo: toggle between screen
+	const rafRef = useRef<number>(0);
+	const { mode } = usePreGameStore().config;
+
 	const state = useGameState();
 
 	useEffect(() => {
 		document.addEventListener("keydown", (event) => {
 			if (event.key.toLocaleLowerCase() === "r") {
+				if (state !== State.Resetting) return;
 				transition(State.Resetting);
 			}
 		});
 
 		initializeFirstLoad();
 	}, []);
+
+	useEffect(() => {
+		if (state !== State.Playing) return;
+		if (mode !== Mode.time) return;
+
+		const checkFinished = () => {
+			hasFinished();
+			rafRef.current = requestAnimationFrame(checkFinished);
+		};
+
+		rafRef.current = requestAnimationFrame(checkFinished);
+		return () => cancelAnimationFrame(rafRef.current);
+	}, [state, mode]);
+
+	if (state === State.Finished)
+		return (
+			<GameBoardContainer>
+				<SummaryScreen />
+			</GameBoardContainer>
+		);
 
 	return (
 		<GameBoardContainer>

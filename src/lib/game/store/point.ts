@@ -1,8 +1,10 @@
 import { create } from "zustand";
 import { screenConfig } from "../config";
+import { State } from "../enum";
 import { Point } from "../types";
 import { distance, generateCircleLocation } from "../utils";
 import { getGameStateStore } from "./game";
+import { useFlowStore } from "./state-manager";
 
 type PointStore = {
 	points: Point[];
@@ -19,9 +21,17 @@ export const usePointStore = create<PointStore>((set) => ({
 	actions: {
 		set: (points, current) => set({ points, current }),
 		handleClick: (x, y) => {
+			const state = useFlowStore.getState().state;
+
+			if (state !== State.Playing) return;
+
 			const points = getPointStore().points;
 			const point = existPointLocation(x, y, points);
 			if (point) {
+				if (!checkCorrectPoint(point)) {
+					getGameStateStore().actions.handleIncorrect();
+					return;
+				}
 				const newPoints = removePoint(point.index, points);
 				set({ points: newPoints });
 				getGameStateStore().actions.handleHit();
@@ -69,12 +79,15 @@ const existPointLocation = (x: number, y: number, points: Point[]) => {
 	const { targetSize } = getGameStateStore().config;
 
 	for (const point of points) {
-		// miss
 		if (distance(x, y, point.x, point.y) > targetSize / 2) continue;
-
-		// wrong char
-		if (point.value !== points[points.length - 1].value) continue;
-
 		return point;
 	}
+};
+
+const checkCorrectPoint = (point: Point) => {
+	const { charIndex, set: wordSet, wordIndex } = getGameStateStore();
+	const currentChar = wordSet.words[wordIndex][charIndex];
+
+	// is correct
+	return point.value === currentChar;
 };
