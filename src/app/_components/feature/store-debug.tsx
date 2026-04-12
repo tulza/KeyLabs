@@ -26,6 +26,8 @@ export const DebugWindow = () => {
 		points,
 	};
 
+	if (process.env.NODE_ENV === "production") return null;
+
 	return (
 		<div className="fixed top-3 left-3 z-9999 w-72 rounded bg-black/80 font-mono text-xs backdrop-blur-sm">
 			<div className="flex items-center justify-between border-border border-b px-3 py-2">

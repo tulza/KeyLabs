@@ -1,9 +1,9 @@
 // components/debug/StateDebugPanel.tsx
 "use client";
 
+import { Activity, useState } from "react";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { State } from "@/lib/game/enum";
 import { transition, useGameState } from "@/lib/game/store/state-manager";
 
@@ -17,24 +17,34 @@ const stateColor: Record<State, string> = {
 };
 
 export function StateDebugPanel() {
+	const [open, setOpen] = useState(true);
 	const current = useGameState();
 
 	if (process.env.NODE_ENV === "production") return null;
 
 	return (
-		<div className="fixed top-4 right-4 z-50 w-48">
-			<Card className="shadow-md">
-				<CardHeader className="px-3 pt-3 pb-2">
-					<CardTitle className="text-muted-foreground text-xs uppercase tracking-wide">
-						State debug
-					</CardTitle>
+		<div className="fixed top-3 right-3 z-9999 w-72 rounded bg-black/80 font-mono text-xs backdrop-blur-sm">
+			<div className="flex items-center justify-between border-border border-b px-3 py-2">
+				<span className="text-[10px] text-background tracking-widest">
+					DEBUG
+				</span>
+				<div className="flex items-center gap-1">
 					<Badge className={stateColor[current]}>{current}</Badge>
-				</CardHeader>
-				<CardContent className="flex flex-col gap-1 px-3 pb-3">
+					<Button
+						variant="outline"
+						size="icon-xs"
+						onClick={() => setOpen(!open)}
+					>
+						{open ? "-" : "+"}
+					</Button>
+				</div>
+			</div>
+			<Activity mode={open ? "visible" : "hidden"}>
+				<div className="flex flex-col gap-1 p-2">
 					{states.map((s) => (
 						<Button
 							key={s}
-							variant={current === s ? "default" : "outline"}
+							variant={current === s ? "outline" : "secondary"}
 							size="sm"
 							className="w-full justify-start text-xs"
 							onClick={() => transition(s)}
@@ -42,8 +52,8 @@ export function StateDebugPanel() {
 							{s}
 						</Button>
 					))}
-				</CardContent>
-			</Card>
+				</div>
+			</Activity>
 		</div>
 	);
 }
