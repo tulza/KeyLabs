@@ -27,12 +27,16 @@ type GameStateStore = {
 	};
 };
 
-const defaultState = {
-	config: defaultConfig,
-	set: defaultWordSet,
+const initialGame = {
 	stats: { clicks: 0, hits: 0, time: 0 },
 	charIndex: 0,
 	wordIndex: 0,
+};
+
+const defaultState = {
+	config: defaultConfig,
+	set: defaultWordSet,
+	...initialGame,
 };
 
 export const useGameStateStore = create<GameStateStore>((set) => ({
@@ -91,7 +95,7 @@ export const useGameStateStore = create<GameStateStore>((set) => ({
 		// preconfig state going from resetting to ready
 		reset: () => {
 			const config = usePreGameStore.getState().config;
-			set({ config });
+			set({ ...initialGame, config });
 		},
 	},
 }));

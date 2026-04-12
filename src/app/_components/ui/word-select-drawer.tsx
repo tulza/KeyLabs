@@ -13,14 +13,18 @@ import {
 	DrawerTrigger,
 } from "@/components/ui/drawer";
 import { setMeta } from "@/data/sets/word-set";
-import { WordSet } from "@/lib/game/enum";
+import { State, WordSet } from "@/lib/game/enum";
 import { changeWordSet, usePreGameConfig } from "@/lib/game/store/pre-game";
+import { useGameState } from "@/lib/game/store/state-manager";
 
 export function DrawerWithSides() {
 	const [loading, setLoading] = useState<number | null>(null);
 	const [open, setOpen] = useState(false);
+	const state = useGameState();
 
 	const handleSelect = async (name: string, index: number) => {
+		if (state !== State.Ready) return;
+
 		setLoading(index);
 		await changeWordSet(name as WordSet);
 		setOpen(false);

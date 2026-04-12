@@ -7,7 +7,7 @@ import {
 } from "@/components/ui/tooltip";
 import { State } from "@/lib/game/enum";
 import { usePoints } from "@/lib/game/store/point";
-import { useGameState } from "@/lib/game/store/state-manager";
+import { transition, useGameState } from "@/lib/game/store/state-manager";
 import { Point } from "@/lib/game/types";
 
 export const TargetLayer = () => {
@@ -31,6 +31,7 @@ const StartCircle = () => {
 			<Tooltip>
 				<TooltipTrigger asChild>
 					<button
+						onClick={() => transition(State.Playing)}
 						data-slot="circle"
 						className="absolute inset-1/2 z-50 flex size-16 cursor-pointer items-center justify-center rounded-full bg-foreground [translate:-50%_-50%]"
 					>

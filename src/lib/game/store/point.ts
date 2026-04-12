@@ -42,7 +42,8 @@ export const setNewWord = (word: string) => {
 	const points = generateCircleLocation(word, targetSize, screenConfig);
 	const { set } = getPointStore().actions;
 
-	console.log(word, points);
+	// console.log(new Error().stack);
+	// console.log(word, points);
 
 	set(points, word);
 };

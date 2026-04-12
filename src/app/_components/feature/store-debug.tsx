@@ -6,7 +6,7 @@ import { usePreGameStore } from "@/lib/game/store/pre-game";
 import { useGameState } from "@/lib/game/store/state-manager";
 
 export const DebugWindow = () => {
-	const [open, setOpen] = useState(true);
+	const [open, setOpen] = useState(false);
 
 	const state = useGameState();
 	const { wordList } = usePreGameStore();
@@ -32,20 +32,15 @@ export const DebugWindow = () => {
 		<div className="fixed top-3 left-3 z-9999 w-72 rounded bg-black/80 font-mono text-xs backdrop-blur-sm">
 			<div className="flex items-center justify-between border-border border-b px-3 py-2">
 				<span className="text-[10px] text-background tracking-widest">
-					DEBUG
+					STORE DEBUG
 				</span>
-				<div className="flex items-center gap-1">
-					<span className="rounded bg-background px-2 py-1 font-medium">
-						{state}
-					</span>
-					<Button
-						variant="outline"
-						size="icon-xs"
-						onClick={() => setOpen(!open)}
-					>
-						{open ? "-" : "+"}
-					</Button>
-				</div>
+				<Button
+					variant="secondary"
+					size="icon-xs"
+					onClick={() => setOpen(!open)}
+				>
+					{open ? "-" : "+"}
+				</Button>
 			</div>
 			<Activity mode={open ? "visible" : "hidden"}>
 				<pre className="max-h-80 overflow-scroll p-3 text-slate-300 leading-relaxed">

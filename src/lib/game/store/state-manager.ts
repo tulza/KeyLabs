@@ -33,7 +33,8 @@ const allowed: Readonly<Partial<Record<State, State[]>>> = {
 };
 
 export const transition = async (to: State) => {
-	const { state: from, actions } = useGameFlowStore.getState();
+	const { state: from } = useGameFlowStore.getState();
+	const { setState } = useGameFlowStore.getState().actions;
 
 	console.log(from, "->", to);
 
@@ -43,7 +44,10 @@ export const transition = async (to: State) => {
 
 	// same resetting flow for all states
 	if (to === State.Resetting) {
-		actions.setState(State.Resetting);
+		const { reset } = getGameStateStore().actions;
+
+		setState(State.Resetting);
+		reset();
 		await resetWordList();
 		transition(State.Ready);
 		return;
@@ -63,7 +67,7 @@ export const transition = async (to: State) => {
 		setNewWord(first);
 	}
 
-	actions.setState(to);
+	setState(to);
 };
 
 export const initializeFirstLoad = async () => {

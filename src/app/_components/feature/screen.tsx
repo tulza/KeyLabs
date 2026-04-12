@@ -7,11 +7,15 @@ export const Screen = ({ children }: PropsWithChildren) => {
 
 	const { handleClick: checkClickLocation } = usePointActions();
 
+	const BORDER = 2;
+
 	const handleClick = (e: MouseEvent<HTMLDivElement>) => {
 		if (!screenRef.current) return;
 		const { clientX, clientY } = e;
 		const { left, top } = screenRef.current.getBoundingClientRect();
-		const [clickX, clickY] = [clientX - left, clientY - top];
+
+		const clickX = clientX - left - BORDER;
+		const clickY = clientY - top - BORDER;
 
 		checkClickLocation(clickX, clickY);
 	};

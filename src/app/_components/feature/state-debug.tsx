@@ -1,4 +1,3 @@
-// components/debug/StateDebugPanel.tsx
 "use client";
 
 import { Activity, useState } from "react";
@@ -6,6 +5,7 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { State } from "@/lib/game/enum";
 import { transition, useGameState } from "@/lib/game/store/state-manager";
+import { cn } from "@/lib/utils";
 
 const states = [State.Resetting, State.Ready, State.Playing, State.Finished];
 
@@ -17,7 +17,7 @@ const stateColor: Record<State, string> = {
 };
 
 export function StateDebugPanel() {
-	const [open, setOpen] = useState(true);
+	const [open, setOpen] = useState(false);
 	const current = useGameState();
 
 	if (process.env.NODE_ENV === "production") return null;
@@ -26,12 +26,16 @@ export function StateDebugPanel() {
 		<div className="fixed top-3 right-3 z-9999 w-72 rounded bg-black/80 font-mono text-xs backdrop-blur-sm">
 			<div className="flex items-center justify-between border-border border-b px-3 py-2">
 				<span className="text-[10px] text-background tracking-widest">
-					DEBUG
+					STATE
 				</span>
 				<div className="flex items-center gap-1">
-					<Badge className={stateColor[current]}>{current}</Badge>
+					<Badge
+						className={cn(stateColor[current], "h-full rounded-xs")}
+					>
+						{current}
+					</Badge>
 					<Button
-						variant="outline"
+						variant="secondary"
 						size="icon-xs"
 						onClick={() => setOpen(!open)}
 					>
@@ -44,7 +48,7 @@ export function StateDebugPanel() {
 					{states.map((s) => (
 						<Button
 							key={s}
-							variant={current === s ? "outline" : "secondary"}
+							variant={current === s ? "default" : "secondary"}
 							size="sm"
 							className="w-full justify-start text-xs"
 							onClick={() => transition(s)}

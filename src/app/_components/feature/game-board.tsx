@@ -1,6 +1,8 @@
 import { PropsWithChildren, useEffect } from "react";
+import { State } from "@/lib/game/enum";
 import {
 	initializeFirstLoad,
+	transition,
 	useGameState,
 } from "@/lib/game/store/state-manager";
 import { DrawerWithSides } from "../ui/word-select-drawer";
@@ -12,6 +14,12 @@ export const Game = ({ children }: PropsWithChildren) => {
 	const state = useGameState();
 
 	useEffect(() => {
+		document.addEventListener("keydown", (event) => {
+			if (event.key.toLocaleLowerCase() === "r") {
+				transition(State.Resetting);
+			}
+		});
+
 		initializeFirstLoad();
 	}, []);
 
