@@ -31,7 +31,7 @@ export function DrawerWithSides() {
 	return (
 		<div className="flex flex-wrap gap-2">
 			<Drawer open={open} onOpenChange={setOpen}>
-				<DrawerTrigger>
+				<DrawerTrigger asChild>
 					<Button
 						variant="ghost"
 						size="lg"

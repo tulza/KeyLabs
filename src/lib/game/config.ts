@@ -5,7 +5,10 @@ import { Screen } from "./types";
 const GRIDSIZE = 60;
 const defaultTargetSize = 64;
 
-export const screen: Screen = { width: 15 * GRIDSIZE, height: 9 * GRIDSIZE };
+export const screenConfig: Screen = {
+	width: 15 * GRIDSIZE,
+	height: 9 * GRIDSIZE,
+};
 
 export const defaultConfig = {
 	mode: Mode.time,

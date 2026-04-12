@@ -1,9 +1,12 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { Image } from "@unpic/react";
 import { PageContainer } from "@/components/container/PageContainer";
-import { GameBoard } from "./_components/game-board";
-import { GameOptionsSelector } from "./_components/gamemode-select";
-import { NavigationBar } from "./_components/navigation-bar";
+import { Background } from "./_components/feature/background";
+import { Game } from "./_components/feature/game-board";
+import { StateDebugPanel } from "./_components/feature/state-debug";
+import { DebugWindow } from "./_components/feature/store-debug";
+import { TargetLayer } from "./_components/feature/target-layer";
+import { GameOptionsSelector } from "./_components/ui/gamemode-select";
+import { NavigationBar } from "./_components/ui/navigation-bar";
 export const Route = createFileRoute("/")({
 	component: Home,
 });
@@ -11,15 +14,15 @@ export const Route = createFileRoute("/")({
 function Home() {
 	return (
 		<PageContainer className="overflow-hidden">
-			<Image
-				className="-z-10 pointer-events-none absolute top-0 left-0 size-[150%] object-cover object-bottom"
-				src="show.png"
-				layout="fullWidth"
-				height={800}
-			/>
+			<Background />
 			<NavigationBar />
-			<GameBoard></GameBoard>
+			<Game>
+				<TargetLayer />
+			</Game>
 			<GameOptionsSelector />
+			{/* debugger */}
+			<DebugWindow />
+			<StateDebugPanel />
 		</PageContainer>
 	);
 }

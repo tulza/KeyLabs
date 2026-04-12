@@ -68,50 +68,50 @@ export const LoadingIcon = (props: React.SVGProps<SVGSVGElement>) => {
 			<path
 				d="M12 2V6"
 				stroke="black"
-				stroke-width="2"
-				stroke-linejoin="round"
+				strokeWidth="2"
+				strokeLinejoin="round"
 			/>
 			<path
 				d="M16.2002 7.7999L19.1002 4.8999"
 				stroke="black"
-				stroke-width="2"
-				stroke-linejoin="round"
+				strokeWidth="2"
+				strokeLinejoin="round"
 			/>
 			<path
 				d="M18 12H22"
 				stroke="black"
-				stroke-width="2"
-				stroke-linejoin="round"
+				strokeWidth="2"
+				strokeLinejoin="round"
 			/>
 			<path
 				d="M16.2002 16.2002L19.1002 19.1002"
 				stroke="black"
-				stroke-width="2"
-				stroke-linejoin="round"
+				strokeWidth="2"
+				strokeLinejoin="round"
 			/>
 			<path
 				d="M12 18V22"
 				stroke="black"
-				stroke-width="2"
-				stroke-linejoin="round"
+				strokeWidth="2"
+				strokeLinejoin="round"
 			/>
 			<path
 				d="M4.90039 19.1002L7.80039 16.2002"
 				stroke="black"
-				stroke-width="2"
-				stroke-linejoin="round"
+				strokeWidth="2"
+				strokeLinejoin="round"
 			/>
 			<path
 				d="M2 12H6"
 				stroke="black"
-				stroke-width="2"
-				stroke-linejoin="round"
+				strokeWidth="2"
+				strokeLinejoin="round"
 			/>
 			<path
 				d="M4.90039 4.8999L7.80039 7.7999"
 				stroke="black"
-				stroke-width="2"
-				stroke-linejoin="round"
+				strokeWidth="2"
+				strokeLinejoin="round"
 			/>
 		</svg>
 	);

@@ -1,0 +1,55 @@
+import { Activity, useState } from "react";
+import { Button } from "@/components/ui/button";
+import { useGameStateStore } from "@/lib/game/store/game";
+import { getPointStore } from "@/lib/game/store/point";
+import { usePreGameStore } from "@/lib/game/store/pre-game";
+import { useGameState } from "@/lib/game/store/state-manager";
+
+export const DebugWindow = () => {
+	const [open, setOpen] = useState(true);
+
+	const state = useGameState();
+	const { wordList } = usePreGameStore();
+	const { set, stats, charIndex, wordIndex } = useGameStateStore();
+	const points = getPointStore();
+
+	const preSet = wordList.words.slice(0, 10).join(", ");
+	const currentSet = set.words.slice(0, 10).join(", ");
+
+	const data = {
+		state,
+		stats,
+		charIndex,
+		wordIndex,
+		preSet,
+		currentSet,
+		points,
+	};
+
+	return (
+		<div className="fixed top-3 left-3 z-9999 w-72 rounded bg-black/80 font-mono text-xs backdrop-blur-sm">
+			<div className="flex items-center justify-between border-border border-b px-3 py-2">
+				<span className="text-[10px] text-background tracking-widest">
+					DEBUG
+				</span>
+				<div className="flex items-center gap-1">
+					<span className="rounded bg-background px-2 py-1 font-medium">
+						{state}
+					</span>
+					<Button
+						variant="outline"
+						size="icon-xs"
+						onClick={() => setOpen(!open)}
+					>
+						{open ? "-" : "+"}
+					</Button>
+				</div>
+			</div>
+			<Activity mode={open ? "visible" : "hidden"}>
+				<pre className="max-h-80 overflow-scroll p-3 text-slate-300 leading-relaxed">
+					{JSON.stringify(data, null, 2)}
+				</pre>
+			</Activity>
+		</div>
+	);
+};

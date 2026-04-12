@@ -6,6 +6,11 @@ export type WordSetData = {
 	words: string[];
 };
 
+export const defaultWordSet: WordSetData = {
+	name: WordSet.english,
+	words: [],
+};
+
 export type WordSetMeta = Pick<WordSetData, "name" | "description">;
 
 const modules = import.meta.glob<{ default: WordSetData }>("./*.json", {

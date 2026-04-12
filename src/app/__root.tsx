@@ -12,7 +12,6 @@ import { NuqsAdapter } from "nuqs/adapters/react";
 import { LeftArrowIcon } from "@/components/icon";
 import { Button } from "@/components/ui/button";
 import appCss from "../styles/globals.css?url";
-import { DebugWindow } from "./_components/store-debug";
 
 const queryClient = new QueryClient();
 
@@ -83,7 +82,6 @@ function RootLayout() {
 					</head>
 					<body className="min-h-dvh antialiased">
 						<Outlet />
-						<DebugWindow />
 						<Scripts />
 					</body>
 				</html>
