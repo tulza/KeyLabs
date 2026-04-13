@@ -4,6 +4,7 @@ import { usePreGameStore } from "@/lib/game/store/pre-game";
 import {
 	hasFinished,
 	initializeFirstLoad,
+	isPregame,
 	transition,
 	useGameState,
 } from "@/lib/game/store/state-manager";
@@ -13,7 +14,6 @@ import { SummaryScreen } from "./game-summary";
 import { Screen } from "./screen";
 
 export const Game = ({ children }: PropsWithChildren) => {
-	// todo: toggle between screen
 	const rafRef = useRef<number>(0);
 	const { mode } = usePreGameStore().config;
 
@@ -55,7 +55,7 @@ export const Game = ({ children }: PropsWithChildren) => {
 			<GameBar />
 			<Screen>{children}</Screen>
 			<div className="flex h-9 w-225 items-center justify-center">
-				{state === State.Ready && <DrawerWithSides />}
+				{isPregame() && <DrawerWithSides />}
 			</div>
 		</GameBoardContainer>
 	);

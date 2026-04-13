@@ -2,12 +2,17 @@ import { PropsWithChildren } from "react";
 import { CharacterIcon, TimeIcon } from "@/components/icon";
 import { Text } from "@/components/typography/text";
 import { Button } from "@/components/ui/button";
-import { Mode, State } from "@/lib/game/enum";
+import { Mode } from "@/lib/game/enum";
 import { modeOptions } from "@/lib/game/options";
-import { usePreGameActions, usePreGameConfig } from "@/lib/game/store/pre-game";
-import { useGameState } from "@/lib/game/store/state-manager";
+import {
+	handleMode2Change,
+	handleModeChange,
+	usePreGameConfig,
+} from "@/lib/game/store/pre-game";
+import { isPregame, useGameState } from "@/lib/game/store/state-manager";
 import { cn } from "@/lib/utils";
 import { GameContainer } from "./game-container";
+import { Mode2CustomDialog } from "./mode2-custom-dialog";
 
 const modes = [
 	{ value: Mode.time, label: "Timed", icon: TimeIcon },
@@ -22,39 +27,30 @@ const AmountIcon: Record<Mode, typeof TimeIcon> = {
 export const GameOptionsSelector = () => {
 	const state = useGameState();
 	const config = usePreGameConfig();
-	const { setConfig } = usePreGameActions();
 
 	const mode = config?.mode ?? Mode.time;
 	const amount = config?.mode2 ?? modeOptions[Mode.time][0];
 
-	const handleModeChange = (newMode: Mode) => {
-		setConfig({
-			...config,
-			mode: newMode,
-			mode2: modeOptions[newMode][0],
-		});
-	};
-
-	const handleAmountChange = (value: number) => {
-		setConfig({ ...config, mode, mode2: value });
-	};
-
 	const Icon = AmountIcon[mode];
+
+	const isCustom = !modeOptions[mode].includes(amount);
 
 	return (
 		<GameContainer className="bottom-0 flex gap-6">
 			<div
 				className={cn(
 					"flex gap-6 opacity-100",
-					state !== State.Ready ? "opacity-0" : "",
+					!isPregame() && "pointer-events-none",
+					// temp
+					!isPregame() && "opacity-0",
 				)}
 			>
 				<Menu label="Gamemode">
 					{modes.map(({ value, label, icon: ModeIcon }) => (
 						<Button
-							key={`mode-${value}`}
-							variant={mode === value ? "secondary" : "outline"}
-							className="tabular rounded border-2"
+							key={`${mode}-${label}`}
+							variant={mode === value ? "secondary" : "default"}
+							className="rounded font-mono font-normal tabular-nums"
 							size="lg"
 							onClick={() => handleModeChange(value)}
 						>
@@ -72,15 +68,19 @@ export const GameOptionsSelector = () => {
 					{modeOptions[mode].map((value) => (
 						<Button
 							key={`${mode}-${value}`}
-							variant={amount === value ? "secondary" : "outline"}
-							className="rounded border-2 font-mono font-normal tabular-nums"
+							variant={amount === value ? "secondary" : "default"}
+							className="rounded font-mono font-normal tabular-nums"
 							size="lg"
-							onClick={() => handleAmountChange(value)}
+							onClick={() => handleMode2Change(value)}
 						>
 							<Icon />
 							<span>{value}</span>
 						</Button>
 					))}
+					<Mode2CustomDialog
+						key={`${mode}-custom`}
+						isCustom={isCustom}
+					/>
 				</Menu>
 			</div>
 		</GameContainer>

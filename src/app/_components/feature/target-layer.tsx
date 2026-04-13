@@ -10,13 +10,15 @@ import { useGameConfig } from "@/lib/game/store/game";
 import { usePoints } from "@/lib/game/store/point";
 import { transition, useGameState } from "@/lib/game/store/state-manager";
 import { Point } from "@/lib/game/types";
+import { cn } from "@/lib/utils";
+import { Loader } from "../ui/loader";
 
 export const TargetLayer = () => {
 	const state = useGameState();
 	const { targetSize } = useGameConfig();
 	const points = usePoints();
 
-	if (state === State.Ready) {
+	if (state === State.Ready || state === State.Resetting) {
 		return <StartCircle />;
 	}
 
@@ -28,6 +30,10 @@ export const TargetLayer = () => {
 };
 
 const StartCircle = () => {
+	const state = useGameState();
+
+	const isReady = state === State.Ready;
+
 	return (
 		<TooltipProvider>
 			<Tooltip>
@@ -35,10 +41,19 @@ const StartCircle = () => {
 					<button
 						onClick={() => transition(State.Playing)}
 						data-slot="circle"
-						className="absolute inset-1/2 z-50 flex size-16 cursor-pointer items-center justify-center rounded-full bg-foreground [translate:-50%_-50%]"
+						className={cn(
+							"absolute inset-1/2 z-50 flex size-16 cursor-pointer items-center justify-center rounded-full bg-foreground [translate:-50%_-50%]",
+							!isReady && "pointer-events-none select-none",
+						)}
 					>
-						<div className="-z-10 absolute inset-1/2 size-3/4 animate-ping rounded-full bg-foreground [translate:-50%_-50%]" />
-						<CursorIcon className="size-5 *:fill-muted" />
+						{isReady ? (
+							<>
+								<div className="-z-10 absolute inset-1/2 size-3/4 animate-ping rounded-full bg-foreground [translate:-50%_-50%]" />
+								<CursorIcon className="size-5 *:fill-muted" />
+							</>
+						) : (
+							<Loader className="size-6 *:stroke-secondary" />
+						)}
 					</button>
 				</TooltipTrigger>
 				<TooltipContent>Start Test</TooltipContent>

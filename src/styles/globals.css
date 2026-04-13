@@ -41,6 +41,11 @@
 		var(--color-secondary) 15%,
 		var(--color-background)
 	);
+	--muted-background: color-mix(
+		in srgb,
+		var(--color-secondary) 50%,
+		var(--color-background)
+	);
 	--muted-foreground: oklch(0.552 0.016 285.938);
 	--accent: oklch(0.967 0.001 286.375);
 	--accent-foreground: oklch(0.21 0.006 285.885);
@@ -106,6 +111,7 @@
 	--color-card: var(--card);
 
 	--color-muted-foreground: var(--muted-foreground);
+	--color-muted-background: var(--muted-background);
 	--color-muted: var(--muted);
 	--color-secondary-foreground: var(--secondary-foreground);
 	--color-secondary: var(--secondary);

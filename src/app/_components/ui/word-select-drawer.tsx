@@ -1,6 +1,6 @@
 import { capitalize } from "radash";
 import { useState } from "react";
-import { GlobeIcon, LoadingIcon } from "@/components/icon";
+import { GlobeIcon } from "@/components/icon";
 import { Button } from "@/components/ui/button";
 import {
 	Drawer,
@@ -16,6 +16,7 @@ import { setMeta } from "@/data/sets/word-set";
 import { State, WordSet } from "@/lib/game/enum";
 import { changeWordSet, usePreGameConfig } from "@/lib/game/store/pre-game";
 import { useGameState } from "@/lib/game/store/state-manager";
+import { Loader } from "./loader";
 
 export function DrawerWithSides() {
 	const [loading, setLoading] = useState<number | null>(null);
@@ -107,9 +108,7 @@ const DrawerSetSelectButton = ({
 		>
 			<p className="flex items-center gap-3">
 				{formatText(name)}
-				{isLoading && (
-					<LoadingIcon className="size-4 animate-spin *:stroke-foreground" />
-				)}
+				{isLoading && <Loader />}
 			</p>
 			<p className="text-secondary">{description}</p>
 		</Button>

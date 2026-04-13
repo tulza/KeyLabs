@@ -5,7 +5,11 @@ import { Button } from "@/components/ui/button";
 import { State } from "@/lib/game/enum";
 import { useWordIndex } from "@/lib/game/store/game";
 import { usePreGameStore } from "@/lib/game/store/pre-game";
-import { transition, useGameState } from "@/lib/game/store/state-manager";
+import {
+	isPregame,
+	transition,
+	useGameState,
+} from "@/lib/game/store/state-manager";
 import { cn } from "@/lib/utils";
 import { ModeIndicator } from "../ui/mode-indicator";
 
@@ -105,7 +109,10 @@ export const WordBar = () => {
 			</div>
 
 			<div
-				className="absolute top-0 left-1/2 flex h-full w-min transition duration-500 ease-in-expo"
+				className={cn(
+					"absolute top-0 left-1/2 flex h-full w-min transition duration-500 ease-in-expo",
+					isPregame() && "duration-0",
+				)}
 				ref={containerRef}
 			>
 				{state !== State.Resetting &&

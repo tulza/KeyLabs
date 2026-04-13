@@ -2,10 +2,11 @@ import { create } from "zustand";
 import { useShallow } from "zustand/react/shallow";
 import { defaultWordSet, WordSetData } from "@/data/sets/word-set";
 import { defaultConfig } from "../config";
-import { Mode, WordSet } from "../enum";
+import { Mode, State, WordSet } from "../enum";
 import { generateWordList, generateWordListAsync } from "../generate";
 import { modeOptions } from "../options";
 import { GameConfig, MetaData } from "../types";
+import { transition } from "./state-manager";
 
 type PreGameStore = {
 	config: GameConfig;
@@ -60,8 +61,8 @@ export const changeWordSet = async (setName: WordSet) => {
 		...usePreGameStore.getState().config,
 		wordSet: setName,
 	} as GameConfig;
-	const wordList = await generateWordListAsync(config);
-	usePreGameStore.setState({ config, wordList });
+	usePreGameStore.setState({ config });
+	transition(State.Resetting);
 };
 
 export const resetWordList = async () => {
@@ -79,4 +80,30 @@ export const changeMode = (mode: Mode) => {
 
 export const getPreGameStore = () => {
 	return usePreGameStore.getState();
+};
+
+export const handleModeChange = (newMode: Mode) => {
+	const {
+		actions: { setConfig },
+		config,
+	} = usePreGameStore.getState();
+
+	if (config.mode === newMode) return;
+
+	setConfig({
+		...config,
+		mode: newMode,
+		mode2: modeOptions[newMode][0],
+	});
+};
+
+export const handleMode2Change = (value: number) => {
+	const {
+		actions: { setConfig },
+		config,
+	} = usePreGameStore.getState();
+
+	if (config.mode2 === value) return;
+
+	setConfig({ ...config, mode2: value });
 };

@@ -53,7 +53,7 @@ export function SummaryScreen() {
 				</div>
 
 				<Block className="rounded-b">
-					<span>Type</span>
+					<span>Test type</span>
 					<span>{modeDisplay}</span>
 				</Block>
 			</div>
