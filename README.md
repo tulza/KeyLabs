@@ -12,6 +12,12 @@ Due to limited time and experience during development, many features remained un
 
 This version of the project is a solo development continuation of the original repository, focusing on rebuilding and improving the system over time.
 
+## Credits
+
+This project was heavily inspired by [MonkeyType](https://github.com/monkeytypegame/monkeytype).
+The wordset data used in this project is sourced from their repository
+
+
 ## Getting Started
 
 ```bash

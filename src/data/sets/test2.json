@@ -1,7 +1,0 @@
-{
-	"name": "test2",
-	"description": "abc",
-	"noLazyMode": true,
-	"orderedByFrequency": true,
-	"words": ["a", "b", "c", "d", "e"]
-}

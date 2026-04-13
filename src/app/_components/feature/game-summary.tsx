@@ -1,11 +1,16 @@
 import { HtmlHTMLAttributes, PropsWithChildren, useRef } from "react";
 import { CrownIcon, ResetIcon } from "@/components/icon";
 import { Button } from "@/components/ui/button";
+import {
+	Tooltip,
+	TooltipContent,
+	TooltipProvider,
+	TooltipTrigger,
+} from "@/components/ui/tooltip";
 import { State } from "@/lib/game/enum";
 import { transition } from "@/lib/game/store/state-manager";
 import { useLatestResult } from "@/lib/game/store/summary";
 import { cn } from "@/lib/utils";
-
 export function SummaryScreen() {
 	const result = useLatestResult();
 	const ref = useRef<HTMLDivElement>(null);
@@ -19,8 +24,13 @@ export function SummaryScreen() {
 	const accuracyDisplay = analysis
 		? `${(analysis.accuracy * 100).toFixed(0)}%`
 		: "—";
+	const accuracy2dpDisplay = analysis
+		? `${(analysis.accuracy * 100).toFixed(2)}%`
+		: "—";
+	const lpm2dpDisplay = analysis ? analysis.lpm.toFixed(2) : "—";
 	const lpmDisplay = analysis ? Math.round(analysis.lpm) : "—";
 	const timeDisplay = `${(stats.time / 1000).toFixed(0)}s`;
+	const time2dpDisplay = `${(stats.time / 1000).toFixed(2)}s`;
 	const modeDisplay = `${mode} ${mode2} / ${wordSet} / ${targetSize}`;
 
 	return (
@@ -28,29 +38,57 @@ export function SummaryScreen() {
 			<div className="h-9" />
 			<div className="bg w-125 space-y-1 overflow-hidden rounded-t-sm font-medium text-sm">
 				<Block>Game analysis</Block>
-				<div className="grid grid-cols-2 space-x-1">
-					<div className="flex flex-col justify-between bg-secondary p-4">
-						<span className="text-[52px] text-foreground leading-none">
-							{lpmDisplay}
-						</span>
-						<span className="mt-3 text-foreground">
-							Letter / Minute
-						</span>
-					</div>
+				<TooltipProvider>
+					<div className="grid grid-cols-2 space-x-1">
+						<Tooltip>
+							<TooltipTrigger asChild>
+								<div className="flex flex-col justify-between bg-secondary p-4">
+									<span className="text-[52px] text-foreground leading-none">
+										{lpmDisplay}
+									</span>
+									<span className="mt-3 text-foreground">
+										Letter / Minute
+									</span>
+								</div>
+							</TooltipTrigger>
+							<TooltipContent side="left">
+								{lpm2dpDisplay} LPM
+							</TooltipContent>
+						</Tooltip>
 
-					<div className="flex flex-col gap-1">
-						{[
-							{ label: "Hits", value: hitsDisplay },
-							{ label: "Accuracy", value: accuracyDisplay },
-							{ label: "Time", value: timeDisplay },
-						].map(({ label, value }) => (
-							<Block key={label}>
-								<span>{label}</span>
-								<span>{value}</span>
-							</Block>
-						))}
+						<div className="flex flex-col gap-1">
+							{[
+								{
+									label: "Hits",
+									value: hitsDisplay,
+									tooltip: "correct / clicks / incorrect",
+								},
+								{
+									label: "Accuracy",
+									value: accuracyDisplay,
+									tooltip: accuracy2dpDisplay,
+								},
+								{
+									label: "Time",
+									value: timeDisplay,
+									tooltip: time2dpDisplay,
+								},
+							].map(({ label, value, tooltip }) => (
+								<Tooltip>
+									<TooltipTrigger asChild>
+										<Block key={label}>
+											<span>{label}</span>
+											<span>{value}</span>
+										</Block>
+									</TooltipTrigger>
+									<TooltipContent side="right">
+										{tooltip}
+									</TooltipContent>
+								</Tooltip>
+							))}
+						</div>
 					</div>
-				</div>
+				</TooltipProvider>
 
 				<Block className="rounded-b">
 					<span>Test type</span>

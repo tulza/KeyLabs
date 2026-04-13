@@ -1,4 +1,5 @@
 import { WordSet } from "@/lib/game/enum";
+import { getOrderForLanguage } from "./languages";
 
 export type WordSetData = {
 	name: string;
@@ -24,10 +25,13 @@ const sets = Object.fromEntries(
 	}),
 ) as Record<WordSet, WordSetData>;
 
-export const setMeta = Object.entries(sets).map(
-	([_, { name, description }]) =>
-		({ name, description }) satisfies WordSetMeta,
-) as WordSetMeta[];
+export const setMeta = Object.entries(sets)
+	.map(
+		([_, { name, description }]) =>
+			({ name, description }) satisfies WordSetMeta,
+	)
+
+	.sort((a, b) => getOrderForLanguage(a.name, b.name)) as WordSetMeta[];
 
 export const getWordSet = (setName: WordSet): WordSetData => {
 	return sets[setName] ?? sets[WordSet.english];
