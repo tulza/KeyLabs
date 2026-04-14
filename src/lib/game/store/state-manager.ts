@@ -17,7 +17,6 @@ export const useFlowStore = create<GameFlowStore>((set) => ({
 	state: State.Resetting,
 	actions: {
 		setState: (state) => {
-			console.log(state);
 			set({ state });
 		},
 	},
@@ -34,13 +33,11 @@ const allowed: Readonly<Partial<Record<State, State[]>>> = {
 	[State.Finished]: [State.Resetting],
 };
 
-export const transition = async (to: State) => {
+export const transition = async (to: State, forced = false) => {
 	const { state: from } = useFlowStore.getState();
 	const { setState } = useFlowStore.getState().actions;
 
-	console.log(from, "->", to);
-
-	if (!allowed[from]?.includes(to)) {
+	if (!allowed[from]?.includes(to) && !forced) {
 		return;
 	}
 
@@ -93,9 +90,7 @@ export const initializeFirstLoad = async () => {
 
 	resetToDefault();
 	reset();
-
-	await resetWordList();
-	transition(State.Ready);
+	await transition(State.Resetting, true);
 };
 
 export const getGameFlowStore = () => {

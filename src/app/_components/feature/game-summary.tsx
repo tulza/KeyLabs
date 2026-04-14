@@ -43,10 +43,10 @@ export function SummaryScreen() {
 						<Tooltip>
 							<TooltipTrigger asChild>
 								<div className="flex flex-col justify-between bg-secondary p-4">
-									<span className="text-[52px] text-foreground leading-none">
+									<span className="text-[52px] text-secondary-foreground leading-none">
 										{lpmDisplay}
 									</span>
-									<span className="mt-3 text-foreground">
+									<span className="mt-3 text-secondary-foreground">
 										Letter / Minute
 									</span>
 								</div>
@@ -132,7 +132,7 @@ const Block = ({
 		<div
 			{...props}
 			className={cn(
-				"flex justify-between bg-secondary p-3",
+				"flex justify-between bg-secondary p-3 text-secondary-foreground",
 				props.className,
 			)}
 		>

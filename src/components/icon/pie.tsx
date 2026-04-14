@@ -43,7 +43,13 @@ export const PieTimer = ({ duration, startTime, ...props }: PieTimerProps) => {
 				viewBox="0 0 24 24"
 				{...props}
 			>
-				<circle r="10" cx="12" cy="12" fill="#453D3D" />
+				<circle
+					r="10"
+					cx="12"
+					cy="12"
+					fill="#453D3D"
+					className="fill-foreground"
+				/>
 				<circle
 					ref={pieRef}
 					r="5"
@@ -53,12 +59,12 @@ export const PieTimer = ({ duration, startTime, ...props }: PieTimerProps) => {
 					strokeWidth="10"
 					pathLength={1}
 					strokeDasharray="0 1"
-					className="-rotate-90 origin-center stroke-secondary"
+					className="-rotate-90 origin-center stroke-muted"
 				/>
 			</svg>
 			<span
 				ref={labelRef}
-				className="w-full min-w-0 text-left font-sans slashed-zero tabular-nums"
+				className="w-full min-w-0 text-left font-sans text-foreground slashed-zero tabular-nums"
 				style={{ direction: "rtl" }}
 			>
 				15.00s

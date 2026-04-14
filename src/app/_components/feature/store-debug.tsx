@@ -29,9 +29,9 @@ export const DebugWindow = () => {
 	if (process.env.NODE_ENV === "production") return null;
 
 	return (
-		<div className="fixed top-3 left-3 z-9999 w-72 rounded bg-black/80 font-mono text-xs backdrop-blur-sm">
+		<div className="fixed top-3 left-3 z-9999 w-72 rounded bg-muted font-mono text-xs backdrop-blur-sm">
 			<div className="flex items-center justify-between border-border border-b px-3 py-2">
-				<span className="text-[10px] text-background tracking-widest">
+				<span className="text-[10px] text-foreground tracking-widest">
 					STORE DEBUG
 				</span>
 				<Button
@@ -43,7 +43,7 @@ export const DebugWindow = () => {
 				</Button>
 			</div>
 			<Activity mode={open ? "visible" : "hidden"}>
-				<pre className="max-h-80 overflow-scroll p-3 text-slate-300 leading-relaxed">
+				<pre className="max-h-80 overflow-scroll p-3 text-foreground leading-relaxed">
 					{JSON.stringify(data, null, 2)}
 				</pre>
 			</Activity>

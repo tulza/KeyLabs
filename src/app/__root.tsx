@@ -10,41 +10,37 @@ import {
 } from "@tanstack/react-router";
 import { NuqsAdapter } from "nuqs/adapters/react";
 import { LeftArrowIcon } from "@/components/icon";
+import { ThemeHead } from "@/components/provider/theme";
 import { Button } from "@/components/ui/button";
+import { themeSets } from "@/data/themes/themes";
+import { getThemeCookie } from "@/lib/cookie/theme-server";
 import appCss from "../styles/globals.css?url";
 
 const queryClient = new QueryClient();
 
 export const Route = createRootRoute({
-	head: () => ({
-		meta: [
-			{ charSet: "utf-8" },
-			{
-				name: "viewport",
-				content: "width=device-width, initial-scale=1",
-			},
-			{ title: "Keylabs" },
-		],
-		links: [
-			{
-				rel: "stylesheet",
-				href: abeezeeCss,
-			},
-			{
-				rel: "stylesheet",
-				href: inclusiveSansCss,
-			},
-			{
-				rel: "stylesheet",
-				href: appCss,
-			},
-			{
-				rel: "icon",
-				href: "/icon.png",
-				type: "image/x-icon",
-			},
-		],
-	}),
+	loader: async () => {
+		const theme = await getThemeCookie();
+		return { theme };
+	},
+	head: () => {
+		return {
+			meta: [
+				{ charSet: "utf-8" },
+				{
+					name: "viewport",
+					content: "width=device-width, initial-scale=1",
+				},
+				{ title: "Keylabs" },
+			],
+			links: [
+				{ rel: "stylesheet", href: abeezeeCss },
+				{ rel: "stylesheet", href: inclusiveSansCss },
+				{ rel: "stylesheet", href: appCss },
+				{ rel: "icon", href: "/icon.png", type: "image/x-icon" },
+			],
+		};
+	},
 	component: RootLayout,
 	notFoundComponent: NotFound,
 });
@@ -73,14 +69,23 @@ function NotFound() {
 }
 
 function RootLayout() {
+	const { theme } = Route.useLoaderData();
+	const css = themeSets[theme] ?? themeSets["default"];
+	// const css = themeSets["default"] ?? themeSets["default"];
+
 	return (
 		<NuqsAdapter>
 			<QueryClientProvider client={queryClient}>
 				<html lang="en">
 					<head>
 						<HeadContent />
+						<style
+							id="theme-style"
+							dangerouslySetInnerHTML={{ __html: css }}
+						/>
 					</head>
 					<body className="min-h-dvh antialiased">
+						<ThemeHead />
 						<Outlet />
 						<Scripts />
 					</body>

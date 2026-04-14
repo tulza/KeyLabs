@@ -1,7 +1,12 @@
 :root {
-  --background: #000;
-  --secondary: #000;
-  --foreground: #000;
-  --tertiary: #000;
-  --hover: #000;
+	--background: #f00;
+	--foreground: #f00;
+
+	--primary: #f00;
+	--secondary: #f00;
+	--secondary-foreground: #f00;
+	--accent: #f00;
+
+	--icon: #f00;
+	--icon2: #f00;
 }

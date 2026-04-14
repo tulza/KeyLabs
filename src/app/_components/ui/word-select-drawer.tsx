@@ -52,7 +52,7 @@ export function DrawerWithSides() {
 						<DrawerDescription>Change word set.</DrawerDescription>
 					</DrawerHeader>
 					<hr />
-					<div className="no-scrollbar flex flex-col overflow-y-auto py-6">
+					<div className="no-scrollbar flex max-h-100 flex-col overflow-y-auto py-6">
 						{setMeta.map(({ name, description }, index) => (
 							<DrawerSetSelectButton
 								key={index}
@@ -106,7 +106,7 @@ const DrawerSetSelectButton = ({
 			disabled={disabled}
 			className="justify-between rounded-none px-4 duration-0"
 		>
-			<p className="flex items-center gap-3">
+			<p className="flex items-center gap-3 text-foreground">
 				{formatText(name)}
 				{isLoading && <Loader />}
 			</p>

@@ -24,7 +24,7 @@ export const GameBar = () => {
 				size="icon"
 				className="place-self-end"
 			>
-				<ResetIcon />
+				<ResetIcon className="*:fill-secondary-foreground" />
 			</Button>
 		</div>
 	);
@@ -68,13 +68,14 @@ export const WordBar = () => {
 
 	const baseClass = cn(
 		"last-border-r flex h-full w-min items-center whitespace-nowrap border-secondary border-r bg-muted px-3 font-mono font-normal text-icon first:border-l",
-		"duration-500 ease-in-expo ease-in-out *:inline-block *:transition-colors",
+		"duration-500 ease-in-expo ease-in-out *:inline-block",
+		"*:transition-[color,font-size] *:will-change-[font-size]",
 	);
 
 	const currentClass = "font-medium text-xl";
 
 	return (
-		<div className="relative flex h-10 w-full select-none overflow-hidden rounded border-2 border-secondary bg-muted shadow-inner shadow-secondary">
+		<div className="relative flex h-10 w-full select-none overflow-hidden rounded border-2 border-secondary bg-muted shadow-[inset_0_2px_4px_var(--color-accent)]">
 			<div className="-translate-x-1/2 absolute bottom-0 left-1/2 z-50 translate-y-1 text-[8px]">
 				▲
 			</div>
@@ -110,7 +111,7 @@ export const WordBar = () => {
 
 			<div
 				className={cn(
-					"absolute top-0 left-1/2 flex h-full w-min transition duration-500 ease-in-expo",
+					"absolute top-0 left-1/2 flex h-full w-min transition duration-500 ease-in-expo will-change-[font-size]",
 					isPregame() && "duration-0",
 				)}
 				ref={containerRef}
@@ -127,20 +128,25 @@ export const WordBar = () => {
 								ref={isCurrent ? activeRef : undefined}
 								className={cn(
 									baseClass,
-									isAfter && "text-secondary",
-									isBefore &&
-										"bg-secondary/15 text-secondary/80",
-									isCurrent && currentClass,
+									isBefore && "bg-secondary/15",
 								)}
 							>
-								{isCurrent ? (
-									<CurrentText
-										word={word}
-										charIndex={charIndex}
-									/>
-								) : (
-									word
-								)}
+								{word.split("").map((char, i) => (
+									<span
+										key={`${i}/${char}/${word}`}
+										className={cn(
+											"duration-500",
+											isCurrent && charIndex > i
+												? "text-secondary-muted-foreground"
+												: "text-secondary-muted-foreground/50",
+											isAfter && "text-secondary/40",
+											isBefore && "text-secondary/80",
+											isCurrent && currentClass,
+										)}
+									>
+										{char}
+									</span>
+								))}
 							</div>
 						);
 					})}
@@ -162,12 +168,17 @@ const CurrentText = ({
 	return (
 		<>
 			{upcomingText.split("").map((char, i) => (
-				<span key={`${i}/${char}/${word}`}>{char}</span>
+				<span
+					key={`${i}/${char}/${word}`}
+					className="text-secondary-muted-foreground"
+				>
+					{char}
+				</span>
 			))}
 			{currentText.split("").map((char, i) => (
 				<span
 					key={`${i}/${char}/${word}`}
-					className="text-foreground/50"
+					className="text-secondary-muted-foreground/50"
 				>
 					{char}
 				</span>

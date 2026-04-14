@@ -24,7 +24,7 @@ export const Screen = ({ children }: PropsWithChildren) => {
 		<div
 			ref={screenRef}
 			onMouseDown={handleClick}
-			className="relative rounded-md border-2 border-border bg-muted"
+			className="relative rounded-md border-2 border-border bg-board"
 			style={{
 				width: screenConfig.width,
 				height: screenConfig.height,

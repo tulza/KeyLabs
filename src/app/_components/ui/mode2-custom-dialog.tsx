@@ -43,7 +43,7 @@ export function Mode2CustomDialog({ isCustom }: { isCustom: boolean }) {
 		<Dialog>
 			<DialogTrigger asChild>
 				<Button
-					variant={isCustom ? "secondary" : "default"}
+					variant={isCustom ? "secondary" : "muted"}
 					className="rounded font-mono font-normal tabular-nums"
 					size="icon-lg"
 				>
@@ -52,7 +52,7 @@ export function Mode2CustomDialog({ isCustom }: { isCustom: boolean }) {
 			</DialogTrigger>
 			<form onSubmit={handleSubmit(onSubmit)}>
 				<DialogContent
-					className="sm:max-w-sm"
+					className="text-foreground sm:max-w-sm"
 					aria-describedby={undefined}
 				>
 					<DialogHeader>
@@ -85,6 +85,7 @@ export function Mode2CustomDialog({ isCustom }: { isCustom: boolean }) {
 						<DialogClose asChild>
 							<Button
 								type="submit"
+								variant="outline"
 								onClick={() => handleSubmit(onSubmit)()}
 								className="w-full"
 							>

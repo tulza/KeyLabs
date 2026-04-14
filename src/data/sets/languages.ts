@@ -398,7 +398,6 @@ export function getGroupForLanguage(
 	const group = LanguageGroupNames.find((group) =>
 		(LanguageGroups[group] as unknown as string[]).includes(language),
 	);
-	console.log(language, group);
 
 	return group;
 }

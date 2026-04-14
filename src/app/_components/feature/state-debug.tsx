@@ -23,11 +23,9 @@ export function StateDebugPanel() {
 	if (process.env.NODE_ENV === "production") return null;
 
 	return (
-		<div className="fixed top-3 right-3 z-9999 w-72 rounded bg-black/80 font-mono text-xs backdrop-blur-sm">
+		<div className="fixed top-3 right-3 z-9999 w-72 rounded bg-muted/80 font-mono text-primary text-xs backdrop-blur-sm">
 			<div className="flex items-center justify-between border-border border-b px-3 py-2">
-				<span className="text-[10px] text-background tracking-widest">
-					STATE
-				</span>
+				<span className="text-[10px] tracking-widest">STATE</span>
 				<div className="flex items-center gap-1">
 					<Badge
 						className={cn(stateColor[current], "h-full rounded-xs")}
@@ -48,7 +46,7 @@ export function StateDebugPanel() {
 					{states.map((s) => (
 						<Button
 							key={s}
-							variant={current === s ? "default" : "secondary"}
+							variant={current === s ? "secondary" : "outline"}
 							size="sm"
 							className="w-full justify-start text-xs"
 							onClick={() => transition(s)}

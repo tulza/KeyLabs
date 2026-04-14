@@ -1,6 +1,14 @@
 :root {
-  --background: #f6f4e7;
+	--background: #f6f4e7;
 	--foreground: #453d3d;
-	--secondary: #D2C9BD;
-	--icon: #000000;
+
+	--primary: #453d3d;
+	--secondary: #cbc1b4;
+	--secondary-foreground: var(--foreground);
+	--accent: #8c8282;
+
+	--icon: #453d3d;
+	--icon2: #28231d;
+
+	--accent: #8c8282;
 }

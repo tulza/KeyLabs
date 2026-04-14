@@ -1,47 +1,45 @@
-const themePreview = [
+export type PreviewTheme = {
+	background: string;
+	color1: string;
+	color2: string;
+	color3: string;
+};
+
+export type Preview = {
+	name: string;
+	id: string;
+	preview: PreviewTheme;
+};
+
+export const themePreview: Preview[] = [
 	{
 		name: "default",
+		id: "default",
 		preview: {
 			background: "#f6f4e7",
-			foreground: "#453d3d",
-			secondary: "#cbc1b4",
-			icon: "#000000",
+			color1: "#453d3d",
+			color2: "#cbc1b4",
+			color3: "#000000",
 		},
 	},
 	{
-		name: "dark_mono",
+		name: "Cookie Cat",
+		id: "cookiecat",
 		preview: {
-			background: "hsl(309 19% 7%)",
-			secondary: "hsl(0 0% 80%)",
-			foreground: "hsl(0 0% 86%)",
-			icon: "hsl(0 0% 77%)",
+			background: "#262836",
+			color1: "#f5b7e4",
+			color2: "#ca9bee",
+			color3: "#3e2e40",
 		},
 	},
 	{
-		name: "dark_retro",
+		name: "Matcha",
+		id: "matcha",
 		preview: {
-			background: "hsl(318 45% 6%)",
-			secondary: "hsl(68 100% 88%)",
-			foreground: "hsl(68 100% 53%)",
-			icon: "hsl(0 0% 71%)",
-		},
-	},
-	{
-		name: "catcopy",
-		preview: {
-			background: "hsl(233 18% 18%)",
-			secondary: "hsl(274 71% 77%)",
-			foreground: "hsl(317 76% 84%)",
-			icon: "hsl(0 0% 0%)",
-		},
-	},
-	{
-		name: "mute",
-		preview: {
-			background: "hsl(220 4% 13%)",
-			secondary: "hsl(50 100% 96%)",
-			foreground: "hsl(50 100% 96%)",
-			icon: "hsl(0 0% 100%)",
+			background: "#1e2420",
+			color1: "#7ab648",
+			color2: "#a8c97f",
+			color3: "#2d3d28",
 		},
 	},
 ];

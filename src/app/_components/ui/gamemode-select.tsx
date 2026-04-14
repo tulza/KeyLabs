@@ -34,7 +34,6 @@ export const GameOptionsSelector = () => {
 	const Icon = AmountIcon[mode];
 
 	const isCustom = !modeOptions[mode].includes(amount);
-
 	return (
 		<GameContainer className="bottom-0 flex gap-6">
 			<div
@@ -47,16 +46,14 @@ export const GameOptionsSelector = () => {
 			>
 				<Menu label="Gamemode">
 					{modes.map(({ value, label, icon: ModeIcon }) => (
-						<Button
-							key={`${mode}-${label}`}
-							variant={mode === value ? "secondary" : "default"}
-							className="rounded font-mono font-normal tabular-nums"
-							size="lg"
+						<SelectButton
+							key={`${mode}-${value}`}
+							current={mode}
+							value={value}
+							label={label}
 							onClick={() => handleModeChange(value)}
-						>
-							<ModeIcon />
-							<span>{label}</span>
-						</Button>
+							icon={Icon}
+						/>
 					))}
 				</Menu>
 
@@ -66,16 +63,14 @@ export const GameOptionsSelector = () => {
 					}
 				>
 					{modeOptions[mode].map((value) => (
-						<Button
+						<SelectButton
 							key={`${mode}-${value}`}
-							variant={amount === value ? "secondary" : "default"}
-							className="rounded font-mono font-normal tabular-nums"
-							size="lg"
+							current={amount}
+							value={value}
+							label={value.toString()}
 							onClick={() => handleMode2Change(value)}
-						>
-							<Icon />
-							<span>{value}</span>
-						</Button>
+							icon={Icon}
+						/>
 					))}
 					<Mode2CustomDialog
 						key={`${mode}-custom`}
@@ -90,12 +85,45 @@ export const GameOptionsSelector = () => {
 const Menu = ({ children, label }: PropsWithChildren<{ label: string }>) => {
 	return (
 		<div className="relative flex h-min gap-2 rounded-tr-md border-secondary bg-secondary p-0.5 pb-0">
-			<div className="absolute bottom-full left-0 rounded-t bg-secondary px-2 pt-1 font-serif italic">
+			<div className="absolute bottom-full left-0 rounded-t bg-secondary px-2 pt-1 font-serif text-secondary-foreground italic">
 				<Text size="small">{label}</Text>
 			</div>
 			<div className="flex gap-2 rounded-t-[6px] bg-[color-mix(in_srgb,var(--color-background),var(--color-secondary)_15%)] p-3 pb-4">
 				{children}
 			</div>
 		</div>
+	);
+};
+
+const SelectButton = <T extends Mode | number>({
+	current,
+	value,
+	label,
+	icon,
+	onClick,
+}: {
+	current: T;
+	value: T;
+	label: string;
+	icon: typeof TimeIcon;
+	onClick: (mode: T) => void;
+}) => {
+	const Icon = icon;
+
+	return (
+		<Button
+			key={`${value}-${label}`}
+			variant={current === value ? "secondary" : "muted"}
+			className="rounded font-mono font-normal tabular-nums"
+			size="lg"
+			onClick={() => onClick(current)}
+		>
+			<Icon
+				className={cn(
+					current === value && "*:fill-secondary-foreground",
+				)}
+			/>
+			<span>{label}</span>
+		</Button>
 	);
 };

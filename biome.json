@@ -35,7 +35,7 @@
 					"fix": "safe",
 					"level": "warn",
 					"options": {
-						"functions": ["clsx", "twMerge", "cn", "tv"]
+						"functions": ["clsx", "twMerge", "cn", "tv", "cva"]
 					}
 				}
 			},
