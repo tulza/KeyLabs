@@ -1,16 +1,27 @@
-const modules = import.meta.glob<string>("./*.css", {
-	eager: true,
+const modules = import.meta.glob("./*.css", {
+	eager: false,
 	query: "?raw",
 	import: "default",
 });
 
-export const themeSets = Object.fromEntries(
-	Object.entries(modules).map(([path, module]) => {
-		const name = path.match(/\/(\w+)\.css$/)?.[1];
-		return [name, module.replace(/\r\n/g, "\n")];
-	}),
-) as Record<string, string>;
+const getFileName = (path: string) => {
+	return path.split("/").pop()?.replace(".css", "");
+};
 
-export const getTheme = (setName: string): string => {
-	return themeSets[setName] ?? themeSets["default"];
+const normalizeEnding = (str: string) => str.replace(/\r\n/g, "\n");
+
+export const themeModules: Record<string, () => Promise<string>> =
+	Object.fromEntries(
+		Object.entries(modules).map(([path, loader]) => [
+			getFileName(path),
+			loader,
+		]),
+	);
+
+export const getThemeStyle = async (name: string): Promise<string> => {
+	const loader = themeModules[name] ?? themeModules["default"];
+
+	const css = await loader();
+
+	return normalizeEnding(css);
 };

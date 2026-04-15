@@ -111,7 +111,7 @@ export const WordBar = () => {
 
 			<div
 				className={cn(
-					"absolute top-0 left-1/2 flex h-full w-min transition duration-500 ease-in-expo will-change-[font-size]",
+					"absolute top-0 left-1/2 flex h-full w-min transition duration-500 ease-in-expo will-change-[font-size,min-width]",
 					isPregame() && "duration-0",
 				)}
 				ref={containerRef}
