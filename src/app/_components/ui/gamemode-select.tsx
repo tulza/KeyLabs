@@ -9,7 +9,7 @@ import {
 	handleModeChange,
 	usePreGameConfig,
 } from "@/lib/game/store/pre-game";
-import { isPregame, useGameState } from "@/lib/game/store/state-manager";
+import { isPregame } from "@/lib/game/store/state-manager";
 import { cn } from "@/lib/utils";
 import { GameContainer } from "./game-container";
 import { Mode2CustomDialog } from "./mode2-custom-dialog";
@@ -25,7 +25,6 @@ const AmountIcon: Record<Mode, typeof TimeIcon> = {
 };
 
 export const GameOptionsSelector = () => {
-	const state = useGameState();
 	const config = usePreGameConfig();
 
 	const mode = config?.mode ?? Mode.time;
@@ -45,7 +44,7 @@ export const GameOptionsSelector = () => {
 				)}
 			>
 				<Menu label="Gamemode">
-					{modes.map(({ value, label, icon: ModeIcon }) => (
+					{modes.map(({ value, label, icon: Icon }) => (
 						<SelectButton
 							key={`${mode}-${value}`}
 							current={mode}

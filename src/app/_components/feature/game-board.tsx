@@ -1,6 +1,6 @@
 import { PropsWithChildren, useEffect, useRef } from "react";
 import { Mode, State } from "@/lib/game/enum";
-import { usePreGameStore } from "@/lib/game/store/pre-game";
+import { usePreGameConfig } from "@/lib/game/store/pre-game";
 import {
 	hasFinished,
 	initializeFirstLoad,
@@ -15,7 +15,7 @@ import { Screen } from "./screen";
 
 export const Game = ({ children }: PropsWithChildren) => {
 	const rafRef = useRef<number>(0);
-	const { mode } = usePreGameStore().config;
+	const { mode } = usePreGameConfig();
 
 	const state = useGameState();
 

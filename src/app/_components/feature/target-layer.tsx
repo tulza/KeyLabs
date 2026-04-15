@@ -7,7 +7,7 @@ import {
 	TooltipTrigger,
 } from "@/components/ui/tooltip";
 import { State } from "@/lib/game/enum";
-import { getGameStateStore, useGameConfig } from "@/lib/game/store/game";
+import { useGameConfig, useWordIndex } from "@/lib/game/store/game";
 import { usePoints } from "@/lib/game/store/point";
 import { transition, useGameState } from "@/lib/game/store/state-manager";
 import { Point } from "@/lib/game/types";
@@ -20,7 +20,7 @@ export const TargetLayer = () => {
 
 export const TargetLayerState = () => {
 	const state = useGameState();
-	const { wordIndex } = getGameStateStore();
+	const { wordIndex } = useWordIndex();
 
 	const { targetSize } = useGameConfig();
 	const points = usePoints();

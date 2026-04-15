@@ -1,13 +1,16 @@
 import { PropsWithChildren } from "react";
+import { useShallow } from "zustand/react/shallow";
 import { CursorIcon } from "@/components/icon";
 import { PieTimer } from "@/components/icon/pie";
 import { Mode } from "@/lib/game/enum";
 import { useGameStateStore } from "@/lib/game/store/game";
-import { usePreGameStore } from "@/lib/game/store/pre-game";
+import { usePreGameConfig } from "@/lib/game/store/pre-game";
 
 export const ModeIndicator = () => {
-	const { mode, mode2 } = usePreGameStore().config;
-	const { startTime, stats } = useGameStateStore();
+	const { mode, mode2 } = usePreGameConfig();
+	const { startTime, stats } = useGameStateStore(
+		useShallow((s) => ({ startTime: s.startTime, stats: s.stats })),
+	);
 
 	if (mode === Mode.time) {
 		return (

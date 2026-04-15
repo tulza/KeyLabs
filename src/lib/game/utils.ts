@@ -52,9 +52,12 @@ export const isTooClose = (
 	targetSize: number,
 	multiplier: number,
 ): boolean => {
-	return stack.some(
-		(point) => distance(point.x, point.y, x, y) < targetSize * multiplier,
-	);
+	const minDistSq = (targetSize * multiplier) ** 2;
+	return stack.some((point) => {
+		const dx = point.x - x;
+		const dy = point.y - y;
+		return dx * dx + dy * dy < minDistSq;
+	});
 };
 
 const createPoint = (

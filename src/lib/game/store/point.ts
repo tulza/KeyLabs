@@ -2,7 +2,7 @@ import { create } from "zustand";
 import { screenConfig } from "../config";
 import { State } from "../enum";
 import { Point } from "../types";
-import { distance, generateCircleLocation } from "../utils";
+import { generateCircleLocation } from "../utils";
 import { getGameStateStore } from "./game";
 import { useFlowStore } from "./state-manager";
 
@@ -77,10 +77,14 @@ const removePoint = (index: number, points: Point[]): Point[] => {
 
 const existPointLocation = (x: number, y: number, points: Point[]) => {
 	const { targetSize } = getGameStateStore().config;
+	const radiusSq = (targetSize / 2) ** 2;
 
 	for (const point of points) {
-		if (distance(x, y, point.x, point.y) > targetSize / 2) continue;
-		return point;
+		const dx = x - point.x;
+		const dy = y - point.y;
+		if (dx * dx + dy * dy <= radiusSq) {
+			return point;
+		}
 	}
 };
 

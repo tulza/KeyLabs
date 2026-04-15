@@ -1,16 +1,24 @@
 import { Activity, useState } from "react";
+import { useShallow } from "zustand/react/shallow";
 import { Button } from "@/components/ui/button";
 import { useGameStateStore } from "@/lib/game/store/game";
 import { getPointStore } from "@/lib/game/store/point";
-import { usePreGameStore } from "@/lib/game/store/pre-game";
+import { usePreGameWordList } from "@/lib/game/store/pre-game";
 import { useGameState } from "@/lib/game/store/state-manager";
 
 export const DebugWindow = () => {
 	const [open, setOpen] = useState(false);
 
 	const state = useGameState();
-	const { wordList } = usePreGameStore();
-	const { set, stats, charIndex, wordIndex } = useGameStateStore();
+	const wordList = usePreGameWordList();
+	const { set, stats, charIndex, wordIndex } = useGameStateStore(
+		useShallow((s) => ({
+			set: s.set,
+			stats: s.stats,
+			charIndex: s.charIndex,
+			wordIndex: s.wordIndex,
+		})),
+	);
 	const points = getPointStore();
 
 	const preSet = wordList.words.slice(0, 10).join(", ");

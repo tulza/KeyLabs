@@ -1,6 +1,7 @@
 import { AnimatePresence, motion } from "motion/react";
 import { sum } from "radash";
 import { useEffect, useLayoutEffect, useRef } from "react";
+import { useShallow } from "zustand/react/shallow";
 import { ResetIcon } from "@/components/icon";
 import { Button } from "@/components/ui/button";
 import { State } from "@/lib/game/enum";
@@ -40,8 +41,15 @@ export const WordBar = () => {
 	const containerRef = useRef<HTMLDivElement>(null);
 	const state = useGameState();
 
-	const { words, hash } = usePreGameStore().wordList;
+	const { words, hash } = usePreGameStore(useShallow((s) => s.wordList));
 	const { charIndex, wordIndex } = useWordIndex();
+
+	// todo: fix offset calculation with visible before
+	const VISIBLE_BEFORE = Number.MAX_SAFE_INTEGER;
+	const VISIBLE_AFTER = 30;
+	const startIdx = Math.max(0, wordIndex - VISIBLE_BEFORE);
+	const endIdx = Math.min(words.length, wordIndex + VISIBLE_AFTER);
+	const visibleWords = words.slice(startIdx, endIdx);
 
 	useEffect(() => {
 		widthRefs.current = [];
@@ -84,12 +92,12 @@ export const WordBar = () => {
 
 			{/* mirror row — measures all words at base size, invisible */}
 			<div className="pointer-events-none invisible absolute flex h-full">
-				{words.map((word, i) => (
+				{visibleWords.map((word, i) => (
 					<div
-						key={`mirror/${i}/${word}`}
+						key={`mirror/${startIdx + i}/${word}`}
 						ref={(el) => {
 							if (!el) return;
-							widthRefs.current[i] =
+							widthRefs.current[startIdx + i] =
 								el.getBoundingClientRect().width;
 						}}
 						className={baseClass}
@@ -128,26 +136,28 @@ export const WordBar = () => {
 								containerRef.current = ref;
 							}}
 						>
-							{words.map((word, i) => {
-								const isCurrent = i === wordIndex;
-								const isAfter = i > wordIndex;
-								const isBefore = i < wordIndex;
+							{visibleWords.map((word, i) => {
+								// a bit vibe coded :wilted_flower:
+								const actualIdx = startIdx + i;
+								const isCurrent = actualIdx === wordIndex;
+								const isAfter = actualIdx > wordIndex;
+								const isBefore = actualIdx < wordIndex;
 
 								return (
 									<div
-										key={`${i}/${word}`}
+										key={`${actualIdx}/${word}`}
 										ref={isCurrent ? activeRef : undefined}
 										className={cn(
 											baseClass,
 											isBefore && "bg-secondary/15",
 										)}
 									>
-										{word.split("").map((char, i) => (
+										{word.split("").map((char, j) => (
 											<span
-												key={`${i}/${char}/${word}`}
+												key={`${j}/${char}/${word}`}
 												className={cn(
 													"duration-500",
-													isCurrent && charIndex > i
+													isCurrent && charIndex > j
 														? "text-secondary-muted-foreground"
 														: "text-secondary-muted-foreground/50",
 													isAfter &&
