@@ -69,7 +69,7 @@ function NotFound() {
 					asChild
 				>
 					<Link to="/">
-						<LeftArrowIcon className="size-5 *:stroke-foreground" />
+						<LeftArrowIcon className="size-5 *:stroke-secondary-foreground" />
 						<span>Go Back</span>
 					</Link>
 				</Button>

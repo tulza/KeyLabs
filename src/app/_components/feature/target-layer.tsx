@@ -76,7 +76,7 @@ const StartCircle = () => {
 								<CursorIcon className="size-5 *:fill-muted" />
 							</>
 						) : (
-							<Loader className="size-6 *:stroke-secondary" />
+							<Loader className="size-6 *:stroke-muted" />
 						)}
 					</motion.button>
 				</TooltipTrigger>

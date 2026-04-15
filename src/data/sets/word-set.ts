@@ -3,12 +3,14 @@ import { getOrderForLanguage } from "./languages";
 
 export type WordSetData = {
 	name: string;
+	hash: string;
 	description?: string;
 	words: string[];
 };
 
 export const defaultWordSet: WordSetData = {
 	name: WordSet.english,
+	hash: "not-loaded",
 	words: [],
 };
 

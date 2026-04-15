@@ -47,7 +47,7 @@ export const LeftArrowIcon = (props: React.SVGProps<SVGSVGElement>) => {
 			fill="none"
 			xmlns="http://www.w3.org/2000/svg"
 			{...props}
-			className={cn("*:fill-icon", props.className)}
+			className={cn("*:stroke-icon", props.className)}
 		>
 			<path
 				d="M12 19L5 12L12 5"
