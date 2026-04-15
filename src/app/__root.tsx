@@ -79,7 +79,6 @@ function NotFound() {
 }
 
 function RootLayout() {
-	const { theme } = Route.useLoaderData();
 	return (
 		<NuqsAdapter>
 			<QueryClientProvider client={queryClient}>

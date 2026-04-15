@@ -8,6 +8,7 @@ import { getSummaryStore } from "./summary";
 
 type GameFlowStore = {
 	state: State;
+	initialized: boolean;
 	actions: {
 		setState: (state: State) => void;
 	};
@@ -15,6 +16,7 @@ type GameFlowStore = {
 
 export const useFlowStore = create<GameFlowStore>((set) => ({
 	state: State.Resetting,
+	initialized: false,
 	actions: {
 		setState: (state) => {
 			set({ state });
@@ -85,12 +87,17 @@ export const transition = async (to: State, forced = false) => {
 };
 
 export const initializeFirstLoad = async () => {
+	const { initialized } = useFlowStore.getState();
+	if (initialized) return;
+
 	const { resetToDefault } = getGameStateStore().actions;
 	const { reset } = getPreGameStore().actions;
 
 	resetToDefault();
 	reset();
 	await transition(State.Resetting, true);
+
+	useFlowStore.setState({ initialized: true });
 };
 
 export const getGameFlowStore = () => {
