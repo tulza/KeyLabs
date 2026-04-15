@@ -74,7 +74,7 @@ export const LoadingIcon = (props: React.SVGProps<SVGSVGElement>) => {
 			fill="none"
 			xmlns="http://www.w3.org/2000/svg"
 			{...props}
-			className={cn("*:fill-icon", props.className)}
+			className={cn("*:stroke-icon", props.className)}
 		>
 			<path
 				d="M12 2V6"

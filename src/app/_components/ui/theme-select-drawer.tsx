@@ -1,5 +1,5 @@
 import { capitalize } from "radash";
-import { useState } from "react";
+import { ButtonHTMLAttributes, useState } from "react";
 import { ThemeIcon } from "@/components/icon";
 import { Button } from "@/components/ui/button";
 import {
@@ -16,7 +16,9 @@ import { Preview, themePreview } from "@/data/themes/preview";
 import { useTheme } from "@/lib/game/store/theme";
 import { Loader } from "./loader";
 
-export function ThemeSelectDrawer() {
+export function ThemeSelectDrawer(
+	props: ButtonHTMLAttributes<HTMLButtonElement>,
+) {
 	const [loading, setLoading] = useState<number | null>(null);
 	const [open, setOpen] = useState(false);
 	const { theme, handleSetTheme } = useTheme();
@@ -35,7 +37,11 @@ export function ThemeSelectDrawer() {
 					<Button
 						variant="secondary"
 						size="icon"
-						onClick={() => setOpen(true)}
+						{...props}
+						onClick={(e) => {
+							setOpen(true);
+							props.onClick?.(e);
+						}}
 					>
 						<ThemeIcon className="size-5 *:fill-secondary-foreground" />
 					</Button>

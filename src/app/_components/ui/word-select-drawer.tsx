@@ -108,7 +108,7 @@ const DrawerSetSelectButton = ({
 		>
 			<p className="flex items-center gap-3 text-foreground">
 				{formatText(name)}
-				{isLoading && <Loader />}
+				{isLoading && <Loader className="*:stroke-foreground" />}
 			</p>
 			<p className="text-secondary">{description}</p>
 		</Button>

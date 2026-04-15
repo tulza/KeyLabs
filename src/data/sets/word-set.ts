@@ -1,40 +1,43 @@
+import { Static, Type } from "@sinclair/typebox";
 import { WordSet } from "@/lib/game/enum";
 import { getOrderForLanguage } from "./languages";
 
-export type WordSetData = {
-	name: string;
-	hash: string;
-	description?: string;
-	words: string[];
-};
+export const TWordSetData = Type.Object({
+  name: Type.String(),
+  hash: Type.String(),
+  description: Type.Optional(Type.String()),
+  words: Type.Array(Type.String()),
+});
+
+export type WordSetData = Static<typeof TWordSetData>;
 
 export const defaultWordSet: WordSetData = {
-	name: WordSet.english,
-	hash: "not-loaded",
-	words: [],
+  name: WordSet.english,
+  hash: "not-loaded",
+  words: [],
 };
 
 export type WordSetMeta = Pick<WordSetData, "name" | "description">;
 
 const modules = import.meta.glob<{ default: WordSetData }>("./*.json", {
-	eager: true,
+  eager: true,
 });
 
 const sets = Object.fromEntries(
-	Object.entries(modules).map(([path, module]) => {
-		const name = path.match(/\/(\w+)\.json$/)?.[1] as WordSet;
-		return [name, module.default];
-	}),
+  Object.entries(modules).map(([path, module]) => {
+    const name = path.match(/\/(\w+)\.json$/)?.[1] as WordSet;
+    return [name, module.default];
+  }),
 ) as Record<WordSet, WordSetData>;
 
 export const setMeta = Object.entries(sets)
-	.map(
-		([_, { name, description }]) =>
-			({ name, description }) satisfies WordSetMeta,
-	)
+  .map(
+    ([_, { name, description }]) =>
+      ({ name, description }) satisfies WordSetMeta,
+  )
 
-	.sort((a, b) => getOrderForLanguage(a.name, b.name)) as WordSetMeta[];
+  .sort((a, b) => getOrderForLanguage(a.name, b.name)) as WordSetMeta[];
 
 export const getWordSet = (setName: WordSet): WordSetData => {
-	return sets[setName] ?? sets[WordSet.english];
+  return sets[setName] ?? sets[WordSet.english];
 };

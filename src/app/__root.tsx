@@ -10,20 +10,30 @@ import {
 } from "@tanstack/react-router";
 import { NuqsAdapter } from "nuqs/adapters/react";
 import { LeftArrowIcon } from "@/components/icon";
+import { AuthSync } from "@/components/provider/auth-sync";
 import { ThemeHead } from "@/components/provider/theme";
 import { Button } from "@/components/ui/button";
 import { getThemeStyle } from "@/data/themes/themes";
+import { getSession } from "@/lib/auth.functions";
 import { getThemeCookie } from "@/lib/cookie/theme-server";
 import appCss from "../styles/globals.css?url";
 
 const queryClient = new QueryClient();
 
 export const Route = createRootRoute({
+	beforeLoad: async () => {
+		const session = await getSession();
+
+		return { user: session?.user };
+	},
 	loader: async () => {
 		const theme = await getThemeCookie();
 		const ThemeStyles = await getThemeStyle(theme);
 
-		return { theme, ThemeStyles };
+		return {
+			theme,
+			ThemeStyles,
+		};
 	},
 	head: ({ loaderData }) => {
 		const { ThemeStyles } = loaderData as { ThemeStyles: string };
@@ -88,6 +98,7 @@ function RootLayout() {
 					</head>
 					<body className="min-h-dvh antialiased">
 						<ThemeHead />
+						<AuthSync />
 						<Outlet />
 						<Scripts />
 					</body>

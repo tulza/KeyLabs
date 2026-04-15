@@ -74,9 +74,9 @@ export function SummaryScreen() {
 									tooltip: time2dpDisplay,
 								},
 							].map(({ label, value, tooltip }) => (
-								<Tooltip>
+								<Tooltip key={label}>
 									<TooltipTrigger asChild>
-										<Block key={label}>
+										<Block>
 											<span>{label}</span>
 											<span>{value}</span>
 										</Block>
