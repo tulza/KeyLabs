@@ -1,5 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { PageContainer } from "@/components/container/PageContainer";
+import { Confetti } from "@/components/feature/snow-confetti";
 import { Background } from "./_components/feature/background";
 import { Game } from "./_components/feature/game-board";
 import { StateDebugPanel } from "./_components/feature/state-debug";
@@ -14,16 +15,19 @@ export const Route = createFileRoute("/")({
 
 function Home() {
 	return (
-		<PageContainer className="overflow-hidden">
-			<Background />
-			<NavigationBar />
-			<Game>
-				<TargetLayer />
-			</Game>
-			<GameOptionsSelector />
-			{/* debugger */}
-			<DebugWindow />
-			<StateDebugPanel />
-		</PageContainer>
+		<>
+			<Confetti />
+			<PageContainer className="overflow-hidden">
+				<Background />
+				<NavigationBar />
+				<Game>
+					<TargetLayer />
+				</Game>
+				<GameOptionsSelector />
+				{/* debugger */}
+				<DebugWindow />
+				<StateDebugPanel />
+			</PageContainer>
+		</>
 	);
 }

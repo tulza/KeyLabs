@@ -30,7 +30,7 @@ export const createMockEndGameResult = (
 		config,
 		result,
 		startTime: now - 60000,
-		duration: 60000,
+		time: 60000,
 		hash: baseHash,
 		analysis: analysis,
 		...overrides,

@@ -2,6 +2,7 @@ import { treaty } from "@elysiajs/eden";
 import { create } from "zustand";
 import { useShallow } from "zustand/react/shallow";
 import { App } from "@/app/api/$";
+import { shootConfetti } from "@/components/feature/snow-confetti";
 import { EndGameResult } from "../types";
 import { getUser } from "./auth";
 
@@ -13,7 +14,9 @@ type SummaryStore = {
 	};
 };
 
-const client = treaty<App>("localhost:4000");
+const client = treaty<App>(
+	process.env.NEXT_PUBLIC_URL || "http://localhost:4000",
+);
 
 export const useSummaryStore = create<SummaryStore>((set) => ({
 	results: [],
@@ -23,9 +26,11 @@ export const useSummaryStore = create<SummaryStore>((set) => ({
 
 			set((prev) => ({ results: [...prev.results, result] }));
 
-			if (user) {
-				await client.api.result.post(result);
-			}
+			if (!user) return;
+			const { data } = await client.api.result.post(result);
+			const { pb } = data || {};
+
+			if (pb) shootConfetti();
 		},
 		clear: () => set({ results: [] }),
 	},

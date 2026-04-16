@@ -12,7 +12,7 @@ export const runValidation = (
 	const obfuscatedChecks: Array<[string, (b: EndGameResult) => boolean]> = [
 		["schema", (b) => VEndGameResult.Check(b)],
 		["hash", validateHash],
-		["time", validateTime],
+		["duration", validateDuration],
 		["target", validateTarget],
 		["mode", validateModeCompletion],
 		["analysis", validateAnalysis],
@@ -56,7 +56,7 @@ export const validateHash: Validator = (body) => {
 	return hash === gameHash;
 };
 
-export const validateTime: Validator = (body) => {
+export const validateDuration: Validator = (body) => {
 	const { startTime, duration } = body;
 
 	const currentTime = Date.now();

@@ -1,14 +1,11 @@
 import { Value } from "@sinclair/typebox/value";
-import { createInsertSchema } from "drizzle-typebox";
-import { gameResults } from "@/db/game-schema";
 import { EndGameResult } from "@/lib/game/types";
-
-export const gameResultInsertSchema = createInsertSchema(gameResults);
+import { GameResultInsert, gameResultInsertSchema } from "../types/game-result";
 
 export const summaryMapper = (
 	result: EndGameResult,
 	user: { id: string },
-): typeof gameResultInsertSchema.static => {
+): GameResultInsert => {
 	const data = {
 		userId: user.id,
 

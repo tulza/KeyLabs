@@ -1,4 +1,4 @@
-import { Analysis, Point, Statistic } from "./types";
+import { Analysis, Point } from "./types";
 
 const MAX_FAILS = 100;
 const MAX_LOOP_RETRY = 5;
@@ -129,17 +129,15 @@ export const generateCircleLocation = (
 	return stack.reverse();
 };
 
-export const deriveAnalysis = (
-	stats: Statistic,
-	elapsedTime: number,
+export const deriveAnalysis = <T extends { clicks: number; hits: number }>(
+	stats: T,
+	duration: number,
 ): Analysis => {
 	const { clicks, hits } = stats;
 
 	const accuracy = clicks === 0 ? 0 : hits / clicks;
 	const rawLpm =
-		elapsedTime > 0
-			? parseFloat((hits * (60000 / elapsedTime)).toFixed(2))
-			: 0;
+		duration > 0 ? parseFloat((hits * (60000 / duration)).toFixed(2)) : 0;
 	const lpm = parseFloat((rawLpm * accuracy).toFixed(2));
 
 	return {

@@ -6,7 +6,8 @@ import { auth } from "@/lib/auth";
 import { TEndGameResult } from "@/lib/game/types";
 import { betterAuthPlugin } from "./better-auth";
 import { summaryMapper } from "./service/mapper";
-import { runValidation } from "./service/validate";
+import { checkAndUpdatePersonalBest } from "./service/personal-best";
+import { runValidation } from "./service/result.utils";
 
 export const result = new Elysia({ name: "result" }).group("/result", (app) =>
 	app
@@ -43,14 +44,25 @@ export const result = new Elysia({ name: "result" }).group("/result", (app) =>
 				const { success, error } = runValidation(body);
 
 				if (!success) {
-					return status(400, error);
+					return status(400, { error });
 				}
 
 				const result = summaryMapper(body, user);
 
-				await db.insert(gameResults).values(result);
+				const [gameResult] = await db
+					.insert(gameResults)
+					.values(result)
+					.returning();
 
-				return status(202, "game_result_queued");
+				if (!gameResult)
+					return status(400, { error: "No game result returned" });
+
+				const { isNewPB } = await checkAndUpdatePersonalBest(
+					user,
+					gameResult,
+				);
+
+				return status(201, { pb: isNewPB });
 			},
 			{ body: TEndGameResult, auth: true },
 		),
