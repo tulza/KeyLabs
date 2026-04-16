@@ -10,7 +10,7 @@ import {
 	handleModeChange,
 	usePreGameConfig,
 } from "@/lib/game/store/pre-game";
-import { isPregame } from "@/lib/game/store/state-manager";
+import { useIsPregame } from "@/lib/game/store/state-manager";
 import { cn } from "@/lib/utils";
 import { ease } from "@/lib/utils/ease";
 import { GameContainer } from "./game-container";
@@ -28,6 +28,7 @@ const AmountIcon: Record<Mode, typeof TimeIcon> = {
 
 export const GameOptionsSelector = () => {
 	const config = usePreGameConfig();
+	const isPregame = useIsPregame();
 
 	const currentMode = config?.mode ?? Mode.time;
 	const currentAmount = config?.mode2 ?? modeOptions[Mode.time][0];
@@ -40,45 +41,48 @@ export const GameOptionsSelector = () => {
 			<div
 				className={cn(
 					"flex gap-6 opacity-100",
-					!isPregame() && "pointer-events-none",
-					// temp
-					!isPregame() && "opacity-0",
+					!isPregame && "pointer-events-none",
 				)}
 			>
 				<AnimatePresence mode="wait" initial={false}>
-					<Menu key="mode-select" label="Gamemode">
-						{modes.map(({ value, label, icon: Icon }) => (
-							<SelectButton
-								key={`${currentMode}-${value}`}
-								current={currentMode}
-								value={value}
-								label={label}
-								onClick={() => handleModeChange(value)}
-								icon={Icon}
-							/>
-						))}
-					</Menu>
+					{isPregame && (
+						<Menu key="mode-select" label="Gamemode">
+							{modes.map(({ value, label, icon: Icon }) => (
+								<SelectButton
+									key={value}
+									current={currentMode}
+									value={value}
+									label={label}
+									onClick={() => handleModeChange(value)}
+									icon={Icon}
+								/>
+							))}
+						</Menu>
+					)}
 				</AnimatePresence>
 				<AnimatePresence mode="wait" initial={false}>
-					<Menu
-						key={currentMode}
-						label={
-							currentMode === Mode.time
-								? "No. seconds"
-								: "No. characters"
-						}
-					>
-						{modeOptions[currentMode].map((value) => (
-							<SelectButton
-								current={currentAmount}
-								value={value}
-								label={value.toString()}
-								onClick={() => handleMode2Change(value)}
-								icon={Icon}
-							/>
-						))}
-						<Mode2CustomDialog isCustom={isCustom} />
-					</Menu>
+					{isPregame && (
+						<Menu
+							key={currentMode}
+							label={
+								currentMode === Mode.time
+									? "No. seconds"
+									: "No. characters"
+							}
+						>
+							{modeOptions[currentMode].map((value) => (
+								<SelectButton
+									key={value}
+									current={currentAmount}
+									value={value}
+									label={value.toString()}
+									onClick={() => handleMode2Change(value)}
+									icon={Icon}
+								/>
+							))}
+							<Mode2CustomDialog isCustom={isCustom} />
+						</Menu>
+					)}
 				</AnimatePresence>
 			</div>
 		</GameContainer>
@@ -123,7 +127,7 @@ const SelectButton = <T extends Mode | number>({
 		<Button
 			key={`${value}-${label}`}
 			variant={current === value ? "secondary" : "muted"}
-			className="rounded font-mono font-normal tabular-nums"
+			className="font-mono font-normal tabular-nums"
 			size="lg"
 			onClick={() => onClick(value)}
 		>

@@ -77,25 +77,27 @@ const IconButton = ({
 export const NavigationBar = () => (
 	<div className="flex w-full justify-center">
 		<div className="absolute top-8 flex w-225 justify-between">
-			<button
-				onClick={() => transition(State.Resetting)}
-				className="flex w-min cursor-pointer select-none items-center gap-3"
-			>
-				<div
-					className={cn(
-						buttonVariants({
-							size: "icon",
-							variant: "secondary",
-						}),
-						"pointer-events-none",
-					)}
+			<Link to="/">
+				<button
+					onClick={() => transition(State.Resetting)}
+					className="flex w-min cursor-pointer select-none items-center gap-3"
 				>
-					<CursorIcon className="size-5 *:fill-icon2" />
-				</div>
-				<h1 className="font-serif text-3xl text-icon italic">
-					Keylabs
-				</h1>
-			</button>
+					<div
+						className={cn(
+							buttonVariants({
+								size: "icon",
+								variant: "secondary",
+							}),
+							"pointer-events-none",
+						)}
+					>
+						<CursorIcon className="size-5 *:fill-icon2" />
+					</div>
+					<h1 className="font-serif text-3xl text-icon italic">
+						Keylabs
+					</h1>
+				</button>
+			</Link>
 			<TooltipProvider>
 				<div className="flex gap-3">
 					{navItems.map((item) => (

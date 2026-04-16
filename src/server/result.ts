@@ -47,9 +47,10 @@ export const result = new Elysia({ name: "result" }).group("/result", (app) =>
 				}
 
 				const result = summaryMapper(body, user);
+
 				await db.insert(gameResults).values(result);
 
-				return status(201, "game_result_created");
+				return status(202, "game_result_queued");
 			},
 			{ body: TEndGameResult, auth: true },
 		),

@@ -132,8 +132,5 @@ export const hasFinished = () => {
 	}
 };
 
-export const isPregame = () => {
-	return [State.Resetting, State.Ready].includes(
-		useFlowStore.getState().state,
-	);
-};
+export const useIsPregame = () =>
+	useFlowStore((s) => [State.Resetting, State.Ready].includes(s.state));

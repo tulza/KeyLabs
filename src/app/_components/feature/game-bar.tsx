@@ -8,9 +8,9 @@ import { State } from "@/lib/game/enum";
 import { useWordIndex } from "@/lib/game/store/game";
 import { usePreGameStore } from "@/lib/game/store/pre-game";
 import {
-	isPregame,
 	transition,
 	useGameState,
+	useIsPregame,
 } from "@/lib/game/store/state-manager";
 import { cn } from "@/lib/utils";
 import { ease } from "@/lib/utils/ease";
@@ -41,6 +41,7 @@ export const WordBar = () => {
 	const containerRef = useRef<HTMLDivElement>(null);
 	const state = useGameState();
 
+	const isPregame = useIsPregame();
 	const { words, hash } = usePreGameStore(useShallow((s) => s.wordList));
 	const { charIndex, wordIndex } = useWordIndex();
 
@@ -130,7 +131,7 @@ export const WordBar = () => {
 						<div
 							className={cn(
 								"absolute top-0 left-1/2 flex h-full w-full transition-[font-size,max-width,transform] duration-500 ease-in-expo will-change-[font-size,max-width]",
-								isPregame() && "duration-0",
+								isPregame && "duration-0",
 							)}
 							ref={(ref) => {
 								containerRef.current = ref;

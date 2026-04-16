@@ -4,9 +4,9 @@ import { usePreGameConfig } from "@/lib/game/store/pre-game";
 import {
 	hasFinished,
 	initializeFirstLoad,
-	isPregame,
 	transition,
 	useGameState,
+	useIsPregame,
 } from "@/lib/game/store/state-manager";
 import { DrawerWithSides } from "../ui/word-select-drawer";
 import { GameBar } from "./game-bar";
@@ -16,6 +16,7 @@ import { Screen } from "./screen";
 export const Game = ({ children }: PropsWithChildren) => {
 	const rafRef = useRef<number>(0);
 	const { mode } = usePreGameConfig();
+	const isPregame = useIsPregame();
 
 	const state = useGameState();
 
@@ -55,7 +56,7 @@ export const Game = ({ children }: PropsWithChildren) => {
 			<GameBar />
 			<Screen>{children}</Screen>
 			<div className="flex h-9 w-225 items-center justify-center">
-				{isPregame() && <DrawerWithSides />}
+				{isPregame && <DrawerWithSides />}
 			</div>
 		</GameBoardContainer>
 	);
