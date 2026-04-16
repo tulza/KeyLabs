@@ -48,6 +48,7 @@
     "drizzle-orm": "^0.45.2",
     "drizzle-typebox": "^0.3.3",
     "elysia": "^1.4.28",
+    "elysia-rate-limit": "^4.6.0",
     "embla-carousel-react": "^8.6.0",
     "glslify": "^7.1.1",
     "glslify-loader": "^2.0.0",

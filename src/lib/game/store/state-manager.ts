@@ -1,4 +1,4 @@
-import hash from "object-hash";
+import objectHash from "object-hash";
 import { create } from "zustand";
 import { Mode, State } from "@/lib/game/enum";
 import { EndGameResult } from "../types";
@@ -74,7 +74,7 @@ export const transition = async (to: State, forced = false) => {
 		const { config, stats: result, startTime } = getGameStateStore();
 		const elapsedTime = startTime ? Date.now() - startTime : 0;
 
-		const gameHash = hash({ config, result });
+		const gameHash = objectHash({ config, result, startTime });
 
 		const gameSummary = {
 			config,

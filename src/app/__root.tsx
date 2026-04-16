@@ -98,9 +98,9 @@ function RootLayout() {
 					</head>
 					<body className="min-h-dvh antialiased">
 						<ThemeHead />
-						<AuthSync />
 						<Outlet />
 						<Scripts />
+						<AuthSync />
 					</body>
 				</html>
 			</QueryClientProvider>
