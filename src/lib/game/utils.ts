@@ -19,7 +19,7 @@ const getRandomInt = (min: number, max: number) => {
 
 const getSpawnRange = (
 	targetSize: number,
-	screen: { width: number; height: number }, // ← add this
+	screen: { width: number; height: number },
 ) => {
 	const widthLength = screen.width - targetSize - PADDING * 2;
 	const heightLength = screen.height - targetSize - PADDING * 2;

@@ -1,7 +1,7 @@
 import { openapi } from "@elysiajs/openapi";
 import { createFileRoute } from "@tanstack/react-router";
 import { Elysia } from "elysia";
-import { betterAuthPlugin, OpenAPI } from "@/server/better-auth";
+import { OpenAPI } from "@/server/better-auth";
 import { result } from "@/server/result";
 import { user } from "@/server/user";
 
@@ -16,7 +16,6 @@ const app = new Elysia({
 			},
 		}),
 	)
-	.use(betterAuthPlugin)
 	.use(result)
 	.use(user);
 

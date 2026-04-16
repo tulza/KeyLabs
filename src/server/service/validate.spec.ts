@@ -1,48 +1,21 @@
-import objectHash from "object-hash";
 import { describe, expect, it } from "vitest";
-import { Mode, WordSet } from "@/lib/game/enum";
-import { EndGameResult } from "@/lib/game/types";
-import { validateGameResult, validateHash, validateTime } from "./validate";
-
-const createMockEndGameResult = (
-	overrides: Partial<EndGameResult> = {},
-): EndGameResult => {
-	const now = Date.now();
-	const config = {
-		mode: Mode.time,
-		mode2: 60,
-		wordSet: WordSet.test,
-		targetSize: 20,
-	};
-	const result = {
-		clicks: 100,
-		incorrect: 5,
-		hits: 95,
-		time: 60000,
-	};
-	const baseHash = objectHash({ config, result });
-
-	const defaultResult: EndGameResult = {
-		config,
-		result,
-		startTime: now - 60000,
-		duration: 60000,
-		hash: baseHash,
-		...overrides,
-	};
-
-	return defaultResult;
-};
+import { createMockEndGameResult } from "./mock";
+import {
+	runValidation,
+	validateAnalysis,
+	validateHash,
+	validateTime,
+} from "./validate";
 
 describe("validateGameResult", () => {
 	it("should return true for valid game result", () => {
 		const result = createMockEndGameResult();
-		expect(validateGameResult(result)).toBe(true);
+		expect(runValidation(result, true).success).toBe(true);
 	});
 
 	it("should return false for invalid hash", () => {
 		const result = createMockEndGameResult({ hash: "invalid-hash" });
-		expect(validateGameResult(result)).toBe(false);
+		expect(runValidation(result, true).success).toBe(false);
 	});
 
 	it("should return false for invalid startTime/duration", () => {
@@ -50,7 +23,7 @@ describe("validateGameResult", () => {
 			startTime: Date.now() - 100000,
 			duration: 1000,
 		});
-		expect(validateGameResult(result)).toBe(false);
+		expect(runValidation(result, true).success).toBe(false);
 	});
 });
 
@@ -86,5 +59,12 @@ describe("validateTime", () => {
 			duration: 100,
 		});
 		expect(validateTime(result)).toBe(false);
+	});
+});
+
+describe("validateAnalysis", () => {
+	it("should return true for valid time", () => {
+		const result = createMockEndGameResult();
+		expect(validateAnalysis(result)).toBe(true);
 	});
 });
