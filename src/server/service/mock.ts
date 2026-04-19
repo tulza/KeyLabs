@@ -6,6 +6,9 @@ export const createMockEndGameResult = (
 	overrides: Partial<EndGameResult> = {},
 ): EndGameResult => {
 	const now = Date.now();
+	const duration = 60000;
+	const startTime = now - duration;
+
 	const config = {
 		mode: Mode.time,
 		mode2: 60,
@@ -18,7 +21,8 @@ export const createMockEndGameResult = (
 		hits: 95,
 		time: 60000,
 	};
-	const baseHash = objectHash({ config, result });
+
+	const baseHash = objectHash({ config, result, startTime });
 
 	const analysis = {
 		accuracy: 0.95,
@@ -29,8 +33,8 @@ export const createMockEndGameResult = (
 	const defaultResult: EndGameResult = {
 		config,
 		result,
-		startTime: now - 60000,
-		time: 60000,
+		startTime: startTime,
+		duration: duration,
 		hash: baseHash,
 		analysis: analysis,
 		...overrides,

@@ -28,5 +28,3 @@ export const copyElementToClipboard = async (
 		console.error("Failed to copy element:", err);
 	}
 };
-
-export const baseURL = process.env.NEXT_PUBLIC_URL || "http://localhost:3000";

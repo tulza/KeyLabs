@@ -1,43 +1,65 @@
-import { Static, Type } from "@sinclair/typebox";
+"use server";
+
+import { readdir, readFile } from "fs/promises";
+import path from "path";
 import { WordSet } from "@/lib/game/enum";
+import { WordSetData } from "@/lib/game/types";
 import { getOrderForLanguage } from "./languages";
-
-export const TWordSetData = Type.Object({
-  name: Type.String(),
-  hash: Type.String(),
-  description: Type.Optional(Type.String()),
-  words: Type.Array(Type.String()),
-});
-
-export type WordSetData = Static<typeof TWordSetData>;
-
-export const defaultWordSet: WordSetData = {
-  name: WordSet.english,
-  hash: "not-loaded",
-  words: [],
-};
 
 export type WordSetMeta = Pick<WordSetData, "name" | "description">;
 
-const modules = import.meta.glob<{ default: WordSetData }>("./*.json", {
-  eager: true,
-});
+const wordsetDir = path.join(process.cwd(), "src/data/sets");
 
-const sets = Object.fromEntries(
-  Object.entries(modules).map(([path, module]) => {
-    const name = path.match(/\/(\w+)\.json$/)?.[1] as WordSet;
-    return [name, module.default];
-  }),
-) as Record<WordSet, WordSetData>;
+// cache available sets
+let cachedList: string[] | null = null;
 
-export const setMeta = Object.entries(sets)
-  .map(
-    ([_, { name, description }]) =>
-      ({ name, description }) satisfies WordSetMeta,
-  )
+/**
+ * Get all available wordsets (file-based)
+ */
+export const getAvailableWordsets = async (): Promise<string[]> => {
+	if (cachedList) return cachedList;
 
-  .sort((a, b) => getOrderForLanguage(a.name, b.name)) as WordSetMeta[];
+	const files = await readdir(wordsetDir);
 
-export const getWordSet = (setName: WordSet): WordSetData => {
-  return sets[setName] ?? sets[WordSet.english];
+	cachedList = files
+		.filter((file) => file.endsWith(".json"))
+		.map((file) => file.replace(".json", ""))
+		.sort(getOrderForLanguage);
+
+	return cachedList;
+};
+
+/**
+ * Load a wordset safely from disk
+ */
+export const getWordSet = async (wordSetName: string): Promise<WordSetData> => {
+	const safeName = wordSetName ?? WordSet.english;
+
+	try {
+		const raw = await readFile(
+			path.join(wordsetDir, `${safeName}.json`),
+			"utf-8",
+		);
+
+		return JSON.parse(raw) as WordSetData;
+	} catch {
+		const fallback = await readFile(
+			path.join(wordsetDir, `${WordSet.english}.json`),
+			"utf-8",
+		);
+
+		return JSON.parse(fallback) as WordSetData;
+	}
+};
+
+/**
+ * Metadata list (lightweight)
+ */
+export const getWordSetSelection = async () => {
+	const names = await getAvailableWordsets();
+
+	return names.map((name) => ({
+		name,
+		description: undefined,
+	}));
 };

@@ -1,6 +1,6 @@
-import { createServerFn } from "@tanstack/react-start";
-import { getCookie } from "@tanstack/react-start/server";
+import { cookies } from "next/headers";
 
-export const getThemeCookie = createServerFn().handler(() => {
-	return getCookie("theme") ?? "default";
-});
+export async function getThemeCookie() {
+	const cookieStore = await cookies();
+	return cookieStore.get("theme")?.value ?? "default";
+}

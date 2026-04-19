@@ -1,3 +1,5 @@
+"use client";
+
 import confetti, { CreateTypes } from "canvas-confetti";
 import { useEffect, useRef } from "react";
 

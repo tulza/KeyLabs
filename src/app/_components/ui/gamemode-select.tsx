@@ -1,6 +1,7 @@
+"use client";
 import { AnimatePresence, motion, Variants } from "motion/react";
-import { PropsWithChildren } from "react";
-import { CharacterIcon, TimeIcon } from "@/components/icon";
+import { ComponentType, PropsWithChildren } from "react";
+import { CharacterIcon, IconProps, TimeIcon } from "@/components/icon";
 import { Text } from "@/components/typography/text";
 import { Button } from "@/components/ui/button";
 import { Mode } from "@/lib/game/enum";
@@ -21,7 +22,7 @@ const modes = [
 	{ value: Mode.characters, label: "Characters", icon: CharacterIcon },
 ];
 
-const AmountIcon: Record<Mode, typeof TimeIcon> = {
+const AmountIcon: Record<Mode, ComponentType<IconProps>> = {
 	time: TimeIcon,
 	characters: CharacterIcon,
 };
@@ -118,7 +119,7 @@ const SelectButton = <T extends Mode | number>({
 	current: T;
 	value: T;
 	label: string;
-	icon: typeof TimeIcon;
+	icon: ComponentType<IconProps>;
 	onClick: (mode: T) => void;
 }) => {
 	const Icon = icon;
@@ -132,9 +133,7 @@ const SelectButton = <T extends Mode | number>({
 			onClick={() => onClick(value)}
 		>
 			<Icon
-				className={cn(
-					current === value && "*:fill-secondary-foreground",
-				)}
+				className={cn(current === value && "text-secondary-foreground")}
 			/>
 			<span>{label}</span>
 		</Button>

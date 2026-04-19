@@ -1,6 +1,6 @@
 import { shuffle } from "radash";
 import { v4 as uuidv4 } from "uuid";
-import { WordSetData } from "@/data/sets/word-set";
+import { WordSetData } from "./types";
 
 self.onmessage = (e: MessageEvent<WordSetData>) => {
 	const gameHash = uuidv4();

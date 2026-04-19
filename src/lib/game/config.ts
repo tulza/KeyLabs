@@ -1,6 +1,6 @@
 import { Mode, WordSet } from "./enum";
 import { modeOptions } from "./options";
-import { Screen } from "./types";
+import { Screen, WordSetData } from "./types";
 
 const GRIDSIZE = 60;
 const defaultTargetSize = 80;
@@ -15,4 +15,10 @@ export const defaultConfig = {
 	mode2: modeOptions[Mode.time][0],
 	wordSet: WordSet.english,
 	targetSize: defaultTargetSize,
+};
+
+export const defaultWordSet: WordSetData = {
+	name: WordSet.english,
+	hash: "not-loaded",
+	words: [],
 };

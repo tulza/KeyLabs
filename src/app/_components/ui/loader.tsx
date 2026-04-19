@@ -6,7 +6,7 @@ export const Loader = (props: React.SVGProps<SVGSVGElement>) => {
 		<LoadingIcon
 			{...props}
 			className={cn(
-				"size-4 animate-spin *:fill-secondary-foreground",
+				"size-4 animate-spin text-secondary-foreground",
 				props.className,
 			)}
 		/>

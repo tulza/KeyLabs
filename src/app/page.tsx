@@ -1,21 +1,18 @@
-import { createFileRoute } from "@tanstack/react-router";
 import { PageContainer } from "@/components/container/PageContainer";
 import { Confetti } from "@/components/feature/snow-confetti";
+import { WordSetProvider } from "@/components/provider/wordset";
+import { getWordSetSelection } from "@/data/sets/word-set";
 import { Background } from "./_components/feature/background";
 import { Game } from "./_components/feature/game-board";
-import { StateDebugPanel } from "./_components/feature/state-debug";
-import { DebugWindow } from "./_components/feature/store-debug";
 import { TargetLayer } from "./_components/feature/target-layer";
 import { GameOptionsSelector } from "./_components/ui/gamemode-select";
 import { NavigationBar } from "./_components/ui/navigation-bar";
 
-export const Route = createFileRoute("/")({
-	component: Home,
-});
+export default async function Home() {
+	const wordSetSelectionMeta = await getWordSetSelection();
 
-function Home() {
 	return (
-		<>
+		<WordSetProvider value={wordSetSelectionMeta}>
 			<Confetti />
 			<PageContainer className="overflow-hidden">
 				<Background />
@@ -25,9 +22,9 @@ function Home() {
 				</Game>
 				<GameOptionsSelector />
 				{/* debugger */}
-				<DebugWindow />
-				<StateDebugPanel />
+				{/* <DebugWindow /> */}
+				{/* <StateDebugPanel /> */}
 			</PageContainer>
-		</>
+		</WordSetProvider>
 	);
 }

@@ -3,8 +3,8 @@ import { createMockEndGameResult } from "./mock";
 import {
 	runValidation,
 	validateAnalysis,
+	validateDuration,
 	validateHash,
-	validateTime,
 } from "./result.utils";
 
 describe("validateGameResult", () => {
@@ -21,7 +21,7 @@ describe("validateGameResult", () => {
 	it("should return false for invalid startTime/duration", () => {
 		const result = createMockEndGameResult({
 			startTime: Date.now() - 100000,
-			time: 1000,
+			duration: 1000,
 		});
 		expect(runValidation(result, true).success).toBe(false);
 	});
@@ -42,23 +42,23 @@ describe("validateHash", () => {
 describe("validateTime", () => {
 	it("should return true for valid time", () => {
 		const result = createMockEndGameResult();
-		expect(validateTime(result)).toBe(true);
+		expect(validateDuration(result)).toBe(true);
 	});
 
 	it("should return false for future finish time", () => {
 		const result = createMockEndGameResult({
 			startTime: Date.now() + 10000,
-			time: 1000,
+			duration: 1000,
 		});
-		expect(validateTime(result)).toBe(false);
+		expect(validateDuration(result)).toBe(false);
 	});
 
 	it("should return false for too old finish time", () => {
 		const result = createMockEndGameResult({
 			startTime: Date.now() - 6000,
-			time: 100,
+			duration: 100,
 		});
-		expect(validateTime(result)).toBe(false);
+		expect(validateDuration(result)).toBe(false);
 	});
 });
 

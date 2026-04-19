@@ -1,11 +1,10 @@
 @import "tailwindcss";
 @import "tw-animate-css";
-@import "shadcn/tailwind.css";
 
 @import "./color.css";
 @import "./behaviour.css";
 @import "./background.css";
-@import "./font";
+
 @custom-variant dark (&:is(.dark *));
 
 :root {
@@ -33,7 +32,7 @@
 	);
 	--secondary-muted-foreground: color-mix(
 		in srgb,
-		var(--color-foreground) 80%,
+		var(--color-foreground) 90%,
 		var(--secondary-muted)
 	);
 	--board: color-mix(
@@ -105,10 +104,6 @@
 }
 
 @theme inline {
-	--font-abc-diatype: "ABC Diatype", sans-serif;
-	--font-abeezee: "ABeeZee", sans-serif;
-	--font-inclusive-sans: "Inclusive Sans Variable", sans-serif;
-
 	--font-serif: var(--font-abeezee);
 	--font-sans: var(--font-abc-diatype);
 	--font-mono: var(--font-inclusive-sans);

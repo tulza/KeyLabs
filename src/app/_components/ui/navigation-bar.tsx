@@ -1,6 +1,6 @@
 "use client";
 
-import { Link } from "@tanstack/react-router";
+import Link from "next/link";
 import { ComponentProps, ReactNode } from "react";
 import { UserAvatar } from "@/components/avatar/avatar";
 import {
@@ -23,7 +23,7 @@ import { cn } from "@/lib/utils";
 import { ThemeSelectDrawer } from "./theme-select-drawer";
 
 type NavItem = {
-	to?: string;
+	to: string;
 	icon?: React.ComponentType<React.SVGProps<SVGSVGElement>>;
 	component?: ReactNode;
 	hint?: string;
@@ -56,11 +56,7 @@ const IconButton = ({
 			className={props.className}
 			asChild
 		>
-			<Link to={to}>
-				{Icon && (
-					<Icon className="size-5 *:*:fill-secondary-foreground *:fill-secondary-foreground" />
-				)}
-			</Link>
+			<Link href={to}>{Icon && <Icon className="size-5" />}</Link>
 		</Button>
 	);
 
@@ -77,7 +73,7 @@ const IconButton = ({
 export const NavigationBar = () => (
 	<div className="flex w-full justify-center">
 		<div className="absolute top-8 flex w-225 justify-between">
-			<Link to="/">
+			<Link href="/">
 				<button
 					onClick={() => transition(State.Resetting)}
 					className="flex w-min cursor-pointer select-none items-center gap-3"
@@ -120,7 +116,7 @@ const Profile = () => {
 					className="rounded"
 					asChild
 				>
-					<Link to="/sign-in">
+					<Link href="/sign-in">
 						<UserAvatar />
 					</Link>
 				</Button>

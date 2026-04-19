@@ -1,27 +1,19 @@
-const modules = import.meta.glob("./*.css", {
-	eager: false,
-	query: "?raw",
-	import: "default",
-});
+"use server";
 
-const getFileName = (path: string) => {
-	return path.split("/").pop()?.replace(".css", "");
+import { readFile } from "fs/promises";
+import path from "path";
+
+const themeDir = path.join(process.cwd(), "src/data/themes");
+
+const themeModules: Record<string, () => Promise<string>> = {
+	default: () => readFile(path.join(themeDir, "default.css"), "utf-8"),
+	cookiecat: () => readFile(path.join(themeDir, "cookiecat.css"), "utf-8"),
+	matcha: () => readFile(path.join(themeDir, "matcha.css"), "utf-8"),
 };
 
 const normalizeEnding = (str: string) => str.replace(/\r\n/g, "\n");
 
-export const themeModules: Record<string, () => Promise<string>> =
-	Object.fromEntries(
-		Object.entries(modules).map(([path, loader]) => [
-			getFileName(path),
-			loader,
-		]),
-	);
-
-export const getThemeStyle = async (name: string): Promise<string> => {
-	const loader = themeModules[name] ?? themeModules["default"];
-
-	const css = await loader();
-
-	return normalizeEnding(css);
+export const getThemeStyle = async (name: string) => {
+	const loader = themeModules[name] ?? themeModules.default;
+	return normalizeEnding(await loader());
 };

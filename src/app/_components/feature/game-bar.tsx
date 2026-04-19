@@ -27,7 +27,7 @@ export const GameBar = () => {
 				size="icon"
 				className="place-self-end"
 			>
-				<ResetIcon className="*:fill-secondary-foreground" />
+				<ResetIcon />
 			</Button>
 		</div>
 	);
@@ -159,12 +159,12 @@ export const WordBar = () => {
 												className={cn(
 													"duration-500",
 													isCurrent && charIndex > j
-														? "text-secondary-muted-foreground"
-														: "text-secondary-muted-foreground/50",
+														? "text-foreground"
+														: "text-foreground/50",
 													isAfter &&
-														"text-secondary/40",
+														"text-foreground/50",
 													isBefore &&
-														"text-secondary/80",
+														"text-foreground/50",
 													isCurrent && currentClass,
 												)}
 											>

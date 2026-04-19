@@ -1,5 +1,4 @@
 import { openapi } from "@elysiajs/openapi";
-import { createFileRoute } from "@tanstack/react-router";
 import { Elysia } from "elysia";
 import { betterAuthPlugin, OpenAPI } from "@/server/better-auth";
 import { result } from "@/server/result";
@@ -20,16 +19,7 @@ const app = new Elysia({
 	.use(result)
 	.use(user);
 
-const handle = ({ request }: { request: Request }) => app.fetch(request);
-
-export const Route = createFileRoute("/api/$")({
-	server: {
-		handlers: {
-			GET: handle,
-			POST: handle,
-		},
-	},
-});
-
-export default app.fetch;
 export type App = typeof app;
+
+export const GET = app.fetch;
+export const POST = app.fetch;

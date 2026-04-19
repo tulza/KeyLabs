@@ -43,7 +43,7 @@ export function ThemeSelectDrawer(
 							props.onClick?.(e);
 						}}
 					>
-						<ThemeIcon className="size-5 *:fill-secondary-foreground" />
+						<ThemeIcon className="size-5" />
 					</Button>
 				</DrawerTrigger>
 				<DrawerContent className="mx-auto w-140 self-center bg-background data-[vaul-drawer-direction=bottom]:max-h-[80vh] data-[vaul-drawer-direction=top]:max-h-[80vh]">

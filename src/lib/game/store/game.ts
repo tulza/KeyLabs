@@ -1,8 +1,7 @@
 import { create } from "zustand";
 import { useShallow } from "zustand/react/shallow";
-import { defaultWordSet, WordSetData } from "@/data/sets/word-set";
-import { defaultConfig } from "../config";
-import { GameConfig, GameStateData, Statistic } from "../types";
+import { defaultConfig, defaultWordSet } from "../config";
+import { GameConfig, GameStateData, Statistic, WordSetData } from "../types";
 import { setNewWord } from "./point";
 import { usePreGameStore } from "./pre-game";
 import { hasFinished } from "./state-manager";

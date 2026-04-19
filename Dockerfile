@@ -14,4 +14,4 @@ ENV PORT=4000
 
 EXPOSE 4000
 
-CMD ["bun", ".output/server/index.mjs"]
+CMD ["bun", "start"]

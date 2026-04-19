@@ -1,7 +1,7 @@
 import { treaty } from "@elysiajs/eden";
 import { create } from "zustand";
 import { useShallow } from "zustand/react/shallow";
-import { App } from "@/app/api/$";
+import { App } from "@/app/api/[[...slug]]/route";
 import { shootConfetti } from "@/components/feature/snow-confetti";
 import { EndGameResult } from "../types";
 import { getUser } from "./auth";
@@ -14,9 +14,7 @@ type SummaryStore = {
 	};
 };
 
-const client = treaty<App>(
-	process.env.NEXT_PUBLIC_URL || "http://localhost:4000",
-);
+const client = treaty<App>(process.env.NEXT_PUBLIC_API_URL as string);
 
 export const useSummaryStore = create<SummaryStore>((set) => ({
 	results: [],

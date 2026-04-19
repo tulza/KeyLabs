@@ -1,3 +1,4 @@
+"use client";
 import { PropsWithChildren, useEffect, useRef } from "react";
 import { Mode, State } from "@/lib/game/enum";
 import { usePreGameConfig } from "@/lib/game/store/pre-game";

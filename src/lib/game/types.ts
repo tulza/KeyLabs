@@ -1,6 +1,5 @@
 import { TypeCompiler } from "@sinclair/typebox/compiler";
 import { Static, t } from "elysia";
-import { TWordSetData } from "@/data/sets/word-set";
 import { Mode, Theme, WordSet } from "@/lib/game/enum";
 
 export const TScreen = t.Object({
@@ -26,6 +25,15 @@ export const TGameConfig = t.Object({
 	wordSet: t.Enum(WordSet),
 	targetSize: t.Number(),
 });
+
+export const TWordSetData = t.Object({
+	name: t.String(),
+	hash: t.String(),
+	description: t.Optional(t.String()),
+	words: t.Array(t.String()),
+});
+
+export type WordSetData = Static<typeof TWordSetData>;
 
 export type GameConfig = Static<typeof TGameConfig>;
 

@@ -1,11 +1,10 @@
 import { create } from "zustand";
 import { useShallow } from "zustand/react/shallow";
-import { defaultWordSet, WordSetData } from "@/data/sets/word-set";
-import { defaultConfig } from "../config";
+import { defaultConfig, defaultWordSet } from "../config";
 import { Mode, State, WordSet } from "../enum";
 import { generateWordListAsync } from "../generate";
 import { modeOptions } from "../options";
-import { GameConfig, MetaData } from "../types";
+import { GameConfig, MetaData, WordSetData } from "../types";
 import { transition } from "./state-manager";
 
 type PreGameStore = {

@@ -1,6 +1,7 @@
 import { capitalize } from "radash";
 import { useState } from "react";
 import { GlobeIcon } from "@/components/icon";
+import { useWordSets } from "@/components/provider/wordset";
 import { Button } from "@/components/ui/button";
 import {
 	Drawer,
@@ -12,13 +13,13 @@ import {
 	DrawerTitle,
 	DrawerTrigger,
 } from "@/components/ui/drawer";
-import { setMeta } from "@/data/sets/word-set";
 import { State, WordSet } from "@/lib/game/enum";
 import { changeWordSet, usePreGameConfig } from "@/lib/game/store/pre-game";
 import { useGameState } from "@/lib/game/store/state-manager";
 import { Loader } from "./loader";
 
 export function DrawerWithSides() {
+	const wordsetMeta = useWordSets();
 	const [loading, setLoading] = useState<number | null>(null);
 	const [open, setOpen] = useState(false);
 	const state = useGameState();
@@ -53,7 +54,7 @@ export function DrawerWithSides() {
 					</DrawerHeader>
 					<hr />
 					<div className="no-scrollbar flex max-h-100 flex-col overflow-y-auto py-6">
-						{setMeta.map(({ name, description }, index) => (
+						{wordsetMeta.map(({ name, description }, index) => (
 							<DrawerSetSelectButton
 								key={index}
 								name={name}

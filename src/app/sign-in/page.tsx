@@ -1,37 +1,33 @@
-import { createFileRoute } from "@tanstack/react-router";
-import { Image } from "@unpic/react";
+import Image from "next/image";
+import { img } from "@/assets";
 import { PageContainer } from "@/components/container/PageContainer";
 import { Section } from "@/components/container/section";
 import { Text } from "@/components/typography/text";
 import { BackHomeButton } from "./_components/home-button";
 import { SocialLoginButtons } from "./_components/social-login-buttons";
 
-export const Route = createFileRoute("/sign-in/")({
-	component: RouteComponent,
-});
-
-function RouteComponent() {
+export default function SignInPage() {
 	return (
 		<PageContainer className="flex-row">
 			<div className="relative flex max-h-dvh min-h-dvh min-w-85 max-w-85 items-center justify-center border-secondary border-r bg-background px-6">
 				<Image
 					className="pointer-events-none absolute top-0 left-0 size-full object-contain object-top"
-					src="show.png"
-					layout="fullWidth"
+					src={img.background}
+					alt="background"
 					height={400}
 				/>
 				<Image
 					className="pointer-events-none absolute bottom-0 left-0 z-10 size-full object-contain object-bottom [@media(max-height:700px)]:hidden"
-					src="game.png"
-					layout="fullWidth"
+					src={img.game}
+					alt="game"
 					height={400}
 				/>
 
 				<div className="z-20 flex flex-col items-center gap-6">
 					<Image
 						className="pointer-events-none"
-						src="keylabs.png"
-						layout="constrained"
+						src={img.keylabs}
+						alt="keylabs"
 						width={187}
 						height={44}
 					/>
