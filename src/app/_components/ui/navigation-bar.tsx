@@ -116,7 +116,7 @@ const Profile = () => {
 					className="rounded"
 					asChild
 				>
-					<Link href="/sign-in">
+					<Link href="/profile">
 						<UserAvatar />
 					</Link>
 				</Button>

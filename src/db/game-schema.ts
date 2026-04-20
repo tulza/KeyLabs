@@ -1,3 +1,4 @@
+import { relations } from "drizzle-orm";
 import {
 	integer,
 	pgTable,
@@ -54,4 +55,14 @@ export const userPersonalBests = pgTable(
 			name: "user_pb_pk",
 		}),
 	],
+);
+
+export const userPersonalBestsRelations = relations(
+	userPersonalBests,
+	({ one }) => ({
+		user: one(user, {
+			fields: [userPersonalBests.userId],
+			references: [user.id],
+		}),
+	}),
 );

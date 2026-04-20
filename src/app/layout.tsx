@@ -12,11 +12,9 @@ import { FontsRecord } from "@/lib/fontLoader";
 import { cn } from "@/lib/utils";
 import { fontLoader } from "@/lib/utils/fontLoader";
 import { _ABCDiaType, _ABeeZee, _InclusiveSans } from "@/styles/fonts";
+import { baseMetadata } from "@/lib/meta";
 
-export const metadata: Metadata = {
-	title: "Keylabs",
-	icons: { icon: "/icon.png" },
-};
+export const metadata: Metadata = baseMetadata;
 
 const loadedFonts: FontsRecord = {
 	variables: [_InclusiveSans, _ABeeZee],

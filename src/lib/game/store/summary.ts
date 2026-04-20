@@ -1,8 +1,7 @@
-import { treaty } from "@elysiajs/eden";
 import { create } from "zustand";
 import { useShallow } from "zustand/react/shallow";
-import { App } from "@/app/api/[[...slug]]/route";
 import { shootConfetti } from "@/components/feature/snow-confetti";
+import { api } from "@/lib/eden";
 import { EndGameResult } from "../types";
 import { getUser } from "./auth";
 
@@ -14,8 +13,6 @@ type SummaryStore = {
 	};
 };
 
-const client = treaty<App>(process.env.NEXT_PUBLIC_API_URL as string);
-
 export const useSummaryStore = create<SummaryStore>((set) => ({
 	results: [],
 	actions: {
@@ -25,7 +22,7 @@ export const useSummaryStore = create<SummaryStore>((set) => ({
 			set((prev) => ({ results: [...prev.results, result] }));
 
 			if (!user) return;
-			const { data } = await client.api.result.post(result);
+			const { data } = await api.result.post(result);
 			const { pb } = data || {};
 
 			if (pb) shootConfetti();

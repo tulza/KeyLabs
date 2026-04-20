@@ -1,93 +1,108 @@
 "use client";
 
-import { useQueryState } from "nuqs";
+import { parseAsInteger, useQueryState } from "nuqs";
 import { capitalize } from "radash";
-import { PropsWithChildren } from "react";
-import { GlobeIcon, TimeIcon } from "@/components/icon";
-import { Button } from "@/components/ui/button";
-
-const leaderboardTime = [15, 30, 60];
-const leaderboardWordset = ["english", "any"];
+import api, { useQuery } from "@/lib/eden";
+import { Mode } from "@/lib/game/enum";
+import { LeaderboardListResponse } from "@/server/leaderboard";
+import { LeaderboardSelect } from "./leaderboard-selector";
+import { Loader } from "@/app/_components/ui/loader";
 
 export const LeaderboardScore = () => {
-	const [time, setTime] = useQueryState("time", { defaultValue: "30" });
-	const [wordset, setWordset] = useQueryState("wordset", {
+	const [time] = useQueryState("time", parseAsInteger.withDefault(30));
+	const [wordset] = useQueryState("wordset", {
 		defaultValue: "english",
 	});
 
+	const { data, isPending } = useQuery(["leaderboard", time, wordset], () =>
+		api.leaderboard.post({
+			mode: Mode.time,
+			mode2: time,
+			wordset,
+		}),
+	);
+
 	return (
 		<div className="mb-12 grid h-full grow grid-cols-12 gap-12">
-			<div className="col-span-3 flex flex-col gap-3">
-				<SelectContainer>
-					<Button variant="secondary">All Time</Button>
-					<Button variant="outline">Daily</Button>
-				</SelectContainer>
-				<SelectContainer>
-					<Button variant="secondary">Letter per Minute</Button>
-					{/* <Button>Score</Button> */}
-				</SelectContainer>
-				<SelectContainer>
-					{leaderboardTime.map((t) => (
-						<Button
-							key={t}
-							variant={
-								time === String(t) ? "secondary" : "outline"
-							}
-							onClick={() => setTime(String(t))}
-						>
-							<TimeIcon />
-							Time {t}
-						</Button>
-					))}
-				</SelectContainer>
-				<SelectContainer>
-					{leaderboardWordset.map((item) => (
-						<Button
-							key={item}
-							onClick={() => setWordset(item)}
-							variant={wordset === item ? "secondary" : "outline"}
-						>
-							<GlobeIcon />
-							{item}
-						</Button>
-					))}
-				</SelectContainer>
-			</div>
+			<LeaderboardSelect />
 			<div className="col-span-9 size-full h-full rounded">
-				<h3 className="h-9 font-serif text-3xl">
-					{capitalize(wordset)} Time {time} Leaderboard
-				</h3>
-				<p>{new Date().toDateString()}</p>
-				<LeaderboardList />
+				<div className="mb-3">
+					<h3 className="h-9 font-serif text-3xl">
+						{capitalize(wordset)} Time {time} Top Circle Clickers
+					</h3>
+				</div>
+				<LeaderboardList
+					isLoading={isPending}
+					scores={data ?? []}
+					wordset={wordset}
+				/>
 			</div>
 		</div>
 	);
 };
 
-const SelectContainer = ({ children }: PropsWithChildren) => {
-	return (
-		<div className="flex w-full flex-col gap-1 rounded border border-border bg-muted p-1 *:justify-start">
-			{children}
-		</div>
-	);
-};
+const LEADERBOARD_SIZE = 10;
 
-const LeaderboardList = () => {
+const LeaderboardList = ({
+	scores,
+	isLoading,
+	wordset,
+}: {
+	scores: LeaderboardListResponse;
+	isLoading: boolean;
+	wordset: string;
+}) => {
+	const rows = Array.from(
+		{ length: LEADERBOARD_SIZE },
+		(_, i) => scores[i] ?? null,
+	);
+	const showWordset = wordset === "any";
+
 	return (
 		<div className="size-full">
-			{Array.from({ length: 25 }).map((_, index) => (
-				<div
-					key={index}
-					className="flex items-center justify-between border-border border-b p-3 even:bg-secondary/10"
-				>
-					<div className="flex items-center gap-3">
-						<span className="text-icon">{index + 1}</span>
-						<div className="flex items-center gap-2">
-							<span className="text-icon">A</span>
-						</div>
-					</div>
-				</div>
-			))}
+			<table className="w-full table-fixed text-sm">
+				<thead>
+					<tr className="border-b border-border text-left text-foreground/50 font-medium *:p-3">
+						<th className="w-[5%]">
+							{!isLoading && (
+								<Loader className="text-foreground" />
+							)}
+						</th>
+						<th className={showWordset ? "w-[55%]" : "w-[75%]"}>
+							name
+						</th>
+						{showWordset && <th className="w-[20%]">wordset</th>}
+						<th className="w-[10%] text-right">acc</th>
+						<th className="w-[10%] text-right">lpm</th>
+					</tr>
+				</thead>
+				<tbody>
+					{rows.map((score, index) => (
+						<tr
+							key={index}
+							className="border-b border-border even:bg-secondary/10"
+						>
+							<td className="p-3 text-icon">{index + 1}</td>
+							<td className="p-3 font-medium">
+								{score ? (score.user?.name ?? "Anonymous") : ""}
+							</td>
+							{showWordset && (
+								<td className="p-3 text-icon">
+									{score ? score.wordSet : ""}
+								</td>
+							)}
+							<td className="p-3 text-right text-icon">
+								{score
+									? `${(score.accuracy * 100).toFixed(0)}%`
+									: ""}
+							</td>
+							<td className="p-3 text-right font-medium">
+								{score ? score.lpm.toFixed(2) : ""}
+							</td>
+						</tr>
+					))}
+				</tbody>
+			</table>
 		</div>
 	);
 };

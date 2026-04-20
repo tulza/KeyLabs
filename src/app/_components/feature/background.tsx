@@ -8,7 +8,7 @@ export const Background = () => {
 				className="-z-10 pointer-events-none absolute top-0 left-0 size-[150%] w-full object-cover object-bottom mix-blend-darken"
 				src={img.background}
 				alt="background"
-				height={800}
+				height={1600}
 			/>
 		</>
 	);

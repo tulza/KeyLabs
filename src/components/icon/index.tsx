@@ -72,55 +72,30 @@ export const LoadingIcon = (props: IconProps) => {
 			width="24"
 			height="24"
 			viewBox="0 0 24 24"
-			fill="currentColor"
-			xmlns="http://www.w3.org/2000/svg"
 			stroke="currentColor"
+			xmlns="http://www.w3.org/2000/svg"
 		>
-			<path
-				d="M12 2V6"
-				stroke="black"
-				strokeWidth="2"
-				strokeLinejoin="round"
-			/>
+			<path d="M12 2V6" strokeWidth="2" strokeLinejoin="round" />
 			<path
 				d="M16.2002 7.7999L19.1002 4.8999"
-				stroke="black"
 				strokeWidth="2"
 				strokeLinejoin="round"
 			/>
-			<path
-				d="M18 12H22"
-				stroke="black"
-				strokeWidth="2"
-				strokeLinejoin="round"
-			/>
+			<path d="M18 12H22" strokeWidth="2" strokeLinejoin="round" />
 			<path
 				d="M16.2002 16.2002L19.1002 19.1002"
-				stroke="black"
 				strokeWidth="2"
 				strokeLinejoin="round"
 			/>
-			<path
-				d="M12 18V22"
-				stroke="black"
-				strokeWidth="2"
-				strokeLinejoin="round"
-			/>
+			<path d="M12 18V22" strokeWidth="2" strokeLinejoin="round" />
 			<path
 				d="M4.90039 19.1002L7.80039 16.2002"
-				stroke="black"
 				strokeWidth="2"
 				strokeLinejoin="round"
 			/>
-			<path
-				d="M2 12H6"
-				stroke="black"
-				strokeWidth="2"
-				strokeLinejoin="round"
-			/>
+			<path d="M2 12H6" strokeWidth="2" strokeLinejoin="round" />
 			<path
 				d="M4.90039 4.8999L7.80039 7.7999"
-				stroke="black"
 				strokeWidth="2"
 				strokeLinejoin="round"
 			/>

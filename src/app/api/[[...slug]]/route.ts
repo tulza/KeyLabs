@@ -1,10 +1,12 @@
 import { openapi } from "@elysiajs/openapi";
 import { Elysia } from "elysia";
 import { betterAuthPlugin, OpenAPI } from "@/server/better-auth";
+import { leaderboard } from "@/server/leaderboard";
+import { profile } from "@/server/profile";
 import { result } from "@/server/result";
 import { user } from "@/server/user";
 
-const app = new Elysia({
+export const app = new Elysia({
 	prefix: "/api",
 })
 	.use(betterAuthPlugin)
@@ -17,6 +19,8 @@ const app = new Elysia({
 		}),
 	)
 	.use(result)
+	.use(profile)
+	.use(leaderboard)
 	.use(user);
 
 export type App = typeof app;

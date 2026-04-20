@@ -1,0 +1,23 @@
+@import url("https://fonts.googleapis.com/css2?family=ABeeZee:ital@0;1&family=Inclusive+Sans:ital,wght@0,300..700;1,300..700&display=swap");
+
+@font-face {
+	font-family: "ABCDiatype";
+	src: url("../src/styles/fonts/ABCDiatypeVariable-Trial.ttf")
+		format("truetype");
+	font-weight: 100 900;
+	font-style: normal;
+	font-display: swap;
+}
+
+body {
+	background: var(--color-background);
+	font-family: "ABCDiatype", system-ui, sans-serif;
+}
+
+.font-serif {
+	font-family: "ABeeZee", sans-serif;
+}
+
+.font-mono {
+	font-family: "Inclusive Sans", sans-serif;
+}

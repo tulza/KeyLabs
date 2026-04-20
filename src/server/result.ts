@@ -5,6 +5,7 @@ import { gameResults } from "@/db/game-schema";
 import { auth } from "@/lib/auth";
 import { TEndGameResult } from "@/lib/game/types";
 import { betterAuthPlugin } from "./better-auth";
+import { allowedMode2 } from "./data/pb-allowed";
 import { summaryMapper } from "./service/mapper";
 import { checkAndUpdatePersonalBest } from "./service/personal-best";
 import { runValidation } from "./service/result.utils";
@@ -47,6 +48,11 @@ export const result = new Elysia({ name: "result" }).group("/result", (app) =>
 					return status(400, { error });
 				}
 
+				const { mode, mode2 } = body.config;
+
+				if (allowedMode2[mode].includes(mode2))
+					return status(400, "not an eligible mode2");
+
 				const result = summaryMapper(body, user);
 
 				const [gameResult] = await db
@@ -55,7 +61,7 @@ export const result = new Elysia({ name: "result" }).group("/result", (app) =>
 					.returning();
 
 				if (!gameResult)
-					return status(400, { error: "No game result returned" });
+					return status(400, { error: "no game result returned" });
 
 				const { isNewPB } = await checkAndUpdatePersonalBest(
 					user,

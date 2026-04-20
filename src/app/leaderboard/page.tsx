@@ -3,7 +3,7 @@ import { Background } from "../_components/feature/background";
 import { NavigationBar } from "../_components/ui/navigation-bar";
 import { LeaderboardScore } from "./_components/feature/leaderboard-score";
 
-export default function LeaderboardPage() {
+export default async function LeaderboardPage() {
 	return (
 		<PageContainer className="overflow-hidden">
 			<Background />
