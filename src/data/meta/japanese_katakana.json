@@ -1,0 +1,10 @@
+{
+  "name": "japanese_katakana",
+  "length": 343,
+  "letterCount": {
+    "mean": 3.69,
+    "median": 3,
+    "mode": 3,
+    "max": 9
+  }
+}

@@ -1,0 +1,11 @@
+{
+  "name": "debug",
+  "description": "supercalifragilisticexpialidocious",
+  "length": 2,
+  "letterCount": {
+    "mean": 19.5,
+    "median": 19.5,
+    "mode": 5,
+    "max": 34
+  }
+}

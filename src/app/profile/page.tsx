@@ -18,9 +18,6 @@ export default async function ProfilePage() {
 	const scores = data || [];
 	const user = session.user;
 
-	console.log("user", user);
-	console.log("scores", scores);
-
 	return (
 		<PageContainer className="overflow-hidden">
 			<NavigationBar />

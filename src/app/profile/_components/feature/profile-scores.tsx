@@ -1,5 +1,6 @@
 import { User } from "better-auth";
 import { PropsWithChildren } from "react";
+import { SignOutButton } from "@/app/sign-in/_components/sign-out";
 import { CharacterIcon, TimeIcon } from "@/components/icon";
 import { Mode } from "@/lib/game/enum";
 import { UserPersonalBestScore } from "@/server/types/game-result";
@@ -15,7 +16,6 @@ export const ProfileScore = ({
 		<ProfileContainer>
 			<div className="mb-12 flex h-full w-full max-w-page grow flex-col gap-12 self-center">
 				<h3 className="font-serif text-3xl">Your Profile</h3>
-
 				<div className="grid grid-cols-4 gap-3">
 					<Score mode={Mode.time} mode2={15} scores={scores} />
 					<Score mode={Mode.time} mode2={30} scores={scores} />
@@ -26,6 +26,7 @@ export const ProfileScore = ({
 					<Score mode={Mode.characters} mode2={100} scores={scores} />
 					<Score mode={Mode.characters} mode2={200} scores={scores} />
 				</div>
+				<SignOutButton className="w-min px-12" />
 			</div>
 		</ProfileContainer>
 	);

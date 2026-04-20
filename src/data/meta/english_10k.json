@@ -1,0 +1,10 @@
+{
+  "name": "english_10k",
+  "length": 9944,
+  "letterCount": {
+    "mean": 7.21,
+    "median": 7,
+    "mode": 7,
+    "max": 18
+  }
+}

@@ -12,12 +12,15 @@ export const ModeIndicator = () => {
 		useShallow((s) => ({ startTime: s.startTime, stats: s.stats })),
 	);
 
+	const isFinite = Number.isFinite(mode2);
+
 	if (mode === Mode.time) {
 		return (
 			<Container>
 				<PieTimer
 					duration={mode2}
 					startTime={startTime}
+					isFinite={isFinite}
 					className="size-5 min-w-5"
 				/>
 			</Container>
@@ -30,7 +33,7 @@ export const ModeIndicator = () => {
 			<Container>
 				<CursorIcon className="size-4 min-w-4" />
 				<span className="font-sans slashed-zero tabular-nums">
-					{hitsRemaining}
+					{isFinite ? hitsRemaining : "∞"}
 				</span>
 			</Container>
 		);

@@ -1,0 +1,11 @@
+{
+  "name": "english_5k",
+  "description": "English 5000 most common words",
+  "length": 4958,
+  "letterCount": {
+    "mean": 6.87,
+    "median": 7,
+    "mode": 6,
+    "max": 34
+  }
+}

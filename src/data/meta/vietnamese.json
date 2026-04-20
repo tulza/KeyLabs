@@ -1,0 +1,10 @@
+{
+  "name": "vietnamese",
+  "length": 319,
+  "letterCount": {
+    "mean": 3.32,
+    "median": 3,
+    "mode": 3,
+    "max": 6
+  }
+}

@@ -1,0 +1,10 @@
+{
+  "name": "indonesian",
+  "length": 310,
+  "letterCount": {
+    "mean": 5.37,
+    "median": 5,
+    "mode": 5,
+    "max": 11
+  }
+}

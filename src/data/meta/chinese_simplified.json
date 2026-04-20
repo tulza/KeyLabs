@@ -1,0 +1,10 @@
+{
+  "name": "chinese_simplified",
+  "length": 200,
+  "letterCount": {
+    "mean": 2.01,
+    "median": 2,
+    "mode": 2,
+    "max": 3
+  }
+}

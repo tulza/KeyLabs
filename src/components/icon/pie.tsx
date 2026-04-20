@@ -3,9 +3,15 @@ import { SVGProps, useEffect, useRef } from "react";
 type PieTimerProps = {
 	duration: number;
 	startTime?: number;
+	isFinite?: boolean;
 } & SVGProps<SVGSVGElement>;
 
-export const PieTimer = ({ duration, startTime, ...props }: PieTimerProps) => {
+export const PieTimer = ({
+	duration,
+	startTime,
+	isFinite,
+	...props
+}: PieTimerProps) => {
 	const rafRef = useRef<number>(0);
 	const pieRef = useRef<SVGCircleElement>(null);
 	const labelRef = useRef<HTMLSpanElement>(null);
@@ -27,7 +33,9 @@ export const PieTimer = ({ duration, startTime, ...props }: PieTimerProps) => {
 				);
 
 			if (labelRef.current)
-				labelRef.current.innerText = `${remaining.toFixed(2)}s`;
+				labelRef.current.innerText = isFinite
+					? `${remaining.toFixed(2)}s`
+					: "∞";
 
 			rafRef.current = requestAnimationFrame(update);
 		};
@@ -59,7 +67,7 @@ export const PieTimer = ({ duration, startTime, ...props }: PieTimerProps) => {
 					strokeWidth="10"
 					pathLength={1}
 					strokeDasharray="0 1"
-					className="-rotate-90 origin-center stroke-muted"
+					className="origin-center -rotate-90 stroke-muted"
 				/>
 			</svg>
 			<span

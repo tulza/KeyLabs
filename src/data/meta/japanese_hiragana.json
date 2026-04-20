@@ -1,0 +1,10 @@
+{
+  "name": "japanese_hiragana",
+  "length": 554,
+  "letterCount": {
+    "mean": 2.88,
+    "median": 3,
+    "mode": 2,
+    "max": 8
+  }
+}

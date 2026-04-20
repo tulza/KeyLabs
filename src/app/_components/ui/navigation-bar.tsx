@@ -6,9 +6,9 @@ import { UserAvatar } from "@/components/avatar/avatar";
 import {
 	CrownIcon,
 	CursorIcon,
-	GearIcon,
 	InfoIcon,
 	ThemeIcon,
+	UserIcon,
 } from "@/components/icon";
 import { Button, buttonVariants } from "@/components/ui/button";
 import {
@@ -18,8 +18,9 @@ import {
 	TooltipTrigger,
 } from "@/components/ui/tooltip";
 import { State } from "@/lib/game/enum";
+import { useUser } from "@/lib/game/store/auth";
 import { transition } from "@/lib/game/store/state-manager";
-import { cn } from "@/lib/utils";
+import { cn, hashCode } from "@/lib/utils";
 import { ThemeSelectDrawer } from "./theme-select-drawer";
 
 type NavItem = {
@@ -38,7 +39,7 @@ const navItems: NavItem[] = [
 		hint: "Theme",
 		component: <ThemeSelectDrawer />,
 	},
-	{ to: "/settings", icon: GearIcon, hint: "Settings" },
+	// { to: "/settings", icon: GearIcon, hint: "Settings" },
 ];
 
 const IconButton = ({
@@ -107,6 +108,12 @@ export const NavigationBar = () => (
 );
 
 const Profile = () => {
+	const user = useUser();
+
+	if (!user) {
+		<IconButton to="/profile" icon={UserIcon} hint="Profile" />;
+	}
+
 	return (
 		<Tooltip>
 			<TooltipTrigger asChild>
@@ -117,7 +124,7 @@ const Profile = () => {
 					asChild
 				>
 					<Link href="/profile">
-						<UserAvatar />
+						<UserAvatar avatarCode={hashCode(user?.id || "")} />
 					</Link>
 				</Button>
 			</TooltipTrigger>

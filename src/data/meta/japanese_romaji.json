@@ -1,0 +1,10 @@
+{
+  "name": "japanese_romaji",
+  "length": 153,
+  "letterCount": {
+    "mean": 4.69,
+    "median": 4,
+    "mode": 4,
+    "max": 9
+  }
+}

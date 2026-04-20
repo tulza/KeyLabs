@@ -1,0 +1,10 @@
+{
+  "name": "korean",
+  "length": 470,
+  "letterCount": {
+    "mean": 2.09,
+    "median": 2,
+    "mode": 2,
+    "max": 5
+  }
+}

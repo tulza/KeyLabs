@@ -1,7 +1,7 @@
 "use client";
 
 import { createContext, useContext } from "react";
-import { WordSetMeta } from "@/data/sets/word-set";
+import { WordSetMeta } from "@/data/sets/word-set-meta";
 
 type WordSetContextValue = {
 	wordSets: WordSetMeta[];

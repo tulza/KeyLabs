@@ -1,20 +1,14 @@
 "use client";
 
-import type { HTMLAttributes } from "react";
+import Image from "next/image";
+import type { HTMLAttributes, SVGProps } from "react";
+import { cn } from "@/lib/utils";
 
-type AvatarProps = HTMLAttributes<HTMLDivElement> &
-	(
-		| {
-				image?: string | null;
-				avatarCode: number;
-				isLoggedUser?: false;
-		  }
-		| {
-				isLoggedUser?: true;
-				image?: never;
-				avatarCode?: never;
-		  }
-	);
+type AvatarProps = HTMLAttributes<HTMLDivElement> & {
+	image?: string | null;
+	avatarCode?: number;
+	isLoggedUser?: boolean;
+};
 
 export const UserAvatar = ({
 	image,
@@ -42,17 +36,13 @@ export const UserAvatar = ({
 	);
 };
 
-import { Image } from "@unpic/react";
-import type { SVGProps } from "react";
-import { cn } from "@/lib/utils";
-
-const faceFill = "#272727";
-
 export const UserProfileIcon = ({
-	avatarCode = 0, // 0 to 9
+	avatarCode,
 	...props
-}: SVGProps<SVGSVGElement> & { avatarCode?: number }) => {
-	const hueValue = Math.floor(avatarCode % 10) * 33;
+}: SVGProps<SVGSVGElement> & {
+	avatarCode?: number;
+}) => {
+	const color = `hsl(${Math.floor((avatarCode ?? 1) % 10) * 33}, 80%, 70%)`;
 
 	return (
 		<svg
@@ -60,9 +50,9 @@ export const UserProfileIcon = ({
 			width="220"
 			height="220"
 			viewBox="0 0 220 220"
-			fill="none"
 			xmlns="http://www.w3.org/2000/svg"
-			style={{ background: `hsl(${hueValue}, 80%, 70%)` }}
+			style={{ color, background: color }}
+			fill="currentColor"
 		>
 			<title>User Profile</title>
 			<g>
@@ -73,26 +63,39 @@ export const UserProfileIcon = ({
 					fill="white"
 				/>
 				<NormalSmile />
-				{/* <SpecialSmile /> */}
 			</g>
 		</svg>
 	);
 };
-
 const NormalSmile = () => {
 	return (
 		<>
 			<path
+				fill="black"
 				d="M129.053 126.446C131.226 125.247 133.96 126.037 135.159 128.21C136.358 130.383 135.568 133.118 133.395 134.317L109.501 147.5L85.607 134.317C83.4337 133.118 82.6437 130.383 83.8426 128.21C85.0417 126.037 87.7759 125.247 89.9492 126.446L109.501 137.232L129.053 126.446Z"
-				fill={faceFill}
 			/>
 			<path
+				fill="black"
 				d="M81.0365 107.909C76.0722 107.909 76 103.885 76 98.9204C76 93.956 76.0722 89.9316 81.0365 89.9316C86 89.9316 86 93.9546 86 98.9177V98.9204V98.9231C86 103.886 86 107.909 81.0365 107.909Z"
-				fill={faceFill}
 			/>
 			<path
+				fill="black"
 				d="M143 98.9204C143 103.885 142.93 107.909 137.965 107.909C133.001 107.909 133 103.885 133 98.9204C133 93.956 133.001 89.9316 137.965 89.9316C142.93 89.9316 143 93.956 143 98.9204Z"
-				fill={faceFill}
+			/>
+		</>
+	);
+};
+
+const QuestionMark = () => {
+	return (
+		<>
+			<path
+				fill="black"
+				d="M99.469 82.7581C103.54 80.3657 108.326 79.4895 112.98 80.2874C117.634 81.0858 121.857 83.506 124.899 87.1184C127.939 90.7304 129.607 95.3025 129.601 100.024L129.537 101.425C128.9 108.298 123.673 112.901 119.874 115.434C117.697 116.885 115.554 117.95 113.976 118.652C113.18 119.006 112.506 119.273 112.023 119.457C111.781 119.549 111.584 119.621 111.442 119.672C111.371 119.697 111.314 119.721 111.271 119.736C111.249 119.743 111.232 119.75 111.217 119.755C111.21 119.757 111.203 119.758 111.198 119.76L111.188 119.765H111.183C108.563 120.638 105.728 119.221 104.855 116.601C103.984 113.985 105.396 111.154 108.009 110.278V110.283L108.019 110.278C108.032 110.273 108.057 110.266 108.092 110.253C108.169 110.226 108.296 110.18 108.463 110.116C108.8 109.988 109.304 109.787 109.913 109.516C111.147 108.967 112.756 108.161 114.327 107.114C117.774 104.816 119.6 102.369 119.601 100.024V100.014C119.604 97.6527 118.773 95.3654 117.252 93.5589C115.731 91.7522 113.618 90.5402 111.29 90.1409C108.963 89.742 106.568 90.1799 104.532 91.3763C102.497 92.5725 100.951 94.452 100.167 96.679C99.2509 99.2839 96.3953 100.657 93.7903 99.7405C91.1858 98.8242 89.818 95.9682 90.7337 93.3636C92.301 88.908 95.397 85.1513 99.469 82.7581Z"
+			/>
+			<path
+				fill="black"
+				d="M110.049 130C112.81 130 115.049 132.239 115.049 135C115.049 137.761 112.81 140 110.049 140H110C107.239 140 105 137.761 105 135C105 132.239 107.239 130 110 130H110.049Z"
 			/>
 		</>
 	);

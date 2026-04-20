@@ -50,8 +50,9 @@ export const result = new Elysia({ name: "result" }).group("/result", (app) =>
 
 				const { mode, mode2 } = body.config;
 
-				if (allowedMode2[mode].includes(mode2))
+				if (!allowedMode2[mode].includes(mode2)) {
 					return status(400, "not an eligible mode2");
+				}
 
 				const result = summaryMapper(body, user);
 

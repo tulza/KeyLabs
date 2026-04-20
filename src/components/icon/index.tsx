@@ -65,6 +65,22 @@ export const LeftArrowIcon = (props: IconProps) => {
 	);
 };
 
+export const UserIcon = (props: IconProps) => {
+	return (
+		<svg
+			{...props}
+			width="16"
+			height="16"
+			viewBox="0 0 16 16"
+			fill="currentColor"
+			xmlns="http://www.w3.org/2000/svg"
+		>
+			<path d="M8.00008 8.66667C9.84103 8.66667 11.3334 7.17428 11.3334 5.33333C11.3334 3.49238 9.84103 2 8.00008 2C6.15913 2 4.66675 3.49238 4.66675 5.33333C4.66675 7.17428 6.15913 8.66667 8.00008 8.66667Z" />
+			<path d="M13.3334 14C13.3334 12.5855 12.7715 11.2289 11.7713 10.2287C10.7711 9.22853 9.41457 8.66663 8.00008 8.66663C6.58559 8.66663 5.22904 9.22853 4.22885 10.2287C3.22865 11.2289 2.66675 12.5855 2.66675 14" />
+		</svg>
+	);
+};
+
 export const LoadingIcon = (props: IconProps) => {
 	return (
 		<svg

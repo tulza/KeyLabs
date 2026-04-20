@@ -19,7 +19,7 @@ import { Mode } from "@/lib/game/enum";
 import { handleMode2Change, usePreGameConfig } from "@/lib/game/store/pre-game";
 
 const Mode2Schema = Type.Object({
-	mode2: Type.Number({ minimum: 1 }),
+	mode2: Type.Number({ minimum: 0 }),
 });
 
 type Mode2Form = { mode2: number };
@@ -36,7 +36,7 @@ export function Mode2CustomDialog({ isCustom }: { isCustom: boolean }) {
 	});
 
 	const onSubmit = ({ mode2 }: Mode2Form) => {
-		handleMode2Change(mode2);
+		handleMode2Change(mode2 === 0 ? Infinity : mode2);
 	};
 
 	return (

@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { HtmlHTMLAttributes, PropsWithChildren, useRef } from "react";
 import { CrownIcon, ResetIcon } from "@/components/icon";
 import { Button } from "@/components/ui/button";
@@ -109,15 +110,11 @@ export function SummaryScreen() {
 					>
 						<ResetIcon />
 					</Button>
-					<Button
-						variant="ghost"
-						size="icon-lg"
-						onClick={() => {
-							/* open scoreboard */
-						}}
-					>
-						<CrownIcon />
-					</Button>
+					<Link href="/leaderboard">
+						<Button variant="ghost" size="icon-lg">
+							<CrownIcon />
+						</Button>
+					</Link>
 				</div>
 			</div>
 		</div>

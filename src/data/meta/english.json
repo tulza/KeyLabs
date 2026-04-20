@@ -1,0 +1,11 @@
+{
+  "name": "english",
+  "description": "English most common words",
+  "length": 200,
+  "letterCount": {
+    "mean": 4.24,
+    "median": 4,
+    "mode": 4,
+    "max": 8
+  }
+}

@@ -1,18 +1,24 @@
 "use client";
 
-import { parseAsInteger, useQueryState } from "nuqs";
+import { createParser, parseAsInteger, useQueryState } from "nuqs";
 import { capitalize } from "radash";
+import { Loader } from "@/app/_components/ui/loader";
 import api, { useQuery } from "@/lib/eden";
 import { Mode } from "@/lib/game/enum";
+import { pbAllowedWordsets } from "@/server/data/pb-allowed";
 import { LeaderboardListResponse } from "@/server/leaderboard";
 import { LeaderboardSelect } from "./leaderboard-selector";
-import { Loader } from "@/app/_components/ui/loader";
+
+const parseAsAllowedTime = parseAsInteger.withDefault(30);
+
+const parseAsWordset = createParser({
+	parse: (value) => (pbAllowedWordsets.includes(value) ? value : null),
+	serialize: (value) => value,
+}).withDefault("english");
 
 export const LeaderboardScore = () => {
-	const [time] = useQueryState("time", parseAsInteger.withDefault(30));
-	const [wordset] = useQueryState("wordset", {
-		defaultValue: "english",
-	});
+	const [time] = useQueryState("time", parseAsAllowedTime);
+	const [wordset] = useQueryState("wordset", parseAsWordset);
 
 	const { data, isPending } = useQuery(["leaderboard", time, wordset], () =>
 		api.leaderboard.post({
@@ -62,9 +68,9 @@ const LeaderboardList = ({
 		<div className="size-full">
 			<table className="w-full table-fixed text-sm">
 				<thead>
-					<tr className="border-b border-border text-left text-foreground/50 font-medium *:p-3">
+					<tr className="border-border border-b text-left font-medium text-foreground/50 *:p-3">
 						<th className="w-[5%]">
-							{!isLoading && (
+							{isLoading && (
 								<Loader className="text-foreground" />
 							)}
 						</th>
@@ -80,7 +86,7 @@ const LeaderboardList = ({
 					{rows.map((score, index) => (
 						<tr
 							key={index}
-							className="border-b border-border even:bg-secondary/10"
+							className="border-border border-b even:bg-secondary/10"
 						>
 							<td className="p-3 text-icon">{index + 1}</td>
 							<td className="p-3 font-medium">

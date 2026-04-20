@@ -5,10 +5,10 @@ import path from "path";
 import { WordSet } from "@/lib/game/enum";
 import { WordSetData } from "@/lib/game/types";
 import { getOrderForLanguage } from "./languages";
-
-export type WordSetMeta = Pick<WordSetData, "name" | "description">;
+import { WordSetMeta } from "./word-set-meta";
 
 const wordsetDir = path.join(process.cwd(), "src/data/sets");
+const metaDir = path.join(process.cwd(), "src/data/meta");
 
 // cache available sets
 let cachedList: string[] | null = null;
@@ -55,11 +55,15 @@ export const getWordSet = async (wordSetName: string): Promise<WordSetData> => {
 /**
  * Metadata list (lightweight)
  */
-export const getWordSetSelection = async () => {
-	const names = await getAvailableWordsets();
-
-	return names.map((name) => ({
-		name,
-		description: undefined,
-	}));
+export const getWordSetSelection = async (): Promise<WordSetMeta[]> => {
+	const files = await readdir(metaDir);
+	const metas = await Promise.all(
+		files
+			.filter((file) => file.endsWith(".json"))
+			.map(async (file) => {
+				const raw = await readFile(path.join(metaDir, file), "utf-8");
+				return JSON.parse(raw) as WordSetMeta;
+			}),
+	);
+	return metas.sort((a, b) => getOrderForLanguage(a.name, b.name));
 };

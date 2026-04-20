@@ -1,0 +1,11 @@
+{
+  "name": "english_1k",
+  "description": "English 1000 most common words",
+  "length": 1000,
+  "letterCount": {
+    "mean": 4.85,
+    "median": 5,
+    "mode": 4,
+    "max": 11
+  }
+}

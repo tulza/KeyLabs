@@ -13,6 +13,7 @@ import {
 	DrawerTitle,
 	DrawerTrigger,
 } from "@/components/ui/drawer";
+import { WordSetMeta } from "@/data/sets/word-set-meta";
 import { State, WordSet } from "@/lib/game/enum";
 import { changeWordSet, usePreGameConfig } from "@/lib/game/store/pre-game";
 import { useGameState } from "@/lib/game/store/state-manager";
@@ -54,15 +55,14 @@ export function DrawerWithSides() {
 					</DrawerHeader>
 					<hr />
 					<div className="no-scrollbar flex max-h-100 flex-col overflow-y-auto py-6">
-						{wordsetMeta.map(({ name, description }, index) => (
+						{wordsetMeta.map((meta, index) => (
 							<DrawerSetSelectButton
 								key={index}
-								name={name}
-								description={description}
+								wordSetMeta={meta}
 								index={index}
 								isLoading={loading === index}
 								disabled={!!loading}
-								onClick={() => handleSelect(name, index)}
+								onClick={() => handleSelect(meta.name, index)}
 							/>
 						))}
 					</div>
@@ -84,20 +84,24 @@ export function DrawerWithSides() {
 }
 
 const DrawerSetSelectButton = ({
-	name,
-	description,
+	wordSetMeta,
 	isLoading,
 	disabled,
 	onClick,
 	index,
 }: {
-	name: string;
-	description?: string;
+	wordSetMeta: WordSetMeta;
 	isLoading: boolean;
 	disabled: boolean;
 	onClick: () => void;
 	index: number;
 }) => {
+	const {
+		name,
+		description,
+		letterCount: { mean },
+	} = wordSetMeta;
+
 	return (
 		<Button
 			key={index}
@@ -109,6 +113,9 @@ const DrawerSetSelectButton = ({
 		>
 			<p className="flex items-center gap-3 text-foreground">
 				{formatText(name)}
+				<span className="rounded bg-secondary/80 px-1 text-secondary-foreground text-xs">
+					difficulty: {mean}
+				</span>
 				{isLoading && <Loader className="*:stroke-foreground" />}
 			</p>
 			<p className="text-secondary">{description}</p>
