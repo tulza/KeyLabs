@@ -1,7 +1,13 @@
 import { create } from "zustand";
 import { useShallow } from "zustand/react/shallow";
 import { defaultConfig, defaultWordSet } from "../config";
-import { GameConfig, GameStateData, Statistic, WordSetData } from "../types";
+import {
+	GameConfig,
+	GameStateData,
+	Plot,
+	Statistic,
+	WordSetData,
+} from "../types";
 import { setNewWord } from "./point";
 import { usePreGameStore } from "./pre-game";
 import { hasFinished } from "./state-manager";
@@ -16,29 +22,30 @@ type GameStateStore = {
 	readonly startTime?: number;
 	// active game state
 	stats: Statistic;
+	plot: Plot;
 	charIndex: number;
 	wordIndex: number;
 	actions: {
 		init: (data: GameStateData) => void;
 		setStats: (stats: Statistic) => void;
 		handleClick: () => void;
-		handleHit: () => void;
+		handleHit: (x: number, y: number) => void;
 		handleIncorrect: () => void;
 		resetToDefault: () => void;
 		reset: () => void;
 	};
 };
 
-export const initialStats = {
+export const initialStats: Statistic = {
 	clicks: 0,
 	hits: 0,
-	time: 0,
 	incorrect: 0,
 };
 
 export const initialGame = {
 	stats: initialStats,
 	startTime: undefined,
+	plot: [],
 	charIndex: 0,
 	wordIndex: 0,
 };
@@ -58,6 +65,7 @@ export const useGameStateStore = create<GameStateStore>((set) => ({
 				set: data.set,
 				startTime: Date.now(),
 				stats: data.stats,
+				plot: [] as Plot,
 				charIndex: data.charIndex,
 				wordIndex: data.wordIndex,
 			}),
@@ -85,13 +93,22 @@ export const useGameStateStore = create<GameStateStore>((set) => ({
 				};
 			});
 		},
-		handleHit: () => {
+		handleHit: (x, y) => {
 			const {
+				config,
 				charIndex,
 				wordIndex,
 				set: wordSet,
 				stats,
+				plot,
 			} = getGameStateStore();
+
+			// plot
+			const nx = x / (config.targetSize / 2);
+			const ny = y / (config.targetSize / 2);
+
+			const newPlotPoint = [nx, ny];
+
 			const { charIndex: nextci, wordIndex: nextwi } = increment(
 				charIndex,
 				wordIndex,
@@ -105,6 +122,7 @@ export const useGameStateStore = create<GameStateStore>((set) => ({
 			set({
 				charIndex: nextci,
 				wordIndex: nextwi,
+				plot: [...plot, ...newPlotPoint],
 				stats: {
 					...stats,
 					clicks: stats.clicks + 1,

@@ -21,6 +21,8 @@ export const useSummaryStore = create<SummaryStore>((set) => ({
 
 			set((prev) => ({ results: [...prev.results, result] }));
 
+			const now = Date.now();
+
 			if (!user) return;
 			const { data } = await api.result.post(result);
 			const { pb } = data || {};

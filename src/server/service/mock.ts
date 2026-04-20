@@ -19,7 +19,6 @@ export const createMockEndGameResult = (
 		clicks: 100,
 		incorrect: 5,
 		hits: 95,
-		time: 60000,
 	};
 
 	const baseHash = objectHash({ config, result, startTime });

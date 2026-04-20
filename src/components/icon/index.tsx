@@ -80,6 +80,29 @@ export const UserIcon = (props: IconProps) => {
 		</svg>
 	);
 };
+export const PlusIcon = (props: IconProps) => {
+	return (
+		<svg
+			{...props}
+			width="16"
+			height="16"
+			viewBox="0 0 16 16"
+			stroke="currentColor"
+			xmlns="http://www.w3.org/2000/svg"
+		>
+			<path
+				d="M3.33301 8H12.6663"
+				stroke-width="1.33333"
+				stroke-linejoin="round"
+			/>
+			<path
+				d="M8 3.33594V12.6693"
+				stroke-width="1.33333"
+				stroke-linejoin="round"
+			/>
+		</svg>
+	);
+};
 
 export const LoadingIcon = (props: IconProps) => {
 	return (

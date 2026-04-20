@@ -47,7 +47,6 @@ export const TStatistic = t.Object({
 	clicks: t.Number(),
 	incorrect: t.Number(),
 	hits: t.Number(),
-	time: t.Number(),
 });
 
 export type Statistic = Static<typeof TStatistic>;
@@ -59,6 +58,10 @@ export const TAnalysis = t.Object({
 });
 
 export type Analysis = Static<typeof TAnalysis>;
+
+export const TPlot = t.Array(t.Number());
+
+export type Plot = Static<typeof TPlot>;
 
 export const TPreGameConfig = t.Object({
 	config: TGameConfig,
@@ -81,6 +84,7 @@ export const TEndGameResult = t.Object({
 	config: TGameConfig,
 	result: TStatistic,
 	analysis: TAnalysis,
+	plot: TPlot,
 	startTime: t.Number(),
 	duration: t.Number(),
 	meta: t.Optional(TMetaData),

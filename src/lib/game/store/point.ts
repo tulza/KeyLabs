@@ -26,7 +26,7 @@ export const usePointStore = create<PointStore>((set) => ({
 			if (state !== State.Playing) return;
 
 			const points = getPointStore().points;
-			const point = existPointLocation(x, y, points);
+			const { point, dx, dy } = existPointLocation(x, y, points);
 			if (point) {
 				if (!checkCorrectPoint(point)) {
 					getGameStateStore().actions.handleIncorrect();
@@ -34,7 +34,7 @@ export const usePointStore = create<PointStore>((set) => ({
 				}
 				const newPoints = removePoint(point.index, points);
 				set({ points: newPoints });
-				getGameStateStore().actions.handleHit();
+				getGameStateStore().actions.handleHit(dx, dy);
 			} else {
 				getGameStateStore().actions.handleClick();
 			}
@@ -83,9 +83,11 @@ const existPointLocation = (x: number, y: number, points: Point[]) => {
 		const dx = x - point.x;
 		const dy = y - point.y;
 		if (dx * dx + dy * dy <= radiusSq) {
-			return point;
+			return { point, dx, dy };
 		}
 	}
+
+	return {};
 };
 
 const checkCorrectPoint = (point: Point) => {

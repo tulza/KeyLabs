@@ -71,7 +71,7 @@ export const transition = async (to: State, forced = false) => {
 	}
 
 	if (from === State.Playing && to === State.Finished) {
-		const { config, stats: result, startTime } = getGameStateStore();
+		const { config, stats: result, startTime, plot } = getGameStateStore();
 		const elapsedTime = startTime ? Date.now() - startTime : 0;
 
 		const gameHash = objectHash({ config, result, startTime });
@@ -81,6 +81,7 @@ export const transition = async (to: State, forced = false) => {
 			result,
 			analysis: deriveAnalysis(result, elapsedTime),
 			meta: getPreGameStore().meta,
+			plot,
 			startTime,
 			duration: elapsedTime,
 			hash: gameHash,
