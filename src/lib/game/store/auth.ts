@@ -1,5 +1,6 @@
 import { User } from "better-auth";
 import { create } from "zustand";
+import { useShallow } from "zustand/react/shallow";
 
 // a client side user object that is passed down by the server through AuthSync.
 type AuthStore = {
@@ -14,5 +15,5 @@ export const useAuthStore = create<AuthStore>((set) => ({
 	clearUser: () => set({ user: undefined }),
 }));
 
-export const useUser = () => useAuthStore((s) => s.user);
+export const useUser = () => useAuthStore(useShallow((s) => s.user));
 export const getUser = () => useAuthStore.getState().user;

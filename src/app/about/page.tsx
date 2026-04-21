@@ -28,7 +28,7 @@ const stats = [
 	},
 	{
 		label: "target size",
-		description: "How big the hit circle is in pixels.",
+		description: "How wide the diameter of hit circle is in pixels.",
 	},
 ];
 

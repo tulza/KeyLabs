@@ -1,7 +1,12 @@
 {
-	"name": "debug",
-	"description": "supercalifragilisticexpialidocious",
-	"noLazyMode": true,
-	"orderedByFrequency": true,
-	"words": ["supercalifragilisticexpialidocious", "aaaaa"]
+  "name": "debug",
+  "description": "supercalifragilisticexpialidocious",
+  "noLazyMode": true,
+  "orderedByFrequency": true,
+  "words": [
+    "supercalifragilisticexpialidocious",
+    "supercalifragilisticexpialidocious",
+    "supercalifragilisticexpialidocious",
+    "supercalifragilisticexpialidocious"
+  ]
 }

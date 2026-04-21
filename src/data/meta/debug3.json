@@ -1,0 +1,11 @@
+{
+  "name": "debug3",
+  "description": "aaaaaaaaaaa",
+  "length": 8,
+  "letterCount": {
+    "mean": 41,
+    "median": 41,
+    "mode": 41,
+    "max": 41
+  }
+}

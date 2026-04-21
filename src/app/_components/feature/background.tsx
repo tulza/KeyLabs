@@ -9,6 +9,7 @@ export const Background = () => {
 				src={img.background}
 				alt="background"
 				height={1600}
+				priority
 			/>
 		</>
 	);

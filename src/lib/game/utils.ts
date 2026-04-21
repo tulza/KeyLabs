@@ -1,3 +1,4 @@
+import { v4 as uuidv4 } from "uuid";
 import { Analysis, Point } from "./types";
 
 const MAX_FAILS = 100;
@@ -72,7 +73,7 @@ const createPoint = (
 		value: word[index],
 		x,
 		y,
-		id: `${word}-${zeroIndexLength - index}`,
+		id: uuidv4(),
 	};
 };
 

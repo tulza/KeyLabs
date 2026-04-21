@@ -145,7 +145,7 @@ export const useGameStateStore = create<GameStateStore>((set) => ({
 
 // Selectors
 export const useGameConfig = () => useGameStateStore((s) => s.config);
-export const useGameSet = () => useGameStateStore((s) => s.set);
+export const useGameSet = () => useGameStateStore(useShallow((s) => s.set));
 export const useGameStats = () => useGameStateStore(useShallow((s) => s.stats));
 export const useWordIndex = () =>
 	useGameStateStore(

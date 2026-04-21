@@ -42,7 +42,7 @@ export const ModeIndicator = () => {
 
 const Container = ({ children }: PropsWithChildren) => {
 	return (
-		<div className="flex h-10 max-h-10 items-center justify-between gap-3 rounded border-2 border-secondary bg-muted px-3 font-mono font-normal text-icon">
+		<div className="flex h-10 max-h-10 items-center justify-between gap-3 rounded border-2 border-secondary bg-muted px-3 font-mono font-normal text-foreground">
 			{children}
 		</div>
 	);

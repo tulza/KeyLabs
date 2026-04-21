@@ -7,15 +7,15 @@ type ValidationResult = { success: boolean; error?: string };
 
 export const runValidation = (
 	body: EndGameResult,
-	debug = false,
+	debug = true,
 ): ValidationResult => {
 	const obfuscatedChecks: Array<[string, (b: EndGameResult) => boolean]> = [
-		["schema", (b) => VEndGameResult.Check(b)],
-		["hash", validateHash],
-		["duration", validateDuration],
-		["target", validateTarget],
-		["mode", validateModeCompletion],
-		["analysis", validateAnalysis],
+		["schema validation failed", (b) => VEndGameResult.Check(b)],
+		["hash validation failed", validateHash],
+		["duration validation failed", validateDuration],
+		["target validation failed", validateTarget],
+		["mode validation failed", validateModeCompletion],
+		["analysis validation failed", validateAnalysis],
 	];
 
 	const normalChecks: Array<[string, (b: EndGameResult) => boolean]> = [
@@ -32,7 +32,7 @@ export const runValidation = (
 		const ok = fn(body);
 
 		if (!ok) {
-			return process.env.API_DEBUGGING === "true"
+			return debug === true
 				? { success: false, error: name }
 				: { success: false, error: "invalid_game_result" };
 		}
@@ -64,7 +64,6 @@ export const validateDuration: Validator = (body) => {
 
 	const timeDelta = currentTime - calculatedFinishTime;
 
-	// allow slight client/server drift
 	const isValid = timeDelta > -1000 && timeDelta < 5000;
 
 	return isValid;
@@ -121,7 +120,7 @@ export const validateTimedMode: Validator = (body) => {
 	const { mode, mode2 } = config;
 
 	if (mode !== Mode.time) return true;
-	if (mode2 < 15) return false;
+	if (mode2 < 10) return false;
 
 	return true;
 };
@@ -131,7 +130,7 @@ export const validateCharacterMode: Validator = (body) => {
 	const { mode, mode2 } = config;
 
 	if (mode !== Mode.characters) return true;
-	if (mode2 < 15) return false;
+	if (mode2 < 10) return false;
 
 	return true;
 };

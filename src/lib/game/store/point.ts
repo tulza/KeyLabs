@@ -1,4 +1,5 @@
 import { create } from "zustand";
+import { useShallow } from "zustand/react/shallow";
 import { screenConfig } from "../config";
 import { State } from "../enum";
 import { Point } from "../types";
@@ -42,7 +43,7 @@ export const usePointStore = create<PointStore>((set) => ({
 	},
 }));
 
-export const usePoints = () => usePointStore((s) => s.points);
+export const usePoints = () => usePointStore(useShallow((s) => s.points));
 export const useCurrent = () => usePointStore((s) => s.current);
 export const usePointActions = () => usePointStore((s) => s.actions);
 export const getPointStore = () => usePointStore.getState();
@@ -59,20 +60,7 @@ export const setNewWord = (word: string) => {
 };
 
 const removePoint = (index: number, points: Point[]): Point[] => {
-	const arr = [...points];
-	const last = arr.length - 1;
-
-	if (index === last) {
-		arr.pop();
-	} else {
-		[arr[index], arr[last]] = [
-			{ ...arr[last], index },
-			{ ...arr[index], index: last },
-		];
-		arr.pop();
-	}
-
-	return arr;
+	return points.filter((p) => p.index !== index);
 };
 
 const existPointLocation = (x: number, y: number, points: Point[]) => {

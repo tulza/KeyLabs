@@ -39,7 +39,8 @@ export const usePreGameStore = create<PreGameStore>((set, get) => ({
 	},
 }));
 
-export const usePreGameConfig = () => usePreGameStore((s) => s.config);
+export const usePreGameConfig = () =>
+	usePreGameStore(useShallow((s) => s.config));
 export const usePreGameWordList = () =>
 	usePreGameStore(useShallow((s) => s.wordList));
 export const usePreGameActions = () => usePreGameStore((s) => s.actions);

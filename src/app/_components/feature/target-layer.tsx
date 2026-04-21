@@ -1,5 +1,6 @@
 "use client";
 import { AnimatePresence, motion, Variants } from "motion/react";
+import { useRef } from "react";
 import { State } from "@/lib/game/enum";
 import { useGameConfig, useWordIndex } from "@/lib/game/store/game";
 import { usePoints } from "@/lib/game/store/point";
@@ -14,7 +15,6 @@ export const TargetLayer = () => {
 export const TargetLayerState = () => {
 	const state = useGameState();
 	const { wordIndex } = useWordIndex();
-
 	const { targetSize } = useGameConfig();
 	const points = usePoints();
 
@@ -24,31 +24,26 @@ export const TargetLayerState = () => {
 
 	if (state === State.Playing) {
 		return (
-			<AnimatePresence mode="popLayout">
-				<motion.div
-					key={wordIndex}
-					initial="initial"
-					animate="animate"
-					exit="exit"
-					variants={animatorVariant}
-				>
-					{points.map((point) => (
-						<HitCircle
-							key={point.id}
-							point={point}
-							size={targetSize}
-						/>
-					))}
-				</motion.div>
+			<AnimatePresence mode="popLayout" key={wordIndex}>
+				{points.map((point) => (
+					<HitCircle key={point.id} point={point} size={targetSize} />
+				))}
 			</AnimatePresence>
 		);
 	}
+
+	return null;
 };
 
 const HitCircle = ({ point, size }: { point: Point; size: number }) => {
+	const variant = useRef(hitCircleVariant(point.index));
+
 	return (
 		<motion.div
-			variants={hitCircleVariant}
+			variants={variant.current}
+			initial="initial"
+			animate="animate"
+			exit="exit"
 			style={{
 				left: point.x,
 				top: point.y,
@@ -61,24 +56,13 @@ const HitCircle = ({ point, size }: { point: Point; size: number }) => {
 		</motion.div>
 	);
 };
+const STAGGER = 0.1;
 
-const animatorVariant = {
+const hitCircleVariant = (index: number): Variants => ({
 	initial: { opacity: 0 },
 	animate: {
 		opacity: 1,
-		transition: {
-			staggerChildren: 0.1,
-			staggerDirection: -1,
-			delayChildren: 0,
-		},
+		transition: { duration: 0.2, delay: index * STAGGER },
 	},
-	exit: { opacity: 0 },
-};
-
-const hitCircleVariant: Variants = {
-	initial: { opacity: 0 },
-	animate: {
-		opacity: 1,
-	},
-	exit: { opacity: 0, scale: 1.2 },
-};
+	exit: { opacity: 0, scale: 1.1, transition: { duration: 0.1 } },
+});

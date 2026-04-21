@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { ComponentProps, ReactNode } from "react";
+import { ComponentProps, memo, ReactNode } from "react";
 import { UserAvatar } from "@/components/avatar/avatar";
 import {
 	CrownIcon,
@@ -42,34 +42,36 @@ const navItems: NavItem[] = [
 	// { to: "/settings", icon: GearIcon, hint: "Settings" },
 ];
 
-const IconButton = ({
-	to,
-	icon: Icon,
-	hint,
-	component,
-	...props
-}: NavItem & ComponentProps<typeof Button>) => {
-	const button = (
-		<Button
-			{...props}
-			size="icon"
-			variant="secondary"
-			className={props.className}
-			asChild
-		>
-			<Link href={to}>{Icon && <Icon className="size-5" />}</Link>
-		</Button>
-	);
+const IconButton = memo(
+	({
+		to,
+		icon: Icon,
+		hint,
+		component,
+		...props
+	}: NavItem & ComponentProps<typeof Button>) => {
+		const button = (
+			<Button
+				{...props}
+				size="icon"
+				variant="secondary"
+				className={props.className}
+				asChild
+			>
+				<Link href={to}>{Icon && <Icon className="size-5" />}</Link>
+			</Button>
+		);
 
-	if (!hint) return button;
+		if (!hint) return button;
 
-	return (
-		<Tooltip>
-			<TooltipTrigger asChild>{component || button}</TooltipTrigger>
-			<TooltipContent>{hint}</TooltipContent>
-		</Tooltip>
-	);
-};
+		return (
+			<Tooltip>
+				<TooltipTrigger asChild>{component || button}</TooltipTrigger>
+				<TooltipContent>{hint}</TooltipContent>
+			</Tooltip>
+		);
+	},
+);
 
 export const NavigationBar = () => (
 	<div className="flex w-full justify-center">

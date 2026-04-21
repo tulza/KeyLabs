@@ -37,6 +37,7 @@ const nextConfig: NextConfig = {
 	},
 	allowedDevOrigins: ["*.ngrok-free.app", "*.trycloudflare.com"],
 	output: "standalone",
+	reactCompiler: true,
 };
 
 export default nextConfig;

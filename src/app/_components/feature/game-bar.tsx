@@ -4,6 +4,7 @@ import { useEffect, useLayoutEffect, useRef } from "react";
 import { useShallow } from "zustand/react/shallow";
 import { ResetIcon } from "@/components/icon";
 import { Button } from "@/components/ui/button";
+import { ease } from "@/lib/ease";
 import { State } from "@/lib/game/enum";
 import { useWordIndex } from "@/lib/game/store/game";
 import { usePreGameStore } from "@/lib/game/store/pre-game";
@@ -13,7 +14,6 @@ import {
 	useIsPregame,
 } from "@/lib/game/store/state-manager";
 import { cn } from "@/lib/utils";
-import { ease } from "@/lib/utils/ease";
 import { ModeIndicator } from "../ui/mode-indicator";
 
 export const GameBar = () => {
@@ -87,7 +87,7 @@ export const WordBar = () => {
 
 	return (
 		<div className="relative flex h-10 w-full select-none overflow-hidden rounded border-2 border-secondary bg-muted shadow-[inset_0_2px_4px_var(--color-accent)]">
-			<div className="-translate-x-1/2 absolute bottom-0 left-1/2 z-50 translate-y-1 text-[8px]">
+			<div className="absolute bottom-0 left-1/2 z-50 -translate-x-1/2 translate-y-1 text-[8px]">
 				▲
 			</div>
 

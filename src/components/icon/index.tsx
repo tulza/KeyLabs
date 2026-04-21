@@ -92,13 +92,13 @@ export const PlusIcon = (props: IconProps) => {
 		>
 			<path
 				d="M3.33301 8H12.6663"
-				stroke-width="1.33333"
-				stroke-linejoin="round"
+				strokeWidth="1.33333"
+				strokeLinejoin="round"
 			/>
 			<path
 				d="M8 3.33594V12.6693"
-				stroke-width="1.33333"
-				stroke-linejoin="round"
+				strokeWidth="1.33333"
+				strokeLinejoin="round"
 			/>
 		</svg>
 	);

@@ -8,16 +8,20 @@ import { ThemeHead } from "@/components/provider/theme";
 import { getThemeStyle } from "@/data/themes/themes";
 import { getSession } from "@/lib/auth.functions";
 import { getThemeCookie } from "@/lib/cookie/theme-server";
-import { FontsRecord } from "@/lib/fontLoader";
-import { cn } from "@/lib/utils";
-import { fontLoader } from "@/lib/utils/fontLoader";
-import { _ABCDiaType, _ABeeZee, _InclusiveSans } from "@/styles/fonts";
+import { FontsRecord, fontLoader } from "@/lib/fontLoader";
 import { baseMetadata } from "@/lib/meta";
+import { cn } from "@/lib/utils";
+import {
+	_ABCDiaType,
+	_ABeeZee,
+	_Helvetica,
+	_InclusiveSans,
+} from "@/styles/fonts";
 
 export const metadata: Metadata = baseMetadata;
 
 const loadedFonts: FontsRecord = {
-	variables: [_InclusiveSans, _ABeeZee],
+	variables: [_InclusiveSans, _ABeeZee, _Helvetica],
 	classNames: [_ABCDiaType],
 } as const;
 

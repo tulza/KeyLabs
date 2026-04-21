@@ -11,13 +11,13 @@ import {
 	TooltipProvider,
 	TooltipTrigger,
 } from "@/components/ui/tooltip";
+import { createEasingFn } from "@/lib/ease";
 import { State } from "@/lib/game/enum";
 import { transition } from "@/lib/game/store/state-manager";
 import { useLatestResult } from "@/lib/game/store/summary";
 import { EndGameResult, Plot } from "@/lib/game/types";
 import { lerp } from "@/lib/math";
 import { cn } from "@/lib/utils";
-import { createEasingFn } from "@/lib/utils/ease";
 
 export function SummaryScreen() {
 	const result = useLatestResult();
@@ -26,7 +26,7 @@ export function SummaryScreen() {
 
 	return (
 		<div className="flex flex-col items-center gap-6 px-10">
-			<div className="flex h-min gap-1">
+			<div className="flex h-min items-stretch gap-1">
 				<SummaryCard result={result} />
 				<CirclePlot plot={result.plot} />
 			</div>
@@ -52,7 +52,10 @@ const easeInQuart = createEasingFn("inQuad");
 const CirclePlot = ({ plot }: { plot: Plot }) => {
 	const pointData = parsePlotArray(plot);
 	return (
-		<div className="aspect-square grow rounded bg-secondary">
+		<div
+			className="aspect-square w-auto self-stretch rounded bg-secondary"
+			style={{ width: "236px" }}
+		>
 			<div className="relative aspect-square size-full rounded-full bg-secondary-muted outline-4 outline-background">
 				{pointData.map((p, idx) => {
 					const percentX = lerp(p.x, -1, 1, 0, 100);

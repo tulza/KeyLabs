@@ -106,6 +106,7 @@
 @theme inline {
   --font-serif: var(--font-abeezee);
   --font-sans: var(--font-abc-diatype);
+  --font-sans2: var(--font-helvetica);
   --font-mono: var(--font-inclusive-sans);
 
   --font-heading: var(--font-heading);

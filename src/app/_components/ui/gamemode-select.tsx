@@ -4,6 +4,7 @@ import { ComponentType, PropsWithChildren } from "react";
 import { CharacterIcon, IconProps, TimeIcon } from "@/components/icon";
 import { Text } from "@/components/typography/text";
 import { Button } from "@/components/ui/button";
+import { ease } from "@/lib/ease";
 import { Mode } from "@/lib/game/enum";
 import { modeOptions } from "@/lib/game/options";
 import {
@@ -13,7 +14,6 @@ import {
 } from "@/lib/game/store/pre-game";
 import { useIsPregame } from "@/lib/game/store/state-manager";
 import { cn } from "@/lib/utils";
-import { ease } from "@/lib/utils/ease";
 import { GameContainer } from "./game-container";
 import { Mode2CustomDialog } from "./mode2-custom-dialog";
 
