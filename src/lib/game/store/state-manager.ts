@@ -80,7 +80,6 @@ export const transition = async (to: State, forced = false) => {
 			config,
 			result,
 			analysis: deriveAnalysis(result, elapsedTime),
-			meta: getPreGameStore().meta,
 			plot,
 			startTime,
 			duration: elapsedTime,

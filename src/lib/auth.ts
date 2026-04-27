@@ -10,6 +10,18 @@ export const auth = betterAuth({
 	database: drizzleAdapter(db, {
 		provider: "pg", // or "mysql", "sqlite"
 	}),
+	user: {
+		additionalFields: {
+			handle: {
+				type: "string",
+				input: false,
+			},
+			status: {
+				type: "string",
+				input: false,
+			},
+		},
+	},
 	plugins: [openAPI(), nextCookies()],
 	socialProviders: {
 		github: {

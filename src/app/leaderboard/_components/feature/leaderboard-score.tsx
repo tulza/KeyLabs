@@ -90,7 +90,9 @@ const LeaderboardList = ({
 						>
 							<td className="p-3 text-icon">{index + 1}</td>
 							<td className="p-3 font-medium">
-								{score ? (score.user?.name ?? "Anonymous") : ""}
+								{score
+									? (score.user?.handle ?? "Anonymous")
+									: ""}
 							</td>
 							{showWordset && (
 								<td className="p-3 text-icon">

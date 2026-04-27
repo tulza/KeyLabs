@@ -27,3 +27,6 @@ export type App = typeof app;
 
 export const GET = app.fetch;
 export const POST = app.fetch;
+export const PATCH = app.handle;
+export const PUT = app.handle;
+export const DELETE = app.handle;

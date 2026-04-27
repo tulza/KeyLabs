@@ -20,3 +20,8 @@ export enum State {
 export enum Theme {
 	default = "default",
 }
+
+export enum AccountStatus {
+	HANDLE_PENDING = "PENDING_HANDLE",
+	ACTIVE = "ACTIVE",
+}

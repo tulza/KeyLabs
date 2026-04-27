@@ -6,6 +6,7 @@ import { getWordSetSelection } from "@/data/sets/word-set";
 import { Background } from "./_components/feature/background";
 import { DisplayCurrentWord } from "./_components/feature/display-current-word";
 import { Game } from "./_components/feature/game-board";
+import { GameplayWarning } from "./_components/feature/gameplay-warning";
 import { TargetLayer } from "./_components/feature/target-layer";
 import { GameOptionsSelector } from "./_components/ui/gamemode-select";
 import { NavigationBar } from "./_components/ui/navigation-bar";
@@ -20,8 +21,10 @@ export default async function Home() {
 				<Background />
 				<NavigationBar />
 				<Game>
-					<TargetLayer />
-					<DisplayCurrentWord />
+					<GameplayWarning>
+						<TargetLayer />
+						<DisplayCurrentWord />
+					</GameplayWarning>
 				</Game>
 				<GameOptionsSelector />
 				{/* debugger */}

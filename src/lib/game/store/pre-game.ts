@@ -4,17 +4,15 @@ import { defaultConfig, defaultWordSet } from "../config";
 import { Mode, State, WordSet } from "../enum";
 import { generateWordListAsync } from "../generate";
 import { modeOptions } from "../options";
-import { GameConfig, MetaData, WordSetData } from "../types";
+import { GameConfig, WordSetData } from "../types";
 import { transition } from "./state-manager";
 
 type PreGameStore = {
 	config: GameConfig;
 	// this should only update on word set change
 	wordList: WordSetData;
-	meta?: MetaData;
 	actions: {
 		setConfig: (config: GameConfig) => void;
-		setMeta: (meta: MetaData) => void;
 		reset: () => void;
 	};
 };
@@ -22,19 +20,14 @@ type PreGameStore = {
 const initialState = {
 	config: defaultConfig,
 	wordList: defaultWordSet,
-	meta: undefined,
 };
 
-const resolveWordList = (_config: GameConfig, _prev: GameConfig) =>
-	usePreGameStore.getState().wordList;
-
-export const usePreGameStore = create<PreGameStore>((set, get) => ({
+export const usePreGameStore = create<PreGameStore>((set) => ({
 	...initialState,
 	actions: {
 		setConfig: (config) =>
 			// check config and update wordlist if necessary
-			set({ config, wordList: resolveWordList(config, get().config) }),
-		setMeta: (meta) => set({ meta }),
+			set({ config }),
 		reset: () => set(initialState),
 	},
 }));

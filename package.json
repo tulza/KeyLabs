@@ -38,6 +38,7 @@
 		"@types/object-hash": "^3.0.6",
 		"@unpic/react": "^1.0.2",
 		"babel-plugin-react-compiler": "^1.0.0",
+		"bad-words": "^4.0.0",
 		"better-auth": "^1.6.2",
 		"bezier-easing": "^3.0.0",
 		"canvas-confetti": "^1.9.4",
